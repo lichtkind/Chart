@@ -1,36 +1,3 @@
-------------------------------------------------------------------------
-Chart version 2.4.11
-------------------------------------------------------------------------
-
-
-----------
-INSTALLING
-----------
-
-The usual.
-
-	perl Makefile.PL
-	make
-	make test
-	make install
-
-This should install to your site_perl directory.  The test scripts also
-put samples of the different charts in the samples/ directory.
-
-
--------------
-PREREQUISITES
--------------
-
-Lincoln Stein's GD module version 2.0.36 or higher.
-
--------
-CHANGES
--------
-
-2.4.11
-
-
 2.4.10 Upload to pause.perl.org failed for version 2.4.9. Therefore, the version 2.4.9 was renamed to 2.4.10
        for a new upload.
 
@@ -265,19 +232,3 @@ CHANGES
 	Fixed the y-axis label centering problem
 	Fixed pre-5.004 compilation problem
 	Added StackedBars charts
-	
-------
-MAINTAINER
-------
-
-Chart-Group (chart@fs.wettzell.de)
-
----------
-COPYRIGHT
----------
-
-Copyright(c) 1997-1998 David Bonner, 1999 Peter Clark, 
-2001-2012 Chart-Group at BKG.
-All rights reserved.
-This program is free software; you can redistribute it and/or modify it under 
-the same terms as Perl itself.
