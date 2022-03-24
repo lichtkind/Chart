@@ -289,7 +289,6 @@ Documentation.pdf
 Makefile.PL
 MANIFEST
 META.yml
-MYMETA.yml
 patterns/PATTERN0.GIF
 patterns/PATTERN0.PNG
 patterns/PATTERN1.GIF
