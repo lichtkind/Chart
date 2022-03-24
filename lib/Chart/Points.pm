@@ -24,7 +24,7 @@ use Carp;
 use strict;
 
 @Chart::Points::ISA     = qw(Chart::Base);
-$Chart::Points::VERSION = '2.4.10';
+$Chart::Points::VERSION = '2.4.11';
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods go here  #

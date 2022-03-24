@@ -7,7 +7,7 @@
 # maintained by the
 # @author Chart Group at Geodetic Fundamental Station Wettzell (Chart@fs.wettzell.de)
 # @date 2015-03-01
-# @version 2.4.10
+# @version 2.4.11
 #
 #---------------------------------------------------------------------
 # History:
