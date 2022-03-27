@@ -27,7 +27,7 @@ use FileHandle;
 use Chart::Constants;
 use GD::Image;
 
-$Chart::Base::VERSION = '2.4.10';
+our $Chart::Base::VERSION = '2.4.10';
 
 use vars qw(%named_colors);
 use strict;
@@ -1308,7 +1308,7 @@ sub _draw
     return 1;
 }
 
-## @var	    Hash named_colors RGB values of named colors
+## @var     Hash named_colors RGB values of named colors
 #
 # see URL http://en.wikipedia.org/wiki/Web_colors#X11_color_names
 our %named_colors = (
@@ -1911,17 +1911,17 @@ sub _draw_title
     # Sketch for further processing
     #    if ( $font ~= /^gd/ && ! -f $font )
     #    {
-    #		$self->{'gd_obj'}->string( $font, $x, $y, $lines[0], $color );
-    #	}
-    #	elsif ( -f $font )
-    #	{
-    #		my $fontname = '/var/share/fonts/truetype/freefont/FreeSerifBoldItalic.ttf';
-    #		$self->{'gd_obj'}->stringFT( $color, $fontname, 8,0, $x, $y, $lines[0] );
-    #	}
+    #       $self->{'gd_obj'}->string( $font, $x, $y, $lines[0], $color );
+    #   }
+    #   elsif ( -f $font )
+    #   {
+    #       my $fontname = '/var/share/fonts/truetype/freefont/FreeSerifBoldItalic.ttf';
+    #       $self->{'gd_obj'}->stringFT( $color, $fontname, 8,0, $x, $y, $lines[0] );
+    #   }
 
-    #	my $fontname = '/var/share/fonts/truetype/freefont/FreeSerifBoldItalic.ttf';
+    #   my $fontname = '/var/share/fonts/truetype/freefont/FreeSerifBoldItalic.ttf';
     #    #                                              size, angle
-    #	$self->{'gd_obj'}->stringFT( $color, $fontname, 12,0, $x, $y, $lines[0] );
+    #   $self->{'gd_obj'}->stringFT( $color, $fontname, 12,0, $x, $y, $lines[0] );
 
     #-----------------------------------------------------------------
     $self->{'gd_obj'}->string( $font, $x, $y, $lines[0], $color );
@@ -2147,12 +2147,12 @@ sub _find_x_scale
 # This Sub calculates correct values for the following class local variables,
 # if they have not been set by the user.
 #
-# max_val, min_val: 	The maximum and minimum values for the y axis.\n
-# y_ticks:		The number of ticks to plot on the y scale, including
-#			the end points. e.g. If the scale runs from 0 to 50,
-#			with ticks every 10, y_ticks will have the value of 6.\n
-# y_tick_labels:	An array of strings, each is a label for the y axis.\n
-# y_tick_labels_length:	The length to allow for B tick labels. (How long is
+# max_val, min_val:     The maximum and minimum values for the y axis.\n
+# y_ticks:      The number of ticks to plot on the y scale, including
+#           the end points. e.g. If the scale runs from 0 to 50,
+#           with ticks every 10, y_ticks will have the value of 6.\n
+# y_tick_labels:    An array of strings, each is a label for the y axis.\n
+# y_tick_labels_length: The length to allow for B tick labels. (How long is
 #                       the longest?)
 sub _find_y_scale
 {
