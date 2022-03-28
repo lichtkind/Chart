@@ -1,47 +1,30 @@
-## @file
-# Implementation of Chart::Bars
-#
-# written by
-# @author david bonner (dbonner@cs.bu.edu)
-#
-# maintained by the
-# @author Chart Group at Geodetic Fundamental Station Wettzell (Chart@fs.wettzell.de)
-# @date 2015-03-01
-# @version 2.4.10
 
-## @class Chart::Bars
-# Bars class provides all functions which are specific to
 # vertical bars
+
+use strict;
+
 package Chart::Bars;
 
 use Chart::Base '2.4.10';
 use GD;
 use Carp;
-
-use strict;
-
-@Chart::Bars::ISA     = qw(Chart::Base);
-$Chart::Bars::VERSION = '2.4.10';
+our @ISA     = qw(Chart::Base);
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
-#  public methods go here  #
+#  public methods          #
 #<<<<<<<<<<<<<<<<<<<<<<<<<<#
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>#
-#  private methods go here  #
+#  private methods          #
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<#
 
-## @method private _draw_data
-# @brief
-# finally get around to plotting the data for (vertical) bars
+## _draw_data : plotting the data for (vertical) bars
 #
-# @details
-# The user may define the kind of labelling the data by setting\n
-# 'label_values' to 'value' if she wants to have the absolut values\n
-# 'label_values' to 'none' if she wants to have no values (default)\n
+#  The user may define the kind of labelling the data by setting
+# 'label_values' to 'value' if she wants to have the absolut values
+# 'label_values' to 'none' if she wants to have no values (default)
 #
-sub _draw_data
-{
+sub _draw_data {
     my $self = shift;
 
     my $data      = $self->{'dataref'};
@@ -243,5 +226,4 @@ sub _draw_data
 
 }
 
-## be a good module and return 1
-1;
+1; # be a good module and return 1

@@ -15,17 +15,16 @@
 # @brief Direction class derived class for Chart to implement direction
 # charts
 
+use v5.12;
+
 package Chart::Direction;
 
-use Chart::Base '2.4.10';
+use Chart::Base;
 use GD;
 use Carp;
-
-use strict;
 use POSIX;
+our @ISA     = qw(Chart::Base);
 
-@Chart::Direction::ISA     = qw(Chart::Base);
-$Chart::Direction::VERSION = '2.4.10';
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods go here  #
@@ -737,7 +736,7 @@ sub _draw_data
                 $color = $self->_color_role_to_index( 'dataset' . ( $j / 2 - 0.5 ) );
             }
 
-#####	$color = $self->_color_role_to_index('dataset'.(1));  #####################
+#####   $color = $self->_color_role_to_index('dataset'.(1));  #####################
 
             for $i ( 0 .. $self->{'num_datapoints'} - 1 )
             {

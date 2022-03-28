@@ -1,0 +1,79 @@
+# utils/Makefile
+# --------------
+# The following commands are defined
+#
+# tidyup:  tidyup the sources
+# doxygen: build doxygen documentation
+#
+UTILS=utils
+CHART=Chart
+#
+# Version of Chart:
+V=2.4.4
+export V
+#
+PERLTIDYARGS=-i=4 -l=128 -w -ole=unix -bl
+
+all: tidyup doxygen
+
+tidyup : tidyupChart tidyupT
+
+tidyupChart :
+	@echo "tidyupChart:"; \
+	if [ ! -x /usr/bin/perltidy ]; then \
+		echo "perltidy is missed"; \
+		echo "Please, install this package"; \
+	else \
+		cd ..; \
+		perltidy ${PERLTIDYARGS} ${CHART}/*.pm; \
+		if [ ! -f ${CHART}/*.ERR ]; then \
+			 for f in ${CHART}/*.pm; do \
+				echo $$f; \
+				if [ -f $$f.tdy ]; then \
+					rm $$f; mv $$f.tdy $$f; \
+					date=`date '+%Y-%m-%d'`; \
+					sed "/\@date/ s/\@date .*/\@date $$date/" $$f > $$f.tdy; \
+					mv $$f.tdy $$f; \
+					sed "/\@version/ s/\@version .*/\@version $$V/" $$f > $$f.tdy; \
+					mv $$f.tdy $$f; \
+					sed "/::VERSION/ s/::VERSION .*/::VERSION = '$$V';/" $$f > $$f.tdy; \
+					mv $$f.tdy $$f; \
+				fi; \
+			done; \
+		fi; \
+		cd ${UTILS}; \
+	fi
+
+
+
+tidyupT :
+	@echo "tidyupT:"; \
+	if [ ! -x /usr/bin/perltidy ]; then \
+		echo "perltidy is missed"; \
+		echo "Please, install this package"; \
+	else \
+		cd ..; \
+		perltidy ${PERLTIDYARGS} t/*.t; \
+		if [ ! -f t/*.ERR ]; then \
+			for f in t/*.t; do \
+				echo $$f; \
+				if [ -f $$f.tdy ]; then \
+					rm $$f; mv $$f.tdy $$f; \
+				fi; \
+			done; \
+		fi; \
+		cd ${UTILS}; \
+	fi
+
+
+doxygen :
+	@echo "doxygen:"; \
+	if [ ! -x /usr/bin/doxygen ]; then \
+		echo "doxygen is missed"; \
+	else \
+		cd ..; \
+		doxygen ${UTILS}/Chart_doxygen.conf; \
+		cd ${UTILS}; \
+	fi
+
+
