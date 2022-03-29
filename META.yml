@@ -1,9 +1,11 @@
 --- #YAML:1.0
 name:               Chart
-version:            2.4.11
+version:            2.400.1
 abstract:           ~
-author:  []
-license:            unknown
+author:
+  - 'Chart-Group <chartgrp@web.de>'
+
+license:            Artistic
 distribution_type:  module
 configure_requires:
     ExtUtils::MakeMaker:  0
@@ -19,3 +21,7 @@ generated_by:       ExtUtils::MakeMaker version 6.57_05
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4
+resources:
+  repository: https://github.com/lichtkind/Chart.git
+
+

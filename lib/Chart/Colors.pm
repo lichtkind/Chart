@@ -484,6 +484,7 @@ our %named_colors = (
     'yellow3'         => [ 205, 205,   0 ],
     'yellow4'         => [ 139, 139,   0 ],
     'RoseQuartz'      => [ 247, 202, 201 ],
+    'PeachEcho'       => [ 247, 120, 107 ],
 );
 
 
@@ -496,7 +497,6 @@ cut
 use vars qw( @EXPORT_OK %EXPORT_TAGS );
 use strict;
 require Exporter;
-use Carp;
 
 @GD::Graph::colour::ISA = qw( Exporter );
 
