@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:               Chart
 version:            2.400.1
-abstract:           ~
+abstract:           a series of charting modules
 author:
   - 'Chart-Group <chartgrp@web.de>'
 
