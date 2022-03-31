@@ -698,7 +698,6 @@ The cgi_png method will print the chart, along with the appropriate http
 header, to stdout, allowing you to call chart-generating scripts directly
 from your html pages (ie. with a <lt>img src=image.pl<gt> HTML tag). 
 
-=back
 
 =item Produce a png image as a scalar
 
@@ -707,8 +706,6 @@ so that the programmer-user can do whatever the heck
 s/he wants to with it:
 
   	$obj-scalar_png($dataref)
-
-=back
 
 
 
