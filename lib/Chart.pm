@@ -1,3 +1,12 @@
+
+package Chart;
+our $VERSION = 2.401.0;
+
+1;
+
+$VERSION = Chart;
+=pod
+
 =head1 NAME
 
 Chart - a series of charting modules 
@@ -781,3 +790,5 @@ Copyright(c) 1997-1998 by David Bonner, 1999 by Peter Clark,
 All rights reserved.  This program is free software; you can
 redistribute it and/or modify it under the same terms as Perl 
 itself.
+
+=cut

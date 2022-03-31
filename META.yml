@@ -4,7 +4,6 @@ version:            2.400.1
 abstract:           a series of charting modules
 author:
   - 'Chart-Group <chartgrp@web.de>'
-
 license:            Artistic
 distribution_type:  module
 configure_requires:
@@ -17,6 +16,8 @@ no_index:
     directory:
         - t
         - inc
+        - doc
+        - patterns
 generated_by:       ExtUtils::MakeMaker version 6.57_05
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
