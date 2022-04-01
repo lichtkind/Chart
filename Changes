@@ -1,6 +1,6 @@
-2.401.0 
+2.400.6 Testrelease for hopefully final version of new metafiles and new release tool chain
 
-2.400.5 Upload fix for failed 2.4.10 .. 11.. 400.01..
+2.400.5 Upload fix for failed 2.4.19 .. 2.400.04
 
 2.4.10 Upload to pause.perl.org failed for version 2.4.9. Therefore, the version 2.4.9 was renamed to 2.4.10
        for a new upload.
