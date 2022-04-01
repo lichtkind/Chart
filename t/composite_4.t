@@ -2,6 +2,8 @@
 
 BEGIN { unshift @INC, 'lib', '../lib'}
 use Chart::Composite;
+use File::Temp 0.19;
+my $samples = File::Temp->newdir();
 
 print "1..1\n";
 
@@ -19,7 +21,7 @@ $g->set(
     'include_zero'   => 'true',
 );
 
-$g->png("samples/composite_4.png");
+$g->png("$samples/composite_4.png");
 
 print "ok 1\n";
 
