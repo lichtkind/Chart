@@ -1,6 +1,6 @@
 
 package Chart;
-our $VERSION = 2.401.0;
+our $VERSION = 2.400.6;
 
 1;
 
@@ -779,6 +779,7 @@ David Bonner (dbonner@cs.bu.edu)
 =head1 MAINTAINER
 
 Chart Group (Chart@fs.wettzell.de)
+Herbert Breunung (lichtkind@cpan.org)
 
 =head1 COPYRIGHT
 

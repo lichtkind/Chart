@@ -5,7 +5,7 @@ use strict;
 
 package Chart::Bars;
 
-use Chart::Base '2.4.10';
+use Chart::Base;
 use GD;
 use Carp;
 our @ISA     = qw(Chart::Base);

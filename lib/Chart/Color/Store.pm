@@ -5,7 +5,7 @@ use v5.12;
 
 package Chart::Color::Store;
 
-our %rgb = (
+our %rgb = (                                  # http://en.wikipedia.org/wiki/Web_colors#X11_color_names
     'white'           => [ 255, 255, 255 ],
     'black'           => [   0,   0,   0 ],
     'red'             => [ 200,   0,   0 ],
@@ -419,7 +419,7 @@ our %rgb = (
     'yellow2'         => [ 238, 238,   0 ],
     'yellow3'         => [ 205, 205,   0 ],
     'yellow4'         => [ 139, 139,   0 ],
-    'RoseQuartz'      => [ 247, 202, 201 ],
+    'RoseQuartz'      => [ 247, 202, 201 ], # https://www.w3schools.com/colors/colors_trends.asp
     'PeachEcho'       => [ 247, 120, 107 ],
     'Serenity'        => [ 145, 168, 208 ],
     'SnorkelBlue'     => [   3,  79, 132 ],
