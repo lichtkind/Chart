@@ -805,6 +805,14 @@ Chris Dolan (chris+rt@chrisdolan.net)
 
 =item *
 
+(jarmzet@yahoo.com)
+
+=item *
+
+Ricardo Signes (rjbs@cpan.org)
+
+=item *
+
 Petr Pisar (ppisar@redhat.com)
 
 
