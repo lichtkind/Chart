@@ -1,24 +1,16 @@
-## @file
-# Implementation of Chart::ErrorBars
-#
-# written by
-# @author david bonner (dbonner@cs.bu.edu)
-#
-# maintained by the
-# @author Chart Group at Geodetic Fundamental Station Wettzell (Chart@fs.wettzell.de)
-# @date 2015-03-01
-# @version 2.4.10
-#
+
+# chart type: error bar
+
+use v5.12;
 
 package Chart::ErrorBars;
+our @ISA     = qw(Chart::Base);
+our $VERSION = '2.400.5';
 
-use Chart::Base '2.4.10';
+use Chart::Base;
 use GD;
 use Carp;
-use strict;
 
-@Chart::ErrorBars::ISA     = qw(Chart::Base);
-$Chart::ErrorBars::VERSION = '2.4.10';
 
 ## @class Chart::ErrorBars
 # ErrorBars class derived from class Base.

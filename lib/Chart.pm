@@ -1,10 +1,9 @@
 
 package Chart;
-our $VERSION = 2.400.6;
+our $VERSION = 2.401.0;
 
 1;
 
-$VERSION = Chart;
 =pod
 
 =head1 NAME
@@ -763,6 +762,7 @@ since that's the place in the @data array for the data point labels.
 
 Add some 3-D graphs.
 Include True Type Fonts
+Violine and Box plots
 
 =back
 
@@ -778,8 +778,17 @@ David Bonner (dbonner@cs.bu.edu)
 
 =head1 MAINTAINER
 
+=over 4
+
+=item *
+
 Chart Group (Chart@fs.wettzell.de)
+
+=item *
+
 Herbert Breunung (lichtkind@cpan.org)
+
+=back
 
 =head1 COPYRIGHT
 

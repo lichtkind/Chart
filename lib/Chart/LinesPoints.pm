@@ -7,13 +7,13 @@
 use v5.12;
 
 package Chart::LinesPoints;
+our @ISA     = qw(Chart::Base);
+our $VERSION = 2.400.5;
 
 use Chart::Base;
 use GD;
 use Carp;
-use strict;
 
-our @ISA     = qw(Chart::Base);
 
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#

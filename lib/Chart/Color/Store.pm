@@ -424,6 +424,7 @@ our %rgb = (                                  # http://en.wikipedia.org/wiki/Web
     'Serenity'        => [ 145, 168, 208 ],
     'SnorkelBlue'     => [   3,  79, 132 ],
     'LimpetShell'     => [ 152, 221, 222 ],
+    'LilacGrey'       => [ 152, 221, 222 ],
 );
 
 sub rgb { 

@@ -13,15 +13,16 @@
 # This class provides all functions which are specific to
 # splitted plots
 #
-package Chart::Split;
 
-use Chart::Base '2.4.10';
+use v5.12;
+
+package Chart::Split;
+our @ISA     = qw(Chart::Base);
+our $VERSION = '2.400.5';
+
+use Chart::Base;
 use GD;
 use Carp;
-use strict;
-
-@Chart::Split::ISA     = qw(Chart::Base);
-$Chart::Split::VERSION = '2.4.10';
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods go here  #

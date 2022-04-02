@@ -1,30 +1,16 @@
-## @file
-# Implementation of Chart::Direction
-#
-# written by
-# @author Chart Group at Geodetic Fundamental Station Wettzell (Chart@fs.wettzell.de)
-# @date 2015-03-01
-# @version 2.4.10
-#
 
-# @section Chart::Direction
-# Implements a circular oriented chart like rotating vectors
-#
-
-## @class Chart::Direction
-# @brief Direction class derived class for Chart to implement direction
-# charts
+# circular oriented chart like rotating vectors
 
 use v5.12;
 
 package Chart::Direction;
+our @ISA     = qw(Chart::Base);
+our $VERSION = 2.400.5;
 
 use Chart::Base;
 use GD;
 use Carp;
 use POSIX;
-our @ISA     = qw(Chart::Base);
-
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods go here  #
@@ -510,7 +496,7 @@ sub _draw_y_ticks
         $y = cos($arc) * ( $diameter / 2 + 28 ) + $centerY - 6;
 
         #draw the labels
-        $self->{'gd_obj'}->string( $font, $x, $y, $_ . '°', $textcolor );
+        $self->{'gd_obj'}->string( $font, $x, $y, $_ . '\B0', $textcolor );
         $arc += ( ($angle_interval) / 360 ) * 2 * $pi;
     }
 

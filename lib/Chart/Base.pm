@@ -5,12 +5,12 @@
 use v5.12;
 
 package Chart::Base;
-our $VERSION = '2.400.1';
+our $VERSION = '2.400.5';
 
+use FileHandle;
+use Carp;
 use GD;
 use GD::Image;
-use Carp;
-use FileHandle;
 use Chart::Constants;
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#

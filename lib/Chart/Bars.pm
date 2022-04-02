@@ -1,14 +1,15 @@
 
 # vertical bars
 
-use strict;
+use v5.12;
 
 package Chart::Bars;
+our @ISA     = qw(Chart::Base);
+our $VERSION = 2.400.5;
 
 use Chart::Base;
 use GD;
 use Carp;
-our @ISA     = qw(Chart::Base);
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods          #
