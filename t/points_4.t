@@ -15,7 +15,7 @@ $g = Chart::Points->new();
     'brush_size' => 10,                                      # 10 points diameter
 
     #    'brushStyle' => 'FilledCircle',
-    #     'brushStyle' => 'circle',
+    #    'brushStyle' => 'circle',
     #    'brushStyle' => 'donut',
     #    'brushStyle' => 'OpenCircle',
     #    'brushStyle' => 'fatPlus',
