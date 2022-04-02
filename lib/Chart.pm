@@ -790,6 +790,28 @@ Herbert Breunung (lichtkind@cpan.org)
 
 =back
 
+=head1 CONTRIBUTORS
+
+=over 4
+
+
+=item *
+
+Gregor Herrmann (gregoa@debian.org)
+
+=item *
+
+Chris Dolan (chris+rt@chrisdolan.net)
+
+=item *
+
+Petr Pisar (ppisar@redhat.com)
+
+
+
+=back
+
+
 =head1 COPYRIGHT
 
 Copyright(c) 1997-1998 by David Bonner, 1999 by Peter Clark,
