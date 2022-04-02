@@ -15,7 +15,7 @@ configure_requires:
     ExtUtils::MakeMaker:  0
 build_requires:
     ExtUtils::MakeMaker:  0
-    File::Temp:  0
+    File::Temp:  0.19
 requires:
   perl: '5.012000'
     GD:  2
