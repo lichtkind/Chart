@@ -6,7 +6,7 @@ use v5.12;
 package Chart::Color;
 
 use Chart::Color::Named;
-use Chart::Color::Set;
+use Chart::Color::Scheme;
 
 
 sub new {

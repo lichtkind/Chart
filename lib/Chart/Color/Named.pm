@@ -420,11 +420,28 @@ our %store = (                                  # http://en.wikipedia.org/wiki/W
     'yellow3'         => [ 205, 205,   0 ],
     'yellow4'         => [ 139, 139,   0 ],
     'RoseQuartz'      => [ 247, 202, 201 ], # https://www.w3schools.com/colors/colors_trends.asp
-    'PeachEcho'       => [ 247, 120, 107 ],
-    'Serenity'        => [ 145, 168, 208 ],
+    'PeachEcho'       => [ 247, 120, 107 ], # 2016
+    'Serenity'        => [ 145, 168, 208 ], # Spring
     'SnorkelBlue'     => [   3,  79, 132 ],
     'LimpetShell'     => [ 152, 221, 222 ],
     'LilacGrey'       => [ 152, 221, 222 ],
+    'IcedCoffee'      => [ 177, 143, 106 ],
+    'Fiesta'          => [ 221,  65,  50 ],
+    'Buttercup'       => [ 221,  65,  50 ],
+    'GreenFlash'      => [ 250, 224,  60 ],
+    'Riverside'       => [  76, 106, 146 ], # Fall
+    'AiryBlue'        => [ 146, 182, 213 ],
+    'Sharkskin'       => [ 131, 132, 135 ],
+    'AuroraRed'       => [ 185,  58,  50 ],
+    'WarmTaupe'       => [ 175, 148, 131 ],
+    'DustyCedar'      => [ 173,  93,  93 ],
+    'LushMeadow'      => [   0, 110,  81 ],
+    'SpicyMustard'    => [ 216, 174,  71 ],
+    "Potter'sClay"    => [ 158,  70,  36 ],
+    'Bodacious'       => [ 183, 107, 163 ],
+
+
+
 );
 
 

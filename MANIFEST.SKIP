@@ -1,4 +1,6 @@
 MYMETA.yml
+dist.ini
+.gitignore
 pm_to_blib
 utils/*
 samples/*
