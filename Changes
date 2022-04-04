@@ -1,16 +1,17 @@
 
-2.401.0 2022-04-04
+2.401.1   2022-04-04
     = minor fix release & test for init dzil file
-    - new file headers
-    + 2 patches by Petr Pisar fixing tests
+    ~ new file headers
+    ! 2 patches by Petr Pisar fixing tests
+    ? expanded TODO
  
-2.400.10 2022-04-02
+2.400.10  2022-04-02
     = Testrelease for new metafiles
     + cpan file
 
-2.400.5  2022-03-31
+2.400.5   2022-03-31
     = Upload fix for failed 2.4.19 .. 2.400.04
-    ? first upload by new maintainer: LICHTKIND
+    ~ first upload by new maintainer: LICHTKIND
     + files CONTRIBUTING
 
 2.4.10 Upload to pause.perl.org failed for version 2.4.9. Therefore, the version 2.4.9 was renamed to 2.4.10

@@ -1,5 +1,6 @@
 
-# chart type: error bar
+# chart type: error bar - vertical bars
+#     which represent errors or standard deviations
 
 use v5.12;
 
@@ -10,15 +11,6 @@ our $VERSION = '2.400.5';
 use Chart::Base;
 use GD;
 use Carp;
-
-
-## @class Chart::ErrorBars
-# ErrorBars class derived from class Base.
-#
-# This class provides all functions which are specific to
-# pointes having carrying vertical bars which represent
-# errors or standard deviations
-#
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods go here  #
@@ -33,8 +25,7 @@ use Carp;
 #
 # Overwrites Base function
 #
-sub _draw_data
-{
+sub _draw_data {
     my $self      = shift;
     my $data      = $self->{'dataref'};
     my $misccolor = $self->_color_role_to_index('misc');
