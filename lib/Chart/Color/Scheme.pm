@@ -5,7 +5,7 @@ use v5.12;
 
 package Chart::Color::Scheme;
 
-use use Chart::Color::Named;
+use Chart::Color::Named;
 
 my %keys = ( background   => '',
              misc         => '',
@@ -74,17 +74,19 @@ my %scheme = (
 
 
 
-sub all_names  { keys %set }
-sub name_taken { exists  %set{$_[0]} }
+sub all_names  { keys %scheme }
+sub name_taken { exists  $scheme{$_[0]} }
 
 sub add {
     my $name = shift;
     my $my_scheme  = shift;
     return "Color scheme name missing" unless defined $name and $name;
     return "Color scheme already exists" if exists $scheme{$name};
-    return "Color scheme has to be a Hash" if ref $val ne 'HASH';
-    for my $k (keys %$val){
-        return "$k is not a valid key of an color set" unless exists $scheme{'default'}{$k}
+    return "Color scheme has to be a Hash" if ref $my_scheme ne 'HASH';
+    my $my_set = {};
+    for my $k (keys %$my_scheme){
+        return "$k is not a valid key of an color set" unless exists $scheme{'default'}{$k};
+        $my_set->{$k} = $my_scheme->{$k};
     }
     for my $k (keys %{$scheme{'default'}}){
         $my_set->{$k} = $scheme{'default'}{$k} unless exists $my_scheme->{$k};
@@ -92,8 +94,8 @@ sub add {
 
 ## check all color, whole data set
 #    return "Need a Color value (ArrayRef to 3 Int < 256)" if ref $val ne 'ARRAY' or @$val != 3;
-    my $ret = Color->new(@$val);
-    return $ret unless ref $ret;
+#    my $ret = Color->new(@$val);
+#    return $ret unless ref $ret;
     $scheme{$name} = $my_set;
 }
 
