@@ -1,6 +1,27 @@
 
 package Chart;
-our $VERSION = 2.401.1;
+our $VERSION = 2.402.0;
+
+use Chart::Points;
+use Chart::Lines;
+use Chart::LinesPoints;
+use Chart::Mountain;
+
+use Chart::Bars;
+use Chart::HorizontalBars;
+use Chart::StackedBars;
+use Chart::ErrorBars;
+use Chart::Pie;
+
+use Chart::Direction;
+use Chart::Split;
+use Chart::Composite;
+use Chart::Pareto;
+
+
+sub new {
+    
+}
 
 1;
 

@@ -459,7 +459,7 @@ sub add {
     $store{$name} = $ret;
 }
 
-sub get { 
+sub rgb { 
     my $name = shift;
     @{$store{$name}}[0..2] if exists $store{$name}
 }
