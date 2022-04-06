@@ -6,7 +6,6 @@ use v5.12;
 package Chart::Color;
 
 use Chart::Color::Named;
-use Chart::Color::Scheme;
 
 sub new {
     my ($pkg) = shift;
@@ -58,7 +57,7 @@ sub lightness   { $_[0][5] }
 
 sub rgb     { @{$_[0]}[0 .. 2] }
 sub hsl     { @{$_[0]}[3 .. 5] }
-sub hsl_web { ($_[0][3] * 360, $_[0][4]*100, $_[0][5]*100) }
+sub hsl_web { ($_[0][3] * 360, $_[0][4]*100, $_[0][5]*100) } # hue 0..360 degree, S in %, L in %
 sub hex     { sprintf "%x%x%x", $_[0]->rgb() }
 
 

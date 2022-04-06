@@ -793,6 +793,8 @@ Violine and Box plots
 
 =back
 
+For more please check the TODO file.
+
 =head1 BUGS
 
 Probably quite a few, since it's been completely rewritten.  As usual,

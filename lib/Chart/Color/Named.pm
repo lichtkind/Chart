@@ -439,6 +439,16 @@ our %store = (                                  # http://en.wikipedia.org/wiki/W
     'SpicyMustard'    => [ 216, 174,  71 ],
     "Potter'sClay"    => [ 158,  70,  36 ],
     'Bodacious'       => [ 183, 107, 163 ],
+    'Niagara'         => [  76, 106, 146 ], # 2017
+    'PrimroseYellow'  => [ 146, 182, 213 ],
+    'Sharkskin'       => [ 131, 132, 135 ],
+    'AuroraRed'       => [ 185,  58,  50 ],
+    'WarmTaupe'       => [ 175, 148, 131 ],
+    'DustyCedar'      => [ 173,  93,  93 ],
+    'LushMeadow'      => [   0, 110,  81 ],
+    'SpicyMustard'    => [ 216, 174,  71 ],
+    "Potter'sClay"    => [ 158,  70,  36 ],
+    'Bodacious'       => [ 183, 107, 163 ],
 
 
 
