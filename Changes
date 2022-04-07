@@ -2,6 +2,7 @@
       = first minor feature add
       + added pantone colors by name
       + added curated color schemes
+      ! fixing licence issues back to Perl 5
 
 2.401.1    2022-04-04
       = minor fix release & test for init dzil file
