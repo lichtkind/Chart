@@ -4,7 +4,6 @@
 use v5.12;
 
 package Chart::Color;
-
 use Chart::Color::Named;
 
 sub new {
@@ -36,16 +35,41 @@ sub new {
 
 sub rgb_to_hsl{
     my ($r, $g, $b) = @_;
-    return "need 3 positive integer values 0 <= n < 256" unless defined $b;
-    
-    [];
+    return "need 3 positive integer values 0 <= n < 256 for RGB input" unless defined $b;
+    return "red value has to be an integer between 0 and 255"   unless int $r == $r and $r >= 0 and $r < 256;
+    return "green value has to be an integer between 0 and 255" unless int $g == $g and $g >= 0 and $g < 256;
+    return "blue value has to be an integer between 0 and 255"  unless int $b == $b and $b >= 0 and $b < 256;
+    my ($h, $min, $max, $dom);
+    if ($r >= $g)  { $max = $r; $min = $g;  $dom = 'r'; }
+    else           { $max = $g; $min = $r;  $dom = 'g'; }
+    if ($max < $b) { $max = $b;             $dom = 'b'; }
+    if ($min > $b) { $min = $b }
+    my $C = $max - $min;
+    if ($C) {
+        $h = (     ($g-$b)/$C)  / 6 if $dom eq 'r';
+        $h = (2 + (($b-$r)/$C)) / 6 if $dom eq 'g';
+        $h = (4 + (($r-$g)/$C)) / 6 if $dom eq 'b';
+    } else { $h = 0 }
+    my $s = $max == 0 ? 0 : ($C / $max);
+    my $l = ($max + $min) / 510;
+    [$h, $s, $l];
 }
-
 sub hsl_to_rgb {
     my ($h, $s, $l) = @_;
-    return "need 3 positive real values: 0 <= n <= 1" unless defined $l;
-    
-    [];
+    return "need 3 positive real values: 0 <= n <= 1 for HSL input" unless defined $l;
+    return "hue value has to be between 0 and 1"  unless $h >= 0 and $h <= 1;
+    return "saturation has to be between 0 and 1" unless $s >= 0 and $s <= 1;
+    return "lightness has to be between 0 and 1"  unless $l >= 0 and $l <= 1;
+    $h *= 6;
+    my $C = $s * (1 - abs($l * 2 - 1)) * 255;
+    my $X = $C * (1 - abs($h % 2 - 1 + ($h - int $h)));
+    my $m = ($l * 255) - ($C / 2);
+    if    ($h < 1) { return [int $C + $m, int $X + $m, int      $m] }
+    elsif ($h < 2) { return [int $X + $m, int $C + $m, int      $m] }
+    elsif ($h < 3) { return [int      $m, int $C + $m, int $X + $m] }
+    elsif ($h < 4) { return [int      $m, int $X + $m, int $C + $m] }
+    elsif ($h < 5) { return [int $X + $m, int      $m, int $C + $m] }
+    elsif ($h < 6) { return [int $C + $m, int      $m, int $X + $m] }
 }
 
 sub red         { $_[0][0] }
@@ -57,9 +81,9 @@ sub lightness   { $_[0][5] }
 
 sub rgb     { @{$_[0]}[0 .. 2] }
 sub hsl     { @{$_[0]}[3 .. 5] }
-sub hsl_web { ($_[0][3] * 360, $_[0][4]*100, $_[0][5]*100) } # hue 0..360 degree, S in %, L in %
-sub hex     { sprintf "%x%x%x", $_[0]->rgb() }
-
+# hue 0..360 degree, S in %, L in %  as int
+sub hsl_web { (int(.5 +($_[0][3] * 360)), int(.5+($_[0][4]*100)), int(.5+($_[0][5]*100))) } 
+sub hex     { sprintf "%02x%02x%02x", $_[0]->rgb() } # without leading
 
 
 sub distance_hsl {
@@ -102,8 +126,18 @@ sub gradient {
 }
 
 
+
 1;
 
 __END__
 
 
+
+$half = 0.50000000000008;
+
+sub round {
+ my $x;
+ my @res  = map {
+  if ($_ >= 0) { POSIX::floor($_ + $Math::Round::half); }
+     else { POSIX::ceil($_ - $Math::Round::half); }
+ } @_;
