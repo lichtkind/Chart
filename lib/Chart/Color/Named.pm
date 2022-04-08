@@ -5,18 +5,19 @@ use v5.12;
 
 package Chart::Color::Named;
 
-our %store = (                                  # http://en.wikipedia.org/wiki/Web_colors#X11_color_names
+our %store = (                                  
+# http://en.wikipedia.org/wiki/Web_colors#X11_color_names
     'white'           => [ 255, 255, 255 ],
     'black'           => [   0,   0,   0 ],
-    'red'             => [ 200,   0,   0 ],
+    'red'             => [ 255,   0,   0 ],
     'green'           => [   0, 175,   0 ],
-    'blue'            => [   0,   0, 200 ],
+    'blue'            => [   0,   0, 255 ],
     'orange'          => [ 250, 125,   0 ],
     'orange2'         => [ 238, 154,   0 ],
     'orange3'         => [ 205, 133,   0 ],
     'orange4'         => [ 139,  90,   0 ],
     'yellow'          => [ 225, 225,   0 ],
-    'purple'          => [ 200,   0, 200 ],
+    'purple'          => [ 128,   0, 128 ],
     'light_blue'      => [   0, 125, 250 ],
     'light_green'     => [ 125, 250,   0 ],
     'light_purple'    => [ 145,   0, 250 ],
@@ -85,6 +86,7 @@ our %store = (                                  # http://en.wikipedia.org/wiki/W
     'DarkSeaGreen2'   => [ 180, 238, 180 ],
     'DarkSeaGreen3'   => [ 155, 205, 155 ],
     'DarkSeaGreen4'   => [ 105, 139, 105 ],
+    'DarkSlateBlue'   => [  72,  61, 139 ],
     'DarkSlateGray'   => [  47,  79,  79 ],
     'DarkSlateGray1'  => [ 151, 255, 255 ],
     'DarkSlateGray2'  => [ 141, 238, 238 ],
@@ -173,6 +175,7 @@ our %store = (                                  # http://en.wikipedia.org/wiki/W
     'MediumPurple2'   => [ 159, 121, 238 ],
     'MediumPurple3'   => [ 137, 104, 205 ],
     'MediumPurple4'   => [  93,  71, 139 ],
+    'MidnightBlue'    => [  25,  25, 112 ],
     'MistyRose'       => [ 255, 228, 225 ],
     'MistyRose1'      => [ 255, 228, 225 ],
     'MistyRose2'      => [ 238, 213, 210 ],
@@ -419,7 +422,8 @@ our %store = (                                  # http://en.wikipedia.org/wiki/W
     'yellow2'         => [ 238, 238,   0 ],
     'yellow3'         => [ 205, 205,   0 ],
     'yellow4'         => [ 139, 139,   0 ],
-    'RoseQuartz'      => [ 247, 202, 201 ], # https://www.w3schools.com/colors/colors_trends.asp
+    'RoseQuartz'      => [ 247, 202, 201 ], 
+# https://www.w3schools.com/colors/colors_trends.asp
     'PeachEcho'       => [ 247, 120, 107 ], # 2016
     'Serenity'        => [ 145, 168, 208 ], # Spring
     'SnorkelBlue'     => [   3,  79, 132 ],
