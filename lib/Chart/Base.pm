@@ -1274,10 +1274,6 @@ sub _draw
     return 1;
 }
 
-## @var     Hash named_colors RGB values of named colors
-#
-our %named_colors = %Chart::Color::Named::store;
-
 ## @fn private int _set_colors
 #  specify my colors
 # @return status
@@ -1330,7 +1326,6 @@ sub _color_role_to_index
               || $self->{'colors_default_spec'}->{ $self->{'colors_default_role'}->{$role} };
 
             my @rgb = $self->_color_spec_to_rgb( $role, $spec );
-
             #print STDERR "spec = $spec\n";
 
             my $string = sprintf " RGB(%d,%d,%d)", map { $_ + 0 } @rgb;
@@ -1357,28 +1352,20 @@ sub _color_role_to_index
 # @param[in] spec [r,g,b] or name
 # @return array of rgb values as a list (i.e., \\\@rgb)
 #
-sub _color_spec_to_rgb
-{
+sub _color_spec_to_rgb {
     my $self = shift;
     my $role = shift;    # for error messages
     my $spec = shift;    # [r,g,b] or name
-
     my @rgb;             # result
-    if ( ref($spec) eq 'ARRAY' )
-    {
+    if ( ref($spec) eq 'ARRAY' ) {
         @rgb = @{$spec};
         croak "Invalid color RGB array (" . join( ',', @rgb ) . ") for $role\n"
-
-          unless @rgb == 3 && grep( !m/^\d+$/ || $_ > 255, @rgb ) == 0;
+        unless @rgb == 3 && grep( !m/^\d+$/ || $_ > 255, @rgb ) == 0;
     }
-    elsif ( !ref($spec) )
-    {
-        croak "Unknown named color ($spec) for $role\n"
-          unless $named_colors{$spec};
-        @rgb = @{ $named_colors{$spec} };
-    }
-    else
-    {
+    elsif ( !ref($spec) ) {
+        @rgb = Chart::Color::Named::rgb( $spec );
+        croak "Unknown named color ($spec) for $role\n" if @rgb < 3;
+    } else {
         croak "Unrecognized color for $role\n";
     }
     @rgb;
