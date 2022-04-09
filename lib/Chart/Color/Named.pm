@@ -575,6 +575,22 @@ our %store = (
     'yellow4'             => [ 139, 139,   0 ],
     'yellowgreen'         => [ 154, 205,  50 ],
 # https://www.w3schools.com/colors/colors_trends.asp
+    'marsala'             => [ 149,  82,  81 ], # best 2015-2000
+    'radiandorchid'       => [ 181, 101, 167 ],
+    'emerald'             => [   0, 155, 119 ],
+    'tangerinetango'      => [ 221,  65,  36 ],
+    'honeysucle'          => [ 214,  80, 118 ],
+    'turquoise'           => [  69, 184, 172 ],
+    'mimosa'              => [ 239, 192,  80 ],
+    'blueizis'            => [  91,  94, 166 ],
+    'chilipepper'         => [ 155,  35,  53 ],
+    'sanddollar'          => [ 223, 207, 190 ],
+    'blueturquoise'       => [  85, 180, 176 ],
+    'tigerlily'           => [ 225,  93,  68 ],
+    'aquasky'             => [ 127, 205, 205 ],
+    'truered'             => [ 188,  36,  60 ],
+    'fuchsiarose'         => [ 195,  68, 122 ],
+    'ceruleanblue'        => [ 152, 180, 212 ],
     'rosequartz'          => [ 247, 202, 201 ], # 2016 Spring
     'peachecho'           => [ 247, 120, 107 ], 
     'serenity'            => [ 145, 168, 208 ], 
@@ -593,7 +609,7 @@ our %store = (
     'dustycedar'          => [ 173,  93,  93 ],
     'lushmeadow'          => [   0, 110,  81 ],
     'spicymustard'        => [ 216, 174,  71 ],
-    "potter'sclay"        => [ 158,  70,  36 ],
+    "pottersclay"         => [ 158,  70,  36 ], # Potter's Clay
     'bodacious'           => [ 183, 107, 163 ],
     'greenery'            => [ 146, 181,  88 ], # 2017
     'niagara'             => [  87, 140, 169 ],
@@ -615,7 +631,7 @@ our %store = (
     'goldenlime'          => [ 156, 154,  64 ],
     'marina'              => [  79, 132, 196 ],
     'autumnmaple'         => [ 210, 105,  30 ],
-    'meadowlark'          => [ 236, 219,  84 ],
+    'meadowlark'          => [ 236, 219,  84 ], # 2018
     'cherrytomato'        => [ 233,  75,  60 ],
     'littleboyblue'       => [ 111, 159, 216 ],
     'chilioil'            => [ 148,  71,  67 ],
@@ -645,7 +661,7 @@ our %store = (
     'almondbuff'          => [ 209, 184, 148 ],
     'quietgray'           => [ 188, 188, 190 ],
     'meerkat'             => [ 169, 117,  79 ],
-    'fiesta'              => [ 221,  65,  50 ],
+    'fiesta'              => [ 221,  65,  50 ], # 2019
     'jesterred'           => [ 158,  16,  48 ],
     'turmeric'            => [ 254, 132,  14 ],
     'livingcoral'         => [ 255, 111,  97 ],
@@ -676,7 +692,7 @@ our %store = (
     'eveningblue'         => [  42,  41,  62 ],
     'paloma'              => [ 159, 156, 153 ],
     'guacamole'           => [ 121, 123,  58 ],
-    'flamescarlet'        => [ 205,  33,  42 ],
+    'flamescarlet'        => [ 205,  33,  42 ], # 2020
     'saffron'             => [ 255, 165,   0 ],
     'biscaygreen '        => [  86, 198, 169 ],
     'chive'               => [  75,  83,  53 ],
@@ -701,7 +717,7 @@ our %store = (
     'firedbrick'          => [ 106,  46,  42 ],
     'peachnougat'         => [ 230, 175, 145 ],
     'magentapurple'       => [ 108,  36,  76 ],
-    'marigold'            => [ 253, 172,  83 ],
+    'marigold'            => [ 253, 172,  83 ], # 2021
     'cerulean'            => [ 155, 183, 212 ],
     'rust'                => [ 181,  90,  48 ],
     'illuminating'        => [ 245, 223,  77 ],
@@ -719,18 +735,18 @@ our %store = (
 );
 
 
-sub all_names  { sort keys %store }
-sub name_taken { exists  $store{$_[0]}}
-
 sub add {
-    my $name = shift;
-    my $val  = shift;
+    my ($name, $r, $g, $b) = @_;
     return "Color name missing" unless defined $name and $name;
     return "Color already exists" if exists $store{$name};
-    return "Need a Color value (ArrayRef to 3 Int < 256)" if ref $val ne 'ARRAY' or @$val != 3;
-    my $ret = Color->new(@$val);
-    return $ret unless ref $ret;
-    $store{$name} = $ret;
+    return "Need 3 color values (RGB), integer between 0 and 255)" unless defined $b;
+    return "red value has to be an integer between 0 and 255"      unless int $r == $r and $r >= 0 and $r < 256;
+    return "green value has to be an integer between 0 and 255"    unless int $g == $g and $g >= 0 and $g < 256;
+    return "blue value has to be an integer between 0 and 255"     unless int $b == $b and $b >= 0 and $b < 256;
+    $name_from_rgb[ $r ][ $g ][ $b ] = $name
+        if not exists $name_from_rgb[ $r ][ $g ] or not exists $name_from_rgb[ $r ][ $g ][ $b ]
+        or length $name < length $name_from_rgb[ $r ][ $g ][ $b ];
+    $store{$name} = [$r, $g, $b];
 }
 
 sub rgb { 
@@ -740,6 +756,9 @@ sub rgb {
     @{$store{$name}} if exists $store{$name};
 }
 
+sub all_names  { sort keys %store }
+sub name_taken { exists  $store{$_[0]}}
+
 sub name { 
     my (@rgb) = @_;
     return if @rgb < 3;
@@ -748,44 +767,78 @@ sub name {
                                                        exists $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ];
 }
 
-
-for my $name (keys %store){
-    my @rgb = @{$store{$name}};
-    $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ] = $name
-        if not exists $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ]
-        or length $name < length $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ];
+sub _build_reverse_search {
+    for my $name (keys %store){
+        my @rgb = @{$store{$name}};
+        $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ] = $name
+            if not exists $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ]
+            or length $name < length $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ];
+    }
 }
+
+
+_build_reverse_search();
+
 
 1;
 
-__END__
+=pod
 
-    white   => [0xFF,0xFF,0xFF], 
-    lgray   => [0xBF,0xBF,0xBF], 
-    gray    => [0x7F,0x7F,0x7F],
-    dgray   => [0x3F,0x3F,0x3F],
-    black   => [0x00,0x00,0x00],
-    lblue   => [0x00,0x00,0xFF], 
-    blue    => [0x00,0x00,0xBF],
-    dblue   => [0x00,0x00,0x7F], 
-    gold    => [0xFF,0xD7,0x00],
-    lyellow => [0xFF,0xFF,0x00], 
-    yellow  => [0xBF,0xBF,0x00], 
-    dyellow => [0x7F,0x7F,0x00],
-    lgreen  => [0x00,0xFF,0x00], 
-    green   => [0x00,0xBF,0x00], 
-    dgreen  => [0x00,0x7F,0x00],
-    lred    => [0xFF,0x00,0x00], 
-    red     => [0xBF,0x00,0x00],
-    dred    => [0x7F,0x00,0x00],
-    lpurple => [0xFF,0x00,0xFF], 
-    purple  => [0xBF,0x00,0xBF],
-    dpurple => [0x7F,0x00,0x7F],
-    lorange => [0xFF,0xB7,0x00], 
-    orange  => [0xFF,0x7F,0x00],
-    pink    => [0xFF,0xB7,0xC1], 
-    dpink   => [0xFF,0x69,0xB4],
-    marine  => [0x7F,0x7F,0xFF], 
-    cyan    => [0x00,0xFF,0xFF],
-    lbrown  => [0xD2,0xB4,0x8C], 
-    dbrown  => [0xA5,0x2A,0x2A],
+=head1 NAME
+
+Chart::Color::Named - color constants
+
+=head1 SYNOPSIS 
+
+RGB values of named colors from the X11, HTML and Pantone standard.
+
+=head1 DESCRIPTION
+
+This module is supposed to be used by Chart::Color and not directly
+for the most part, but allows expansion of the store.
+It allows also reverse search from RGB values to name.
+
+=head1 ROUTINES
+
+=head2 add
+
+Adding a new color definition unter an unused name. 
+Arguments are name, red value, green value and blue value.
+
+    Chart::Color::Named::add('nightblue', 15, 10, 121);
+
+=head2 rgb
+
+Return the red green and blue value oof the named color.
+
+    my @rgb = Chart::Color::Named::rgb('darkblue');
+    @rgb = Chart::Color::Named::rgb('dark_blue'); # same result
+    @rgb = Chart::Color::Named::rgb('DarkBlue');  # still same
+
+=head2 name
+
+When several names defined the same color, the shortest name will be returned.
+
+    say Chart::Color::Named::name(15, 10, 121);  # 'darkblue'
+
+
+=head2 name_taken
+
+A perlish pseudo boolean tell if the color name is already in use.
+
+=head2 all_names
+
+A sorted list of all stored color names.
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2022 Herbert Breunung.
+
+This program is free software; you can redistribute it and/or modify it 
+under same terms as Perl itself.
+
+=head1 AUTHOR
+
+Herbert Breunung, <lichtkind@cpan.org>
+
+=cut
