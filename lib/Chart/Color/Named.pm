@@ -1,9 +1,9 @@
-
-# Chart::Color::Named :  expandable store of all predefined color names
-
 use v5.12;
 
-package Chart::Color::Named;
+# expandable store of names and values of colors
+# POD is on bottom of the file
+
+package Chart::Color::Named; 
 
 our @name_from_rgb;
 our %store = (                                  
@@ -749,7 +749,7 @@ sub add {
     $store{$name} = [$r, $g, $b];
 }
 
-sub rgb { 
+sub rgb {  # name --> rgb val
     my $name = shift;
     $name =~ tr/_//d;
     $name = lc $name;
@@ -767,7 +767,7 @@ sub name {
                                                        exists $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ];
 }
 
-sub _build_reverse_search {
+sub _build_reverse_search { # rgb val --> (shortest) name
     for my $name (keys %store){
         my @rgb = @{$store{$name}};
         $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ] = $name
@@ -782,6 +782,7 @@ _build_reverse_search();
 
 1;
 
+
 =pod
 
 =head1 NAME
@@ -790,12 +791,12 @@ Chart::Color::Named - color constants
 
 =head1 SYNOPSIS 
 
-RGB values of named colors from the X11, HTML and Pantone standard.
+RGB values of named colors from the X11 and HTML standard and Pantone report.
 
 =head1 DESCRIPTION
 
 This module is supposed to be used by Chart::Color and not directly
-for the most part, but allows expansion of the store.
+by the user (for the most part), but allows expansion of the store.
 It allows also reverse search from RGB values to name.
 
 =head1 ROUTINES
@@ -817,14 +818,16 @@ Return the red green and blue value oof the named color.
 
 =head2 name
 
-When several names defined the same color, the shortest name will be returned.
+Returns name of color wiht given red green abd blue value triplet. 
+Returns empty string if color is not stored. When several names define
+given color, the shortest name will be selected.
 
     say Chart::Color::Named::name(15, 10, 121);  # 'darkblue'
 
 
 =head2 name_taken
 
-A perlish pseudo boolean tell if the color name is already in use.
+A perlish pseudo boolean tells if the color name is already in use.
 
 =head2 all_names
 
