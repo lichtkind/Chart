@@ -6,7 +6,7 @@ BEGIN { unshift @INC, 'lib', '../lib'}
 my $module = 'Chart::Color';
 
 eval "use $module";
-ok( not $@);    # could load the module
+is( not( $@), 1, 'could load the module');
 
 my $red = Chart::Color->new(255, 0, 0);
 ok( ref $red eq $module); # could create object

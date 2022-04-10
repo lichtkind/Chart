@@ -12,13 +12,13 @@ use Carp;
 use GD;
 use GD::Image;
 use Chart::Constants;
-use Chart::Color::Named;
+use Chart::Color::Value;
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods          #
 #<<<<<<<<<<<<<<<<<<<<<<<<<<#
 
-sub new            # Standard normal constructor
+sub new            # Standard constructor
 {
     my $proto = shift;
     my $class = ref($proto) || $proto;
@@ -1310,7 +1310,7 @@ sub _color_spec_to_rgb {
         unless @rgb == 3 && grep( !m/^\d+$/ || $_ > 255, @rgb ) == 0;
     }
     elsif ( !ref($spec) ) {
-        @rgb = Chart::Color::Named::rgb( $spec );
+        @rgb = Chart::Color::Value::rgb( $spec );
         croak "Unknown named color ($spec) for $role\n" if @rgb < 3;
     } else {
         croak "Unrecognized color for $role\n";
@@ -4135,6 +4135,4 @@ sub _yPixelInReal
     return $yRealWidth / $width_y;
 }
 
-
 1; # be a good module and return positive
-

@@ -5,7 +5,7 @@
 use v5.12;
 
 package Chart::Color;
-use Chart::Color::Named;
+use Chart::Color::Value;
 
 sub new {
     my ($pkg) = shift;
@@ -22,8 +22,9 @@ sub new {
                 @args =  (map { hex($_) } unpack( "a1 a2 a2 a2", $_[0] ))[1..3];
                 return "'$_[0]' color definition has not length of 6 hex characters" unless @args == 3;
             } else {
-                @args = Chart::Color::Named::rgb( $_[0] );
-                return "'$_[0]' is an unknown color name" unless @args == 3;
+                @args = Chart::Color::Named::rgbhsl( $_[0] );
+                return "'$_[0]' is an unknown color name" unless @args == 6;
+                return bless [@args, Chart::Color::Value::name( @args[0..2] )]
             }
         } else {return 'unknown argument format, try new($r, $g, $b) or new( h => $h, s => $s, l => $l)' }
 
@@ -32,53 +33,18 @@ sub new {
              ? {'r' => $args[0], 'g' => $args[1], 'b' => $args[2] }                         # from positional 
              : {lc($args[0]) => $args[1], lc($args[2]) => $args[3], lc($args[4]) => $args[5] }; # from named
     my ($self, @rest);
-    # get missing values of color object
+    # compute missing rgb or hsl values
     if      (exists $args->{'r'} and exists $args->{'g'} and exists $args->{'b'}) {
-        @rest = _rgb_to_hsl( @$args{qw/r g b/} );
+        @rest = Chart::Color::Value::hsl_from_rgb( @$args{qw/r g b/} );
         return "RGB values are out of range" if @rest < 3;
         $self = [@$args{qw/r g b/}, @rest];
     } elsif (exists $args->{'h'} and exists $args->{'s'} and exists $args->{'l'}) {
-        @rest = _hsl_to_rgb( @$args{qw/h s l/} );
+        @rest = Chart::Color::Value::rgb_from_hsl( @$args{qw/h s l/} );
         return "HSL values are out of range" if @rest < 3;
         $self = [@rest, @$args{qw/h s l/}];
     } else { return "argument keys need to be r, g and b or h, s and l (Uppercase works too)" }
-    $self->[6] = Chart::Color::Named::name( rgb($self) ) // '';
+    $self->[6] = Chart::Color::Value::name_from_rgb( rgb($self) ) // '';
     bless $self;
-}
-
-sub _rgb_to_hsl{
-    my (@rgb) = @_;
-    return "need 3 positive integer values 0 <= n < 256 for RGB input" unless @rgb == 3;
-    return "red value has to be an integer between 0 and 255"   unless int $rgb[0] == $rgb[0] and $rgb[0] >= 0 and $rgb[0] < 256;
-    return "green value has to be an integer between 0 and 255" unless int $rgb[1] == $rgb[1] and $rgb[1] >= 0 and $rgb[1] < 256;
-    return "blue value has to be an integer between 0 and 255"  unless int $rgb[2] == $rgb[2] and $rgb[2] >= 0 and $rgb[2] < 256;
-    my ($maxi, $mini) = (0 , 1);       # index of max and min value in RGB (0..2)
-    if ($rgb[1] > $rgb[0])   { ($maxi, $mini ) = ($mini, $maxi ) }
-    if    ($rgb[2] > $rgb[$maxi])      { $maxi = 2 }
-    elsif ($rgb[2] < $rgb[$mini])      { $mini = 2 }
-    my $C = $rgb[$maxi] - $rgb[$mini]; # delta
-    ( 
-      ($C ? ((2 * $maxi + (($rgb[($maxi+1) % 3] - $rgb[($maxi+2) % 3]) /$C)) / 6) : 0), # H
-      $rgb[$maxi] == 0 ? 0 : ($C / $rgb[$maxi]),                                        # S
-      ($rgb[$maxi] + $rgb[$mini]) / 510                                                 # L
-    );
-}
-sub _hsl_to_rgb {
-    my ($h, $s, $l) = @_;
-    return "need 3 positive real values: 0 <= n <= 1 for HSL input" unless defined $l;
-    return "hue value has to be between 0 and 1"  unless $h >= 0 and $h <= 1;
-    return "saturation has to be between 0 and 1" unless $s >= 0 and $s <= 1;
-    return "lightness has to be between 0 and 1"  unless $l >= 0 and $l <= 1;
-    $h *= 6;
-    my $C = $s * (1 - abs($l * 2 - 1)) * 255;
-    my $X = $C * (1 - abs($h % 2 - 1 + ($h - int $h)));
-    my $m = ($l * 255) - ($C / 2);
-    if    ($h < 1) { return (int $C + $m, int $X + $m, int      $m) }
-    elsif ($h < 2) { return (int $X + $m, int $C + $m, int      $m) }
-    elsif ($h < 3) { return (int      $m, int $C + $m, int $X + $m) }
-    elsif ($h < 4) { return (int      $m, int $X + $m, int $C + $m) }
-    elsif ($h < 5) { return (int $X + $m, int      $m, int $C + $m) }
-    elsif ($h < 6) { return (int $C + $m, int      $m, int $X + $m) }
 }
 
 sub red         { $_[0][0] }
@@ -93,7 +59,8 @@ sub rgb     { @{$_[0]}[0 .. 2] }
 sub rgb_hex { sprintf "#%02x%02x%02x", $_[0]->rgb() }
 sub hsl     { @{$_[0]}[3 .. 5] }
 # hue 0..360 degree, S in %, L in %  as int
-sub hsl_web { (int(.5 +($_[0][3] * 360)), int(.5+($_[0][4]*100)), int(.5+($_[0][5]*100))) } 
+# sub hsl_web { (int(.5 +($_[0][3] * 360)), int(.5+($_[0][4]*100)), int(.5+($_[0][5]*100))) } 
+# sub hsl_float { (int(.5 +($_[0][3] * 360)), int(.5+($_[0][4]*100)), int(.5+($_[0][5]*100))) } 
 
 
 sub distance_hsl {
