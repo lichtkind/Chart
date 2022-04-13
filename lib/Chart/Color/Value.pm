@@ -7,6 +7,9 @@ use v5.12;
 package Chart::Color::Value; 
 my $VERSION = 2.003;
 
+use Carp;
+#use List::Util qw/min max/;
+
 our (@name_from_rgb, @name_from_hsl);
 our %store = (                                  
 # http://en.wikipedia.org/wiki/Web_colors#X11_color_names
@@ -735,31 +738,24 @@ our %store = (
 sub all_names  { sort keys %store }
 sub name_taken { exists  $store{ _clean_name($_[0]) }}
 
-sub _clean_name {
-    my $name = shift;
-    $name =~ tr/_//d;
-    lc $name;
-}
-
-sub rgb {  # name --> rgb val
+sub rgb_from_name {
     my $name = _clean_name(shift);
     @{$store{$name}}[0..2] if exists $store{$name};
 }
 
-sub hsl {  # name --> hsl val
+sub hsl_from_name {
     my $name = _clean_name(shift);
     @{$store{$name}}[3..5] if exists $store{$name};
 }
 
-sub rgbhsl {  # name --> all val
+sub rgbhsl_from_name {
     my $name = _clean_name(shift);
-    @{$store{$name}} if exists $store{$name};
+    @{$store{$name}} if exists $store{$name}; 
 }
 
 sub name_from_rgb { 
     my (@rgb) = @_;
-    my $error = _is_rgb_bad( @rgb );
-    return $error if $error;
+    _check_rgb( @rgb ) and return; # return if sub did carp
     $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ] if exists $name_from_rgb[ $rgb[0] ] and 
                                                        exists $name_from_rgb[ $rgb[0] ][ $rgb[1] ] and
                                                        exists $name_from_rgb[ $rgb[0] ][ $rgb[1] ][ $rgb[2] ];
@@ -767,64 +763,119 @@ sub name_from_rgb {
 
 sub name_from_hsl { 
     my (@hsl) = @_;
-    my $error = _is_hsl_bad( @hsl );
-    return $error if $error;
+    _check_hsl( @hsl ) and return;
     $name_from_hsl[ $hsl[0] ][ $hsl[1] ][ $hsl[2] ] if exists $name_from_hsl[ $hsl[0] ] and 
                                                        exists $name_from_hsl[ $hsl[0] ][ $hsl[1] ] and
                                                        exists $name_from_hsl[ $hsl[0] ][ $hsl[1] ][ $hsl[2] ];
 }
 
-sub names_in_range {
-    my (@hsl) = @_;
-    
+sub names_in_hsl_range {
+    my ($hmid, $smid, $lmid, @hsl_delta) = @_;
+    return carp "need four or six  numeric argument" if @hsl_delta != 1 and @hsl_delta != 3;
+    _check_hsl( $hmid, $smid, $lmid ) and return;
+    my @names;
+    if (@hsl_delta == 1) {
+    } else {
+        $hsl_delta[0] = abs $hsl_delta[0];
+        $hsl_delta[1] = abs $hsl_delta[1];
+        $hsl_delta[2] = abs $hsl_delta[2];
+        my $hmin = $hmid - $hsl_delta[0];
+        my $smin = $smid - $hsl_delta[1];
+        my $lmin = $lmid - $hsl_delta[2];
+        return if $hmin > 359 or  $smin > 100 or $lmin > 100;
+        my $hmax = $hmid + $hsl_delta[0];                           # theoretical upper limits
+        my $smax = $smid + $hsl_delta[1];
+        my $lmax = $lmid + $hsl_delta[2];
+        return if $hmax < 0 or  $smax < 0 or $lmax < 0;
+        my $hmaxrange = (($hmax + 359) / 2) - abs((359 - $hmax)/2); # effective upper limits
+        my $smaxrange = (($smax + 100) / 2) - abs((100 - $smax)/2);
+        my $lmaxrange = (($lmax + 100) / 2) - abs((100 - $lmax)/2);
+        for my $h (($hmin/2) + abs($hmin/2) .. $hmaxrange){
+            next unless defined $name_from_hsl[ $h ];
+            for my $s (($smin/2) + abs($smin/2) .. $smaxrange){
+                next unless defined $name_from_hsl[ $h ][ $s ];
+                for my $l (($lmin/2) + abs($lmin/2) .. $lmaxrange){
+                    next unless defined $name_from_hsl[ $h ][ $s ][ $l ];
+                    push @names, $name_from_hsl[ $h ][ $s ][ $l ];
+                }
+            }
+        }
+    }
+    \@names;
 }
 
-sub _is_rgb_bad { # error if not
+
+sub distance_hsl {
+    my ($self) = shift;
+    return carp  "need two triplest of hsl values in 2 arrays to compute hsl distance " 
+        if @_ != 2 or ref $_[0] ne 'ARRAY' or ref $_[1] ne 'ARRAY';
+    _check_hsl( @{$_[0]} ) and return;
+    _check_hsl( @{$_[1]} ) and return;
+    my $delta_h = abs($_[0] - $_[3]);
+    $delta_h -= 180 if $delta_h > 180;
+    sqrt($delta_h ** 2 + ($_[1] - $_[4]) ** 2 + ($_[2] - $_[5]) ** 2); 
+}
+
+sub distance_rgb {
+    my ($self) = shift;
+    return carp  "need two triplest of rgb values in 2 arrays to compute rgb distance " 
+        if @_ != 2 or ref $_[0] ne 'ARRAY' or ref $_[1] ne 'ARRAY';
+    _check_rgb( @{$_[0]} ) and return;
+    _check_rgb( @{$_[1]} ) and return;
+    sqrt(($_[0] - $_[3]) ** 2 + ($_[1] - $_[4]) ** 2 + ($_[2] - $_[5]) ** 2); 
+}
+
+sub _clean_name {
+    my $name = shift;
+    $name =~ tr/_//d;
+    lc $name;
+}
+
+sub _check_rgb { # carp returns 1
     my (@rgb) = @_;
-    return "need 3 positive integer values 0 <= n < 256 for rgb input" unless @rgb == 3;
-    return "red value has to be an integer between 0 and 255"   unless int $rgb[0] == $rgb[0] and $rgb[0] >= 0 and $rgb[0] < 256;
-    return "green value has to be an integer between 0 and 255" unless int $rgb[1] == $rgb[1] and $rgb[1] >= 0 and $rgb[1] < 256;
-    return "blue value has to be an integer between 0 and 255"  unless int $rgb[2] == $rgb[2] and $rgb[2] >= 0 and $rgb[2] < 256;
+    return carp "need exactly 3 positive integer values 0 <= n < 256 for rgb input" unless @rgb == 3;
+    return carp "red value has to be an integer between 0 and 255"   unless int $rgb[0] == $rgb[0] and $rgb[0] >= 0 and $rgb[0] < 256;
+    return carp "green value has to be an integer between 0 and 255" unless int $rgb[1] == $rgb[1] and $rgb[1] >= 0 and $rgb[1] < 256;
+    return carp "blue value has to be an integer between 0 and 255"  unless int $rgb[2] == $rgb[2] and $rgb[2] >= 0 and $rgb[2] < 256;
     0;
 }
 
-sub _is_hsl_bad { # error if not
+sub _check_hsl {
     my (@hsl) = @_;
-    return "need 3 positive integer between 0 and 359 or 99 for hsl input" unless @hsl == 3;
-    return "hue value has to be an integer between 0 and 359"       unless int $hsl[0] == $hsl[0] and $hsl[0] >= 0 and $hsl[0] < 360;
-    return "saturation value has to be an integer between 0 and 100" unless int $hsl[1] == $hsl[1] and $hsl[1] >= 0 and $hsl[1] < 101;
-    return "lightness value has to be an integer between 0 and 100"  unless int $hsl[2] == $hsl[2] and $hsl[2] >= 0 and $hsl[2] < 101;
+    return carp "need exactly 3 positive integer between 0 and 359 or 99 for hsl input" unless @hsl == 3;
+    return carp "hue value has to be an integer between 0 and 359"        unless int $hsl[0] == $hsl[0] and $hsl[0] >= 0 and $hsl[0] < 360;
+    return carp "saturation value has to be an integer between 0 and 100" unless int $hsl[1] == $hsl[1] and $hsl[1] >= 0 and $hsl[1] < 101;
+    return carp "lightness value has to be an integer between 0 and 100"  unless int $hsl[2] == $hsl[2] and $hsl[2] >= 0 and $hsl[2] < 101;
     0;
 }
 
 sub add_rgb {
     my ($name, @rgb) = @_;
-    return "color name missing" unless defined $name and $name;
-    my $error = _is_rgb_bad( @rgb );
-    return $error if $error;
+    return carp "color name missing" unless defined $name and $name;
+    _check_rgb( @rgb ) and return;
+    say '--';
     _add_color( $name, @rgb, hsl_from_rgb( @rgb ) );
 }
 
 sub add_hsl {
     my ($name, @hsl) = @_;
-    return "color name missing" unless defined $name and $name;
-    my $error = _is_hsl_bad( @hsl );
-    return $error if $error;
+    return carp "color name missing" unless defined $name and $name;
+    _check_hsl( @hsl ) and return;
     _add_color( $name, rgb_from_hsl( @hsl ), @hsl );
 }
 
 sub _add_color {
     my ($name, @rgb, @hsl) = @_;
     $name = _clean_name( $name );
-    return "there is already a color named $name in store of ".__PACKAGE__ if name_taken( $name );
+    return carp "there is already a color named $name in store of ".__PACKAGE__ if name_taken( $name );
     _add_color_to_reverse_search( $name, @rgb, @hsl);
-    $store{$name} = [@rgb, @hsl]; # add to foreward search
+    my $ret = $store{$name} = [@rgb, @hsl]; # add to foreward search
+    (ref $ret) ? [@$ret] : '';              # make returned ref not transparent
 }
 
 sub hsl_from_rgb {
     my (@rgb) = @_;
-    my $error = _is_rgb_bad( @rgb );
-    return $error if $error;
+    _check_rgb( @rgb ) and return;
     my ($maxi, $mini) = (0 , 1);       # index of max and min value in RGB (0..2)
     if ($rgb[1] > $rgb[0])   { ($maxi, $mini ) = ($mini, $maxi ) }
     if    ($rgb[2] > $rgb[$maxi])      { $maxi = 2 }
@@ -839,8 +890,8 @@ sub hsl_from_rgb {
 
 sub rgb_from_hsl {
     my (@hsl) = @_;
-    my $error = _is_hsl_bad( @hsl );
-    return $error if $error;
+    _check_hsl
+    _check_hsl( @hsl ) and return;
     $hsl[0] /= 60;
     my $C = $hsl[1] * (100 - abs($hsl[2] * 2 - 100)) * 0.0255;
     my $X = $C * (1 - abs($hsl[0] % 2 - 1 + ($hsl[0] - int $hsl[0]))); #($hsl[0] - int $hsl[0])
@@ -854,17 +905,33 @@ sub rgb_from_hsl {
 }
 
 sub _add_color_to_reverse_search { #     my ($name, @rgb, @hsl) = @_;
-    $name_from_rgb[ $_[1] ][ $_[2] ][ $_[3] ] = $_[0]
-        if not exists $name_from_rgb[ $_[1] ][ $_[2] ]
-        or not exists $name_from_rgb[ $_[1] ][ $_[2] ][ $_[3] ]
-        or length $_[0] < length  $name_from_rgb[ $_[1] ][ $_[2] ][ $_[3] ];
-    $name_from_hsl[ $_[4] ][ $_[5] ][ $_[6] ] = $_[0]
-        if not exists $name_from_hsl[ $_[4] ][ $_[5] ]
-        or not exists $name_from_hsl[ $_[4] ][ $_[5] ][ $_[6] ]
-        or length $_[0] < length $name_from_hsl[ $_[4] ][ $_[5] ][ $_[6] ];
+    
+    if (defined $name_from_rgb[ $_[1] ][ $_[2] ][ $_[3] ]) {
+        my $target = $name_from_rgb[ $_[1] ][ $_[2] ][ $_[3] ];
+        if (ref $target) {
+            if (length $_[0] <= length $target->[0] ) { unshift @$target, $_[0] }
+            else                                      { push @$target, $_[0]    }
+        } else {
+            $name_from_rgb[ $_[1] ][ $_[2] ][ $_[3] ] = 
+                length $_[0] <= length $target ? [ $_[0], $target ] 
+                                               : [ $target, $_[0]] ;
+        }
+    } else { $name_from_rgb[ $_[1] ][ $_[2] ][ $_[3] ] = $_[0]  }
+    
+    if (defined $name_from_hsl[ $_[4] ][ $_[5] ][ $_[6] ]) {
+        my $target = $name_from_hsl[ $_[4] ][ $_[5] ][ $_[6] ];
+        if (ref $target) {
+            if (length $_[0] <= length $target->[0] ) { unshift @$target, $_[0] }
+            else                                      { push @$target, $_[0]    }
+        } else {
+            $name_from_hsl[ $_[4] ][ $_[5] ][ $_[6] ] = 
+                length $_[0] <= length $target ? [ $_[0], $target ] 
+                                               : [ $target, $_[0]] ;
+        }
+    } else { $name_from_rgb[ $_[1] ][ $_[2] ][ $_[3] ] = $_[0]  }
 }
 
-sub _build_reverse_search { # rgb | hsl val --> (shortest) name
+sub _build_reverse_search { # rgb | hsl val --> [names, shortest first]
      _add_color_to_reverse_search( $_, @{$store{$_}} ) for keys %store;
 }
 
@@ -882,68 +949,83 @@ Chart::Color::Value - color constants and value conversion
 
 =head1 SYNOPSIS 
 
-RGB and HSL values of named colors from the X11 and HTML standard 
-and Pantone report. Allows also storage and conversion of color values.
 
 =head1 DESCRIPTION
 
+RGB and HSL values of named colors from the X11 and HTML standard 
+and Pantone report. Allows also reverse search, storage and conversion
+of color values.
+
 This module is supposed to be used by Chart::Color and not directly
-by the user (for the most part), but permits to store user colors,
-that can from then on be referred to by given name (but are gone when
-program ends). The module also allows reverse search from RGB or HSL
-values to name or names of nearby colors (in HSL space).
+by the user (for the most part). It converts a stored color name into
+its values (rgb, hsl or both) and back. One color can have multiple names.
+Also nearby (similar) colors can be searched. Own colors can be 
+(none permanently) stored for later reference by name. For this a name
+has to be chosen, that is not already taken. Independently of that
+can any color be converted from rgb to hsl and back.
 
 =head1 ROUTINES
 
-=head2 rgb
+=head2 rgb_from_name
 
 Red, Green and Blue value of the named color. 
 These values are integer in 0 .. 255.
 
-    my @rgb = Chart::Color::Value::rgb('darkblue');
-    @rgb = Chart::Color::Value::rgb('dark_blue'); # same result
-    @rgb = Chart::Color::Value::rgb('DarkBlue');  # still same
+    my @rgb = Chart::Color::Value::rgb_from_name('darkblue');
+    @rgb = Chart::Color::Value::rgb_from_name('dark_blue'); # same result
+    @rgb = Chart::Color::Value::rgb_from_name('DarkBlue');  # still same
 
-=head2 hsl
+=head2 hsl_from_name
 
 Hue, saturation and lightness of the named color. 
 These are integer between 0 .. 359 (hue) or 100 (sat. & light.).
 A hue of 360 and 0 (degree in a cylindrical coordinate system) is
 considered to be the same, this modul deals only with the ladder.
 
-    my @hsl = Chart::Color::Value::hsl('darkblue');
+    my @hsl = Chart::Color::Value::hsl_from_name('darkblue');
 
-=head2 rgbhsl
+=head2 rgbhsl_from_name
 
-Get all values of color with given name (rgb and hsl, see above).
+Get all six values of color with given name (rgb and hsl, see above).
 
 =head2 name_from_rgb
 
-Returns name of color wiht given rgb value triplet. 
+Returns name of color with given rgb value triplet. 
 Returns empty string if color is not stored. When several names define
-given color, the shortest name will be selected.
+given color, the shortest name will be selected in scalar context.
+In array context all names are given.
 
-    say Chart::Color::Value::name(15, 10, 121);  # 'darkblue'
+    say Chart::Color::Value::name_from_rgb(15, 10, 121);  # 'darkblue'
 
 =head2 name_from_hsl
 
-Returns name of color wiht given hsl value triplet. 
+Returns name of color with given hsl value triplet. 
 Returns empty string if color is not stored. When several names define
-given color, the shortest name will be selected.
+given color, the shortest name will be selected in scalar context.
+In array context all names are given.
 
-    say Chart::Color::Value::name( 0, 100, 50);  # 'red'
+    say Chart::Color::Value::name_from_hsl( 0, 100, 50);  # 'red'
 
-=head2 names_in_range
+=head2  names_in_hsl_range
 
-Color names of certain region in hsl color space. 
-It requires 6 arguments, two triplets. The first is the center of the
-area of interest and the second the size (tolerance, also as hsl).
-In the following example all stored colors with a hue value smaller
-and eaqual 10 and larger or equal 350 are selected if they also have
-a saturation 80 and 100 and a lightness between 40 and 60.
+Color names in certain neighbourhood of hsl color space. 
+It requires either 4 or 6 arguments. In any case, the first three define
+the center of the neighbourhood (hue, saturation and lightness).
+
+One additional argument is the radius of the neighbourhood. All names of
+colors with smaller or equal distance to the center are returned.
+
+Three additional arguments define the tolerance in h, s and l direction.
+Please note the h dimension is circular: the distance from 355 to 0 is 5.
+The s and l dimensions are linear, so that a center value of 90 and a
+tolerance of 15 will result in a search of in the range 75 .. 100.
+
+The results contains only one name per color (the shortest).
 
     # all bright red'ish clors
-    say Chart::Color::Value::names_in_range(0, 90, 50, 10, 10, 10);  
+    my @names = Chart::Color::Value::names_in_hsl_range(0, 90, 50, 5);
+    # approximates to : 
+    my @names = Chart::Color::Value::names_in_hsl_range(0, 90, 50, 3, 3, 3);  
 
 
 =head2 all_names
@@ -956,17 +1038,43 @@ A perlish pseudo boolean tells if the color name is already in use.
 
 =head2 add_rgb
 
-Adding a new rgb color definition unter an unused name. 
-Arguments are name, red, green and blue value (integer < 256).
+Adding a color to the store under an not taken (not already used) name.
+Arguments are name, red, green and blue value (integer < 256, see rgb).
 
-    Chart::Color::Named::add_rgb('nightblue', 15, 10, 121);
+    Chart::Color::Value::add_rgb('nightblue', 15, 10, 121);
 
 =head2 add_hsl
 
-Adding a new hsl color definition unter an unused name. 
-Arguments are name, Hue, Saturation and Lightness value (see hsl).
+Adding a color to the store under an not taken (not already used) name.
+Arguments are name, hue, saturation and lightness value (see hsl).
 
-    Chart::Color::Named::add_rgb('lucky', 0, 100, 50);
+    Chart::Color::Value::add_rgb('lucky', 0, 100, 50);
+
+
+=head2 hsl_from_rgb
+
+Converting an rgb value triplet into the corresponding hsl 
+(see rgb_from_name and hsl_from_name).
+
+=head2 rgb_from_hsl
+
+Converting an hsl value triplet into the corresponding rgb 
+(see rgb_from_name and hsl_from_name). Please not that back and forth
+conversion can lead to drifting results due to rounding.
+
+=head2 distance_rgb
+
+Distance in (linear) rgb color space between two coordinates.
+
+
+    my $d = Chart::Color::Value::distance_rgb([1,1,1], [2,2,2]);  # approx 1.7
+
+
+=head2 distance_hsl
+
+Distance in (cylindrical) hsl color space between two coordinates.
+
+    my $d = Chart::Color::Value::distance_rgb([1,1,1], [356, 3, 2]); # approx 6
 
 
 =head1 COPYRIGHT & LICENSE

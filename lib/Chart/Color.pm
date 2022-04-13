@@ -6,6 +6,7 @@ use v5.12;
 
 package Chart::Color;
 use Chart::Color::Value;
+use Carp;
 
 sub new {
     my ($pkg) = shift;
@@ -22,9 +23,9 @@ sub new {
                 @args =  (map { hex($_) } unpack( "a1 a2 a2 a2", $_[0] ))[1..3];
                 return "'$_[0]' color definition has not length of 6 hex characters" unless @args == 3;
             } else {
-                @args = Chart::Color::Named::rgbhsl( $_[0] );
+                @args = Chart::Color::Named::rgbhsl_from_name( $_[0] );
                 return "'$_[0]' is an unknown color name" unless @args == 6;
-                return bless [@args, Chart::Color::Value::name( @args[0..2] )]
+                return bless [@args, scalar Chart::Color::Value::name_from_rgb( @args[0..2] )];
             }
         } else {return 'unknown argument format, try new($r, $g, $b) or new( h => $h, s => $s, l => $l)' }
 
@@ -133,7 +134,13 @@ This module is supposed to be used by Chart::Color and not directly
 for the most part, but allows expansion of the store.
 It allows also reverse search from RGB values to name.
 
+=head1 METHODS
+
+=head2 new
+
 =head1 ATTRIBUTES
+
+are all read only
 
 =head2 red
 
