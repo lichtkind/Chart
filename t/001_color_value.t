@@ -13,6 +13,16 @@ is( not($@), 1, 'could load the module');
 my @names = Chart::Color::Value::all_names();
 is( @names > 700, 1, 'get a large list of names, all_names seems to working');
 
+my $d_rgb          = \&Chart::Color::Value::distance_rgb;
+my $d_hsl          = \&Chart::Color::Value::distance_hsl;
+my $add_rgb        = \&Chart::Color::Value::add_rgb;
+my $add_hsl        = \&Chart::Color::Value::add_hsl;
+my $taken          = \&Chart::Color::Value::name_taken;
+my $get_name_rgb   = \&Chart::Color::Value::name_from_rgb;
+my $get_name_hsl   = \&Chart::Color::Value::name_from_hsl;
+my $get_name_range = \&Chart::Color::Value::names_in_hsl_range;
+
+
 
 my @hsl = Chart::Color::Value::hsl_from_rgb(127,127,127);
 is( int @hsl,  3,     'converted color grey has hsl values');
@@ -26,17 +36,25 @@ is( $rgb[0], 127,     'converted back color grey has right red value');
 is( $rgb[1], 127,     'converted back color grey has right green value');
 is( $rgb[2], 127,     'converted back color grey has right blue value');
 
+warning_like {$d_rgb->()}                         {carped => qr/two triplets/},   "can't get distance without rgb values";
+warning_like {$d_rgb->( [1,1,1],[1,1,1],[1,1,1])} {carped => qr/two triplets/}, 'too many array arg';
+warning_like {$d_rgb->( [1,2],[1,2,3])} {carped => qr/exactly 3/},             'first color is missing a value';
+warning_like {$d_rgb->( [1,2,3],[2,3])} {carped => qr/exactly 3/},             'second color is missing a value';
+warning_like {$d_rgb->( [-1,2,3],[1,2,3])} {carped => qr/red value/},          'first red value is too small';
+warning_like {$d_rgb->( [1,2,3],[2,256,3])} {carped => qr/green value/},       'second green value is too large';
+warning_like {$d_hsl->()}                         {carped => qr/two triplets/},"can't get distance without hsl values";
+warning_like {$d_hsl->( [1,1,1],[1,1,1],[1,1,1])} {carped => qr/two triplets/},'too many array arg';
+warning_like {$d_hsl->( [1,2],[1,2,3])} {carped => qr/exactly 3/},        'first color is missing a value';
+warning_like {$d_hsl->( [1,2,3],[2,3])} {carped => qr/exactly 3/},        'second color is missing a value';
+warning_like {$d_hsl->( [-1,2,3],[1,2,3])} {carped => qr/hue value/},     'first hue value is too small';
+warning_like {$d_hsl->( [1,2,3],[360,2,3])} {carped => qr/hue value/},    'second hue value is too large';
+warning_like {$d_hsl->( [1,-1,3],[2,10,3])} {carped => qr/saturation value/}, 'first saturation value is too small';
+warning_like {$d_hsl->( [1,2,3],[2,101,3])} {carped => qr/saturation value/}, 'second saturation value is too large';
+
 is( Chart::Color::Value::distance_rgb([1, 2, 3], [  2, 6, 11]), 9,     'compute rgb distance');
 is( Chart::Color::Value::distance_hsl([1, 2, 3], [  2, 6, 11]), 9,     'compute hsl distance');
 is( Chart::Color::Value::distance_hsl([0, 2, 3], [359, 6, 11]), 9,     'compute hsl distance (test circular property of hsl)');
 
-
-my $add_rgb   = \&Chart::Color::Value::add_rgb;
-my $add_hsl   = \&Chart::Color::Value::add_hsl;
-my $taken     = \&Chart::Color::Value::name_taken;
-my $get_name_rgb   = \&Chart::Color::Value::name_from_rgb;
-my $get_name_hsl   = \&Chart::Color::Value::name_from_hsl;
-my $get_name_range = \&Chart::Color::Value::names_in_hsl_range;
 
 warning_like {$add_rgb->()} {carped => qr/missing first arg/},          "can't get color without name";
 warning_like {$add_rgb->( 'one',1,1)}    {carped => qr/need exactly 3/},'not enough args to add color';

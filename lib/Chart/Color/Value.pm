@@ -804,7 +804,7 @@ sub names_in_hsl_range { # @center, (@d | $d) --> @names
 }
 
 sub distance_hsl { # $h, $s, $l, --> $d
-    return carp  "need two triplest of hsl values in 2 arrays to compute hsl distance " 
+    return carp  "need two triplets of hsl values in 2 arrays to compute hsl distance " 
         if @_ != 2 or ref $_[0] ne 'ARRAY' or ref $_[1] ne 'ARRAY';
     _check_hsl( @{$_[0]} ) and return;
     _check_hsl( @{$_[1]} ) and return;
@@ -814,7 +814,7 @@ sub distance_hsl { # $h, $s, $l, --> $d
 }
 
 sub distance_rgb { # $r, $g, $b --> $d
-    return carp  "need two triplest of rgb values in 2 arrays to compute rgb distance " 
+    return carp  "need two triplets of rgb values in 2 arrays to compute rgb distance " 
         if @_ != 2 or ref $_[0] ne 'ARRAY' or ref $_[1] ne 'ARRAY';
     _check_rgb( @{$_[0]} ) and return;
     _check_rgb( @{$_[1]} ) and return;
