@@ -7,15 +7,15 @@ use v5.12;
 package Chart::Color;
 our $VERSION = '2.402.0';
 
-use Chart::Color::Value;
 use Carp;
+use Chart::Color::Value;
 
 sub new {
+    my $help = 'constructor of Chart::Color object needs 3 arguments in named form'.
+        ' e.g.: ->new(r => 255, g => 0, b => 0), ->new(h => 0, s => 1, l => .5)'.
+        ' or rgb as positionals e.g.: ->new(255, 0, 0), in hex form "#FF0000" or a color name (string).';
     my ($pkg) = shift;
-    return 'constructor of Chart::Color object needs 3 arguments in named form'.
-           ' e.g.: ->new(r => 255, g => 0, b => 0), ->new(h => 0, s => 1, l => .5)'.
-           ' or as positionals e.g.: ->new(255, 0, 0), in hex form "#FF00" or a color name.'
-           unless @_ == 6 or @_ == 3 or @_ == 1;
+    return carp $help unless @_ == 6 or @_ == 3 or @_ == 1;
     my @args = @_;
     if (@args == 1){ # retrieve values of named color
         if    (ref $_[0] eq 'ARRAY') { @args = @{$_[0]} }  # resolve new([$r, $g, $b])
@@ -23,13 +23,13 @@ sub new {
         elsif (not ref $_[0]) {                            # resolve stored color names
             if (substr(ref $_[0], 0, 1) eq '#'){
                 @args =  (map { hex($_) } unpack( "a1 a2 a2 a2", $_[0] ))[1..3];
-                return "'$_[0]' color definition has not length of 6 hex characters" unless @args == 3;
+                return carp "'$_[0]' color definition has not length of 6 hex characters" unless @args == 3;
             } else {
                 @args = Chart::Color::Named::rgbhsl_from_name( $_[0] );
-                return "'$_[0]' is an unknown color name" unless @args == 6;
+                return carp "'$_[0]' is an unknown color name" unless @args == 6;
                 return bless [@args, scalar Chart::Color::Value::name_from_rgb( @args[0..2] )];
             }
-        } else {return 'unknown argument format, try new($r, $g, $b) or new( h => $h, s => $s, l => $l)' }
+        } else {return carp $help }
 
     }
     my $args = (@args == 3 )                               # resolve args into a hash
@@ -39,13 +39,13 @@ sub new {
     # compute missing rgb or hsl values
     if      (exists $args->{'r'} and exists $args->{'g'} and exists $args->{'b'}) {
         @rest = Chart::Color::Value::hsl_from_rgb( @$args{qw/r g b/} );
-        return "RGB values are out of range" if @rest < 3;
+        return carp "RGB values are out of range" if @rest < 3;
         $self = [@$args{qw/r g b/}, @rest];
     } elsif (exists $args->{'h'} and exists $args->{'s'} and exists $args->{'l'}) {
         @rest = Chart::Color::Value::rgb_from_hsl( @$args{qw/h s l/} );
-        return "HSL values are out of range" if @rest < 3;
+        return carp "HSL values are out of range" if @rest < 3;
         $self = [@rest, @$args{qw/h s l/}];
-    } else { return "argument keys need to be r, g and b or h, s and l (Uppercase works too)" }
+    } else { return carp "argument keys need to be r, g and b or h, s and l (Uppercase works too)" }
     $self->[6] = Chart::Color::Value::name_from_rgb( rgb($self) ) // '';
     bless $self;
 }
@@ -70,27 +70,23 @@ sub distance_hsl {
     my ($self, @color) = @_;
     return "missing second argument: color object or color definition" unless @color;
     my $color = (ref $color[0] eq __PACKAGE__) ? $color[0] : Chart::Color->new(@color);
-    return $color unless ref $color eq __PACKAGE__;
-    sqrt(($self->hue - $color->hue) ** 2 + 
-         ($self->saturation - $color->saturation) ** 2 + 
-         ($self->lightness - $color->lightness) ** 2); 
+    return unless ref $color eq __PACKAGE__;
+    Chart::Color::Value::distance_hsl( [$self->hsl], [$color->hsl] );
 }
 
 sub distance_rgb {
     my ($self, @color) = @_;
     return "missing second argument: color object or color definition" unless @color;
     my $color = (ref $color[0] eq __PACKAGE__) ? $color[0] : Chart::Color->new(@color);
-    return $color unless ref $color eq __PACKAGE__;
-    sqrt(($self->red - $color->red) ** 2 + 
-         ($self->green - $color->green) ** 2 + 
-         ($self->blue - $color->blue) ** 2); 
+    return unless ref $color eq __PACKAGE__;
+    Chart::Color::Value::distance_rgb( [$self->rgb], [$color->rgb] );
 }
 
 sub add {
     my ($self, @color) = @_;
     return "missing second argument: color object or color definition" unless @color;
     my $color = (ref $color[0] eq __PACKAGE__) ? $color[0] : Chart::Color->new(@color);
-    return $color unless ref $color eq __PACKAGE__;
+    return unless ref $color eq __PACKAGE__;
     ###
 }
 sub _add {
@@ -102,7 +98,7 @@ sub mix {
     return "missing first argument: number of gradient steps" unless $steps;
     return "missing second argument: color object or color definition" unless @color;
     my $color = (ref $color[0] eq __PACKAGE__) ? $color[0] : Chart::Color->new(@color);
-    return $color unless ref $color eq __PACKAGE__;
+    return unless ref $color eq __PACKAGE__;
     
     ###
 }
@@ -111,7 +107,7 @@ sub gradient {
     return "missing first argument: number of gradient steps" unless $steps;
     return "missing second argument: color object or color definition" unless @color;
     my $color = (ref $color[0] eq __PACKAGE__) ? $color[0] : Chart::Color->new(@color);
-    return $color unless ref $color eq __PACKAGE__;
+    return unless ref $color eq __PACKAGE__;
     
     ###
 }
