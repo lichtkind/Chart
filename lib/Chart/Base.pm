@@ -1303,7 +1303,7 @@ sub _color_spec_to_rgb {
         unless @rgb == 3 && grep( !m/^\d+$/ || $_ > 255, @rgb ) == 0;
     }
     elsif ( !ref($spec) ) {
-        @rgb = Chart::Color::Value::rgb( $spec );
+        @rgb = Chart::Color::Value::rgb_from_name( $spec );
         croak "Unknown named color ($spec) for $role\n" if @rgb < 3;
     } else {
         croak "Unrecognized color for $role\n";
