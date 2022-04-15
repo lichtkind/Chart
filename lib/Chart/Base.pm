@@ -5,7 +5,7 @@
 use v5.12;
 
 package Chart::Base;
-our $VERSION = '2.400.5';
+our $VERSION = '2.402.0';
 
 use FileHandle;
 use Carp;
@@ -89,14 +89,7 @@ sub set {
     return 1;
 }
 
-## @method hash getopts()
-# @return hash of all set options so far
-#
-# @brief
-# get all options
-#
-# @details
-# @return set options as a hash
+# hash of all set options so far
 sub getopts
 {
     my $self = shift;

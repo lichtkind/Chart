@@ -5,6 +5,8 @@
 use v5.12;
 
 package Chart::Color;
+our $VERSION = '2.402.0';
+
 use Chart::Color::Value;
 use Carp;
 
