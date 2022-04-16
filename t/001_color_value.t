@@ -1,8 +1,7 @@
 use v5.12;
 use warnings;
-use Test::More tests => 95;
+use Test::More tests => 97;
 use Test::Warn;
-use Carp;
 
 BEGIN { unshift @INC, 'lib', '../lib'}
 my $module = 'Chart::Color::Value';
@@ -140,30 +139,34 @@ is( $names[0], 'white',     'only white has distance of 0 to white');
 
 @names = sort $get_name_range->( [0, 0, 100], 5);
 is( int @names, 6,             '6 colors are in short distance to white');
-is( $names[-1], 'whitesmoke',  'whitesmoke is near to white');
+@names = grep { /whitesmoke/ } @names;
+is( int @names, 1,  'whitesmoke is near to white');
 
 my @morenames = sort $get_name_range->( [0, 0, 100], 10);
 is( @names < @morenames, 1,  'bigger radius has to catch more colors');
 
 @names = sort $get_name_range->( [240, 100, 50], [10, 20, 30]);
-is( $names[5], 'navy',       'navy is a shade of blue');
+@names = grep { /navy/ } @names;
+is( int @names, 1,           'navy is a shade of blue');
 
 @names = sort $get_name_range->( [240, 100, 50], [100, 5, 5]);
-is( $names[0], 'aqua',       'aqua is a bluish color with high saturation and medium lightness');
+@names = grep { /aqua/ } @names;
+is( int @names, 1,           'aqua is a bluish color with high saturation and medium lightness');
+
+@names = sort $get_name_range->( [  0, 100, 50], [100, 5, 5]);
+@names = grep { /lightpurple/ } @names;
+is( int @names, 1,           'purple is near red because hue is circular');
+
+@names = sort $get_name_range->( [ 359, 100, 50], [100, 5, 5]);
+@names = grep { /chartreuse/ } @names;
+is( @names > 0, 1,           'chartreuse is near purple because hue is circular');
 
 #say for @names;
 #say scalar  $get_name_hsl->(240, 100, 50);
 
 exit 0;
 
-
 __END__
-
-
-#is( $get_name_range->(14,10, 50 ), 'blob',       'found inserted color by hsl');
-
-
-
 use Memory::Usage;
 my $mu = Memory::Usage->new();
 $mu->record('starting work');

@@ -20,12 +20,12 @@ sub name_taken { exists  $rgbhsl_from_name->{ _clean_name($_[0]) }}
 
 sub rgb_from_name {
     my $name = _clean_name(shift);
-    @{$rgbhsl_from_name->{$name}}[0..2] if name_taken($name);
+    @{$rgbhsl_from_name->{$name}}[0..2] if name_taken( $name );
 }
 
 sub hsl_from_name {
     my $name = _clean_name(shift);
-    @{$rgbhsl_from_name->{$name}}[3..5] if name_taken($name);
+    @{$rgbhsl_from_name->{$name}}[3..5] if name_taken( $name );
 }
 
 sub rgbhsl_from_name {
@@ -64,7 +64,7 @@ sub names_in_hsl_range { # @center, (@d | $d) --> @names
     $hsl_delta[$_] = int abs $hsl_delta[$_] for 0 ..2;
     $hsl_delta[0] = 180 if $hsl_delta[0] > 180;        # enough to search complete HSL space (prevent double results)
 
-    my (@min, @max, @names);
+    my (@min, @max, @names, $minhrange, $maxhrange);
     $min[$_] = $hsl_center->[$_] - $hsl_delta[$_]  for 0..2;
     $max[$_] = $hsl_center->[$_] + $hsl_delta[$_]  for 0..2;
     $min[1] =   0 if $min[1] <   0;
@@ -89,6 +89,25 @@ sub names_in_hsl_range { # @center, (@d | $d) --> @names
     @names;
 }
 
+sub trim_rgb { # cut values into the domain of definition of 0 .. 255
+    my (@rgb) = @_;
+    return (0,0,0) unless @rgb == 3;
+    for (0..2){
+        $rgb[$_] =   0 if $rgb[$_] <   0;
+        $rgb[$_] = 255 if $rgb[$_] > 255;
+    }
+    @rgb;
+}
+
+sub trim_hsl { # cut values into 0 ..359, 0 .. 100, 0 .. 100
+    my (@hsl) = @_;
+    return (0,0,0) unless @hsl == 3;
+    for (0..2){ $hsl[$_] =   0 if $hsl[$_] <   0 }
+    for (1..2){ $hsl[$_] = 100 if $hsl[$_] > 100 }
+                $hsl[0]  = 259 if $hsl[$_] > 259;
+    @hsl;
+}
+
 sub distance_hsl { # $h, $s, $l, --> $d
     return carp  "need two triplets of hsl values in 2 arrays to compute hsl distance " 
         if @_ != 2 or ref $_[0] ne 'ARRAY' or ref $_[1] ne 'ARRAY';
@@ -107,7 +126,7 @@ sub distance_rgb { # $r, $g, $b --> $d
     sqrt(($_[0][0] - $_[1][0]) ** 2 + ($_[0][1] - $_[1][1]) ** 2 + ($_[0][2] - $_[1][2]) ** 2); 
 }
 
-sub hsl_from_rgb { # convert color value triplet (int --> int), (real --> real) it $real
+sub hsl_from_rgb { # convert color value triplet (int --> int), (real --> real) if $real
     my (@rgb) = @_;
     my $real = '';
     if (ref $rgb[0] eq 'ARRAY'){
@@ -120,7 +139,7 @@ sub hsl_from_rgb { # convert color value triplet (int --> int), (real --> real) 
     ( int( $hsl[0] + 0.5 ), int( $hsl[1] + 0.5), int( $hsl[2] + 0.5) );
 }
 
-sub rgb_from_hsl { # convert color value triplet (int > int), (real > real) it $real
+sub rgb_from_hsl { # convert color value triplet (int > int), (real > real) if $real
     my (@hsl) = @_;
     my $real = '';
     if (ref $hsl[0] eq 'ARRAY'){
@@ -167,19 +186,21 @@ sub _clean_name {
 
 sub _check_rgb { # carp returns 1
     my (@rgb) = @_;
+    my $help = 'has to be an integer between 0 and 255';
     return carp "need exactly 3 positive integer values 0 <= n < 256 for rgb input" unless @rgb == 3;
-    return carp "red value has to be an integer between 0 and 255"   unless int $rgb[0] == $rgb[0] and $rgb[0] >= 0 and $rgb[0] < 256;
-    return carp "green value has to be an integer between 0 and 255" unless int $rgb[1] == $rgb[1] and $rgb[1] >= 0 and $rgb[1] < 256;
-    return carp "blue value has to be an integer between 0 and 255"  unless int $rgb[2] == $rgb[2] and $rgb[2] >= 0 and $rgb[2] < 256;
+    return carp "red value $rgb[0] ".$help   unless int $rgb[0] == $rgb[0] and $rgb[0] >= 0 and $rgb[0] < 256;
+    return carp "green value $rgb[1] ".$help unless int $rgb[1] == $rgb[1] and $rgb[1] >= 0 and $rgb[1] < 256;
+    return carp "blue value $rgb[2] ".$help  unless int $rgb[2] == $rgb[2] and $rgb[2] >= 0 and $rgb[2] < 256;
     0;
 }
 
 sub _check_hsl {
     my (@hsl) = @_;
+    my $help = 'has to be an integer between 0 and';
     return carp "need exactly 3 positive integer between 0 and 359 or 99 for hsl input" unless @hsl == 3;
-    return carp "hue value has to be an integer between 0 and 359"        unless int $hsl[0] == $hsl[0] and $hsl[0] >= 0 and $hsl[0] < 360;
-    return carp "saturation value has to be an integer between 0 and 100" unless int $hsl[1] == $hsl[1] and $hsl[1] >= 0 and $hsl[1] < 101;
-    return carp "lightness value has to be an integer between 0 and 100"  unless int $hsl[2] == $hsl[2] and $hsl[2] >= 0 and $hsl[2] < 101;
+    return carp "hue value $rgb[0] $help 359"        unless int $hsl[0] == $hsl[0] and $hsl[0] >= 0 and $hsl[0] < 360;
+    return carp "saturation value $rgb[1] $help 100" unless int $hsl[1] == $hsl[1] and $hsl[1] >= 0 and $hsl[1] < 101;
+    return carp "lightness value $rgb[2] $help 100"  unless int $hsl[2] == $hsl[2] and $hsl[2] >= 0 and $hsl[2] < 101;
     0;
 }
 
@@ -260,10 +281,17 @@ __END__
 
 =head1 NAME
 
-Chart::Color::Value - color constants and value conversion
+Chart::Color::Value - access color constants and value conversion
 
 =head1 SYNOPSIS 
 
+    my @names = Chart::Color::Value::all_names()
+    my @rgb  = Chart::Color::Value::rgb_from_name('darkblue');
+    my @hsl  = Chart::Color::Value::hsl_from_name('darkblue');
+    my @hsl2 = Chart::Color::Value::hsl_from_rgb( 5 ,10, 100);
+    my $d = Chart::Color::Value::distance_hsl( \@hsl, \@hsl2);
+    
+    Chart::Color::Value::add_rgb('lucky', [0, 100, 50]);
 
 =head1 DESCRIPTION
 
@@ -320,8 +348,9 @@ Returns empty string if color is not stored. When several names define
 given color, the shortest name will be selected in scalar context.
 In array context all names are given.
 
-    say Chart::Color::Value::name_from_hsl( 0, 100, 50 );  # 'red'
-    say Chart::Color::Value::name_from_hsl([0, 100, 50]);  # works too
+    say scalar Chart::Color::Value::name_from_hsl( 0, 100, 50 );  # 'red'
+    say scalar Chart::Color::Value::name_from_hsl([0, 100, 50]);  # works too
+    say for Chart::Color::Value::name_from_hsl( 0, 100, 50 ); # 'red', 'red1'
 
 =head2  names_in_hsl_range
 

@@ -12,8 +12,8 @@ use Chart::Color::Value;
 
 sub new {
     my $help = 'constructor of Chart::Color object needs 3 arguments in named form'.
-        ' e.g.: ->new(r => 255, g => 0, b => 0), ->new(h => 0, s => 1, l => .5)'.
-        ' or rgb as positionals e.g.: ->new(255, 0, 0), in hex form "#FF0000" or a color name (string).';
+        ' e.g.: ->new(r => 255, g => 0, b => 0), ->new(h => 0, s => 100, l => 50)'.
+        ' or rgb as positionals e.g.: ->new(255, 0, 0), in hex form "#FF0000" or a color name ("red").';
     my ($pkg) = shift;
     return carp $help unless @_ == 6 or @_ == 3 or @_ == 1;
     my @args = @_;
@@ -58,17 +58,13 @@ sub saturation  { $_[0][4] }
 sub lightness   { $_[0][5] }
 sub name        { $_[0][6] }
 
-sub rgb     { @{$_[0]}[0 .. 2] }
-sub rgb_hex { sprintf "#%02x%02x%02x", $_[0]->rgb() }
-sub hsl     { @{$_[0]}[3 .. 5] }
-# hue 0..360 degree, S in %, L in %  as int
-# sub hsl_web { (int(.5 +($_[0][3] * 360)), int(.5+($_[0][4]*100)), int(.5+($_[0][5]*100))) } 
-# sub hsl_float { (int(.5 +($_[0][3] * 360)), int(.5+($_[0][4]*100)), int(.5+($_[0][5]*100))) } 
-
+sub hsl         { @{$_[0]}[3 .. 5] }
+sub rgb         { @{$_[0]}[0 .. 2] }
+sub rgb_hex     { sprintf "#%02x%02x%02x", $_[0]->rgb() }
 
 sub distance_hsl {
     my ($self, @color) = @_;
-    return "missing second argument: color object or color definition" unless @color;
+    return croak "missing argument: color object or color definition" unless @color;
     my $color = (ref $color[0] eq __PACKAGE__) ? $color[0] : Chart::Color->new(@color);
     return unless ref $color eq __PACKAGE__;
     Chart::Color::Value::distance_hsl( [$self->hsl], [$color->hsl] );
@@ -76,7 +72,7 @@ sub distance_hsl {
 
 sub distance_rgb {
     my ($self, @color) = @_;
-    return "missing second argument: color object or color definition" unless @color;
+    return croak "missing argument: color object or color definition" unless @color;
     my $color = (ref $color[0] eq __PACKAGE__) ? $color[0] : Chart::Color->new(@color);
     return unless ref $color eq __PACKAGE__;
     Chart::Color::Value::distance_rgb( [$self->rgb], [$color->rgb] );
@@ -92,6 +88,12 @@ sub add {
 sub _add {
 }
 
+
+sub complementary {
+    my ($self) = shift;
+    my ($count) = shift // 1;
+    
+}
 
 sub mix {
     my ($self, $steps, @color) = @_;
@@ -119,48 +121,92 @@ sub gradient {
 
 =head1 NAME
 
-Chart::Color - read only color defining objects
+Chart::Color - read only single color holding objects
 
 =head1 SYNOPSIS 
 
-Handles all of users color definitions done with method "$chart->set(...)".
-Mostly for internal usage.
 
 =head1 DESCRIPTION
 
-This module is supposed to be used by Chart::Color and not directly
-for the most part, but allows expansion of the store.
-It allows also reverse search from RGB values to name.
+This module is designed for internal usage. It handles all of users color
+definitions done with method "$chart->set({...})". So its even for the
+casual user educational, which formats of color definition are allowed.
+(see next chapter)
 
-=head1 METHODS
+=head1 CONSTRUCTOR
 
-=head2 new
+=head2 new('name')
 
-=head1 ATTRIBUTES
+=head2 new('#rgb')
 
-are all read only
+=head2 new($r, $g, $b)
+
+=head2 new(r => $r, g => $g, b => $b)
+
+=head2 new(h => $h, s => $s, l => $l)
+
+=head1 ATTRIBUTES/GETTER
+
+are all read only.
 
 =head2 red
 
+Integer between 0 .. 255 describing the red part in RGB space.
+
 =head2 green
+
+Integer between 0 .. 255 describing the green part in RGB space.
 
 =head2 blue
 
-=head2 hue
-
-=head2 saturation
-
-=head2 lightness
-
-=head2 name
+Integer between 0 .. 255 describing the green part in RGB space.
 
 =head2 rgb
 
+Triplet of the red green and blue values (see above).
+
 =head2 rgb_hex
+
+String starting with '#', followed by six hexadecimal figures. 
+Two digits for each of red gree and blue value, is its common in CSS.
+
+=head2 hue
+
+Integer between 0 .. 359 describing the hue angle (in degrees) in HSL space.
+
+=head2 saturation
+
+Integer between 0 .. 100 describing percentage of saturation part in HSL space.
+
+=head2 lightness
+
+Integer between 0 .. 100 describing percentage of lightness part in HSL space.
 
 =head2 hsl
 
-=head2 hsl_web
+Triplet with the hue, saturation and lightness values (see above).
+
+=head2 rgbhsl
+
+Sixtupel with the rgb and hsl values (see above).
+
+=head2 name
+
+Name of the color in the X11 or HTML (SVG) standard or the Pantone report.
+The name will be found and filled in, even when the object is created
+with RGB or HSL values. If its not found in any of the mentioned standards,
+it returns an empty string.
+
+
+=head1 METHODS
+
+=head2 add
+
+=head2 complementary
+
+=head2 gradient
+
+
 
 
 
