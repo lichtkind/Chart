@@ -198,9 +198,9 @@ sub _check_hsl {
     my (@hsl) = @_;
     my $help = 'has to be an integer between 0 and';
     return carp "need exactly 3 positive integer between 0 and 359 or 99 for hsl input" unless @hsl == 3;
-    return carp "hue value $rgb[0] $help 359"        unless int $hsl[0] == $hsl[0] and $hsl[0] >= 0 and $hsl[0] < 360;
-    return carp "saturation value $rgb[1] $help 100" unless int $hsl[1] == $hsl[1] and $hsl[1] >= 0 and $hsl[1] < 101;
-    return carp "lightness value $rgb[2] $help 100"  unless int $hsl[2] == $hsl[2] and $hsl[2] >= 0 and $hsl[2] < 101;
+    return carp "hue value $hsl[0] $help 359"        unless int $hsl[0] == $hsl[0] and $hsl[0] >= 0 and $hsl[0] < 360;
+    return carp "saturation value $hsl[1] $help 100" unless int $hsl[1] == $hsl[1] and $hsl[1] >= 0 and $hsl[1] < 101;
+    return carp "lightness value $hsl[2] $help 100"  unless int $hsl[2] == $hsl[2] and $hsl[2] >= 0 and $hsl[2] < 101;
     0;
 }
 
@@ -285,7 +285,7 @@ Chart::Color::Value - access color constants and value conversion
 
 =head1 SYNOPSIS 
 
-    my @names = Chart::Color::Value::all_names()
+    my @names = Chart::Color::Value::all_names();
     my @rgb  = Chart::Color::Value::rgb_from_name('darkblue');
     my @hsl  = Chart::Color::Value::hsl_from_name('darkblue');
     my @hsl2 = Chart::Color::Value::hsl_from_rgb( 5 ,10, 100);

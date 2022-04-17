@@ -1,6 +1,6 @@
 
 # Chart::Color: read only color holding object 
-#               with methods for mixing and relation
+#               with methods for relation, mixing and transitions
 
 use v5.12;
 
@@ -22,8 +22,10 @@ sub new {
         elsif (ref $_[0] eq 'HASH')  { @args = %{$_[0]} }  # resolve new({r => $r, g => $g, b => $b})
         elsif (not ref $_[0]) {                            # resolve stored color names
             if (substr(ref $_[0], 0, 1) eq '#'){
-                @args =  (map { hex($_) } unpack( "a1 a2 a2 a2", $_[0] ))[1..3];
-                return carp "'$_[0]' color definition has not length of 6 hex characters" unless @args == 3;
+                @args = (length $_[0] == 4 ) 
+                      ? (map { hex($_.$_) } unpack( "a1 a1 a1 a1", $_[0]) )[1..3] 
+                      : (map { hex($_   ) } unpack( "a1 a2 a2 a2", $_[0]) )[1..3];
+                return carp "'$_[0]' color definition has not length of 3 or 6 hex characters" unless @args == 3;
             } else {
                 @args = Chart::Color::Named::rgbhsl_from_name( $_[0] );
                 return carp "'$_[0]' is an unknown color name" unless @args == 6;
@@ -34,7 +36,9 @@ sub new {
     }
     my $args = (@args == 3 )                               # resolve args into a hash
              ? {'r' => $args[0], 'g' => $args[1], 'b' => $args[2] }                         # from positional 
-             : {lc($args[0]) => $args[1], lc($args[2]) => $args[3], lc($args[4]) => $args[5] }; # from named
+             : { lc(substr($args[0],0,1)) => $args[1], 
+                 lc(substr($args[2],0,1)) => $args[3],
+                 lc(substr($args[4],0,1)) => $args[5]  }; # from named
     my ($self, @rest);
     # compute missing rgb or hsl values
     if      (exists $args->{'r'} and exists $args->{'g'} and exists $args->{'b'}) {
@@ -117,6 +121,8 @@ sub gradient {
 
 1;
 
+__END__
+
 =pod
 
 =head1 NAME
@@ -129,23 +135,63 @@ Chart::Color - read only single color holding objects
 =head1 DESCRIPTION
 
 This module is designed for internal usage. It handles all of users color
-definitions done with method "$chart->set({...})". So its even for the
-casual user educational, which formats of color definition are allowed.
-(see next chapter)
+definitions done with method "$chart->set({...})". But its educational,
+(even for the casual user), to see which formats are allowed to define
+colors. (see next chapter)
 
 =head1 CONSTRUCTOR
 
+Attention: when defining a color via "$chart->set( {background => $c});",
+$c is a place holder for a scalar. Any multi value options displayed here
+are not available there.
+
 =head2 new('name')
+
+Get a color by providing a name from the X11 or HTML (SVG) standard or
+a Pantone report. Upper/camel case will be treated as lower case and
+also inserted underscore letters ('_') will be ignored as perl does in
+numbers (1_0000 == 1000).
+
+    my $color = Chart::Color->new('Emerald');
+    my @names = Chart::Color::Value::all_names(); # select from these
 
 =head2 new('#rgb')
 
+Color definitions in "web format" are also acceptable.
+
+    my $color = Chart::Color->new('#FF0000');
+    my $color = Chart::Color->new('#F00');   # works too
+
+
 =head2 new($r, $g, $b)
+
+Triplet of integer RGB values (red green and blue : 0 .. 255)
+
+    my $red = Chart::Color->new( 255, 0, 0 );
+    my $red = Chart::Color->new([255, 0, 0]); # does the same
+
 
 =head2 new(r => $r, g => $g, b => $b)
 
+Hash with the keys 'r', 'g' and 'b' does the same as above,
+only more declarative. Again, casing will be normalised and only
+first letter of each key is significant.
+
+    my $red = Chart::Color->new( r => 255, g => 0, b => 0 );
+    my $red = Chart::Color->new({r => 255, g => 0, b => 0}); # works too
+    ... Color->new( Red => 255, Green => 0, Blue => 0);      # also fine
+
 =head2 new(h => $h, s => $s, l => $l)
 
-=head1 ATTRIBUTES/GETTER
+To define a color in HSL space use the following keys. Otherwise,
+same rules apply as in previous paragraph.
+
+    my $red = Chart::Color->new( h =>   0, s => 100, b => 50 );
+    my $red = Chart::Color->new({h =>   0, s => 100, b => 50}); # good too
+    ... ->new( Hue => 0, Saturation => 100, Lightness => 50 ); # also fine
+
+
+=head1 GETTER / ATTRIBUTES
 
 are all read only.
 
@@ -197,50 +243,47 @@ The name will be found and filled in, even when the object is created
 with RGB or HSL values. If its not found in any of the mentioned standards,
 it returns an empty string.
 
-
 =head1 METHODS
 
 =head2 add
+
+Creates a related color (Chart::Color object).
+
 
 =head2 complementary
 
+Creates a set of complementary colors. Imagine a circle in HSL space 
+around the center. The saturation of $self defines the radius. This 
+circle will be divided in $n (first argument) equal partitions defining
+$n equal distanced colors.
+
+If a second argument $l is set, the circle will be tilted, so that
+the lightness on the opposite pole of $self would have the lightness
+$self->lightness + $l. That means $l can also be negative.
+
+
 =head2 gradient
 
+Creates a gradient between current and a second, given color.
 
+The first argument is that color. Either as an Chart::Color object or 
+a reference to data which is acceptable to the method new. 
 
+Second argument is the number of colors in that gradient (series of colors
+that together are a the transition from $self to first argument). If left
+out it defaults to one. In that case you get a color that is a mix
+between the two.
 
+Third argument is also a number ($n) which again defaults to one.
+It defines the dynamics of the transition between the two colors.
+In case $n == 1 you get a linear transition, meaning the distance in HSL
+space is from one color to the next is equal. In any case: the function
+$x ** $n defines the transition speed. For values $n > 1 the transition
+starts by sticking to $self (with small distances from color to color)
+slowly getting faster (gibber steps) and faster. 
+Values $n < 1 do the opposite: starting by moving fast (big distances
+from color to next) becoming slower and slower.
 
-=head1 METHODS
-
-=head2 add
-
-Adding a new color definition unter an unused name. 
-Arguments are name, red value, green value and blue value.
-
-    Chart::Color::Named::add('nightblue', 15, 10, 121);
-
-=head2 rgb
-
-Return the red green and blue value oof the named color.
-
-    my @rgb = Chart::Color::Named::rgb('darkblue');
-    @rgb = Chart::Color::Named::rgb('dark_blue'); # same result
-    @rgb = Chart::Color::Named::rgb('DarkBlue');  # still same
-
-=head2 name
-
-When several names defined the same color, the shortest name will be returned.
-
-    say Chart::Color::Named::name(15, 10, 121);  # 'darkblue'
-
-
-=head2 name_taken
-
-A perlish pseudo boolean tell if the color name is already in use.
-
-=head2 all_names
-
-A sorted list of all stored color names.
 
 =head1 COPYRIGHT & LICENSE
 
