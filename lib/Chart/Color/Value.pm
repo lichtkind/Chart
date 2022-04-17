@@ -102,9 +102,12 @@ sub trim_rgb { # cut values into the domain of definition of 0 .. 255
 sub trim_hsl { # cut values into 0 ..359, 0 .. 100, 0 .. 100
     my (@hsl) = @_;
     return (0,0,0) unless @hsl == 3;
-    for (0..2){ $hsl[$_] =   0 if $hsl[$_] <   0 }
-    for (1..2){ $hsl[$_] = 100 if $hsl[$_] > 100 }
-                $hsl[0]  = 259 if $hsl[$_] > 259;
+    $hsl[0] += 360 while $hsl[0] <    0;
+    $hsl[0] -= 360 while $hsl[0] >= 360;
+    for (1..2){ 
+        $hsl[$_] =   0 if $hsl[$_] <   0;
+        $hsl[$_] = 100 if $hsl[$_] > 100; 
+    }
     @hsl;
 }
 

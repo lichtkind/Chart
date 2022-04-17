@@ -1,6 +1,6 @@
 use v5.12;
 use warnings;
-use Test::More tests => 97;
+use Test::More tests => 133;
 use Test::Warn;
 
 BEGIN { unshift @INC, 'lib', '../lib'}
@@ -12,6 +12,8 @@ is( not($@), 1, 'could load the module');
 my @names = Chart::Color::Value::all_names();
 is( @names > 700, 1, 'get a large list of names, all_names seems to working');
 
+my $tr_rgb         = \&Chart::Color::Value::trim_rgb;
+my $tr_hsl         = \&Chart::Color::Value::trim_hsl;
 my $d_rgb          = \&Chart::Color::Value::distance_rgb;
 my $d_hsl          = \&Chart::Color::Value::distance_hsl;
 my $add_rgb        = \&Chart::Color::Value::add_rgb;
@@ -20,6 +22,55 @@ my $taken          = \&Chart::Color::Value::name_taken;
 my $get_name_rgb   = \&Chart::Color::Value::name_from_rgb;
 my $get_name_hsl   = \&Chart::Color::Value::name_from_hsl;
 my $get_name_range = \&Chart::Color::Value::names_in_hsl_range;
+
+my @rgb = $tr_rgb->();
+is( int @rgb,  3,     'default color is set');
+is( $rgb[0],   0,     'default color is black (R) no args');
+is( $rgb[1],   0,     'default color is black (G) no args');
+is( $rgb[2],   0,     'default color is black (B) no args');
+@rgb = $tr_rgb->(1,2);
+is( $rgb[0],   0,     'default color is black (R) too few args');
+is( $rgb[1],   0,     'default color is black (G) too few args');
+is( $rgb[2],   0,     'default color is black (B) too few args');
+@rgb = $tr_rgb->(1,2,3,4);
+is( $rgb[0],   0,     'default color is black (R) too many args');
+is( $rgb[1],   0,     'default color is black (G) too many args');
+is( $rgb[2],   0,     'default color is black (B) too many args');
+@rgb = $tr_rgb->(-1,-1,-1);
+is( int @rgb,  3,     'color is trimmed up');
+is( $rgb[0],   0,     'too low red value is trimmed up');
+is( $rgb[1],   0,     'too low green value is trimmed up');
+is( $rgb[2],   0,     'too low blue value is trimmed up');
+@rgb = $tr_rgb->(256, 256, 256);
+is( int @rgb,  3,     'color is trimmed up');
+is( $rgb[0], 255,     'too high red value is trimmed down');
+is( $rgb[1], 255,     'too high green value is trimmed down');
+is( $rgb[2], 255,     'too high blue value is trimmed down');
+
+my @hsl = $tr_hsl->();
+is( int @hsl,  3,     'default color is set');
+is( $hsl[0],   0,     'default color is black (H) no args');
+is( $hsl[1],   0,     'default color is black (S) no args');
+is( $hsl[2],   0,     'default color is black (L) no args');
+@hsl = $tr_hsl->(1,2);
+is( $hsl[0],   0,     'default color is black (H) too few args');
+is( $hsl[1],   0,     'default color is black (S) too few args');
+is( $hsl[2],   0,     'default color is black (L) too few args');
+@hsl = $tr_hsl->(1,2,3,4);
+is( $hsl[0],   0,     'default color is black (H) too many args');
+is( $hsl[1],   0,     'default color is black (S) too many args');
+is( $hsl[2],   0,     'default color is black (L) too many args');;
+@hsl = $tr_hsl->(-1,-1,-1);
+is( int @rgb,  3,     'color is trimmed up');
+is( $hsl[0], 359,     'too low hue value is rotated up');
+is( $hsl[1],   0,     'too low green value is trimmed up');
+is( $hsl[2],   0,     'too low blue value is trimmed up');
+@hsl = $tr_hsl->(360, 101, 101);
+is( int @rgb,  3,     'color is trimmed up');
+is( $hsl[0],   0,     'too high hue value is rotated down');
+is( $hsl[1], 100,     'too high saturation value is trimmed down');
+is( $hsl[2], 100,     'too high lightness value is trimmed down');
+
 
 warning_like {Chart::Color::Value::hsl_from_rgb(1,1,1,1)} {carped => qr/3 positive integer/},
                                                       "need 3 values rgb to convert color from rgb to hsl";
@@ -32,13 +83,13 @@ warning_like {Chart::Color::Value::hsl_from_rgb(256,1,0)} {carped => qr/red valu
 warning_like {Chart::Color::Value::rgb_from_hsl(1,1)} {carped => qr/3 positive integer/},
                                                       "need 3 values rgb to convert color from rgb to hsl";
 
-my @hsl = Chart::Color::Value::hsl_from_rgb(127, 127, 127);
+@hsl = Chart::Color::Value::hsl_from_rgb(127, 127, 127);
 is( int @hsl,  3,     'converted color grey has hsl values');
 is( $hsl[0],   0,     'converted color grey has computed right hue value');
 is( $hsl[1],   0,     'converted color grey has computed right saturation');
 is( $hsl[2],  50,     'converted color grey has computed right lightness');
 
-my @rgb = Chart::Color::Value::rgb_from_hsl(0, 0, 50);
+@rgb = Chart::Color::Value::rgb_from_hsl(0, 0, 50);
 is( int @rgb,  3,     'converted back color grey has rgb values');
 is( $rgb[0], 127,     'converted back color grey has right red value');
 is( $rgb[1], 127,     'converted back color grey has right green value');
