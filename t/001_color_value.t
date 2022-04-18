@@ -1,6 +1,6 @@
 use v5.12;
 use warnings;
-use Test::More tests => 133;
+use Test::More tests => 126;
 use Test::Warn;
 
 BEGIN { unshift @INC, 'lib', '../lib'}
@@ -97,21 +97,21 @@ is( $rgb[2], 127,     'converted back color grey has right blue value');
 
 warning_like {$d_rgb->()}                         {carped => qr/two triplets/},"can't get distance without rgb values";
 warning_like {$d_rgb->( [1,1,1],[1,1,1],[1,1,1])} {carped => qr/two triplets/},'too many array arg';
-warning_like {$d_rgb->( [1,2],[1,2,3])} {carped => qr/exactly 3/},             'first color is missing a value';
-warning_like {$d_rgb->( [1,2,3],[2,3])} {carped => qr/exactly 3/},             'second color is missing a value';
-warning_like {$d_rgb->( [-1,2,3],[1,2,3])} {carped => qr/red value/},          'first red value is too small';
-warning_like {$d_rgb->( [1,2,3],[2,256,3])} {carped => qr/green value/},       'second green value is too large';
-warning_like {$d_rgb->( [1,2,-3],[2,25,3])} {carped => qr/blue value/},        'first blue value is too large';
+warning_like {$d_rgb->( [1,2],[1,2,3])}           {carped => qr/two triplets/},'first color is missing a value';
+warning_like {$d_rgb->( [1,2,3],[2,3])}           {carped => qr/two triplets/},'second color is missing a value';
+warning_like {$d_rgb->( [-1,2,3],[1,2,3])}        {carped => qr/red value/},   'first red value is too small';
+warning_like {$d_rgb->( [1,2,3],[2,256,3])}       {carped => qr/green value/}, 'second green value is too large';
+warning_like {$d_rgb->( [1,2,-3],[2,25,3])}       {carped => qr/blue value/},  'first blue value is too large';
 warning_like {$d_hsl->( []) }                     {carped => qr/two triplets/},"can't get distance without hsl values";
 warning_like {$d_hsl->( [1,1,1],[1,1,1],[1,1,1])} {carped => qr/two triplets/},'too many array arg';
-warning_like {$d_hsl->( [1,2],[1,2,3])} {carped => qr/exactly 3/},             'first color is missing a value';
-warning_like {$d_hsl->( [1,2,3],[2,3])} {carped => qr/exactly 3/},             'second color is missing a value';
-warning_like {$d_hsl->( [-1,2,3],[1,2,3])} {carped => qr/hue value/},          'first hue value is too small';
-warning_like {$d_hsl->( [1,2,3],[360,2,3])} {carped => qr/hue value/},         'second hue value is too large';
-warning_like {$d_hsl->( [1,-1,3],[2,10,3])} {carped => qr/saturation value/},  'first saturation value is too small';
-warning_like {$d_hsl->( [1,2,3],[2,101,3])} {carped => qr/saturation value/},  'second saturation value is too large';
-warning_like {$d_hsl->( [1,1,-1],[2,10,3])} {carped => qr/lightness value/},   'first lightness value is too small';
-warning_like {$d_hsl->( [1,2,3],[2,1,101])} {carped => qr/lightness value/},   'second lightness value is too large';
+warning_like {$d_hsl->( [1,2],[1,2,3])}           {carped => qr/wo triplets/}, 'first color is missing a value';
+warning_like {$d_hsl->( [1,2,3],[2,3])}           {carped => qr/wo triplets/}, 'second color is missing a value';
+warning_like {$d_hsl->( [-1,2,3],[1,2,3])}        {carped => qr/hue value/},   'first hue value is too small';
+warning_like {$d_hsl->( [1,2,3],[360,2,3])}       {carped => qr/hue value/},   'second hue value is too large';
+warning_like {$d_hsl->( [1,-1,3],[2,10,3])}       {carped => qr/saturation value/},'first saturation value is too small';
+warning_like {$d_hsl->( [1,2,3],[2,101,3])}       {carped => qr/saturation value/},'second saturation value is too large';
+warning_like {$d_hsl->( [1,1,-1],[2,10,3])}       {carped => qr/lightness value/}, 'first lightness value is too small';
+warning_like {$d_hsl->( [1,2,3],[2,1,101])}       {carped => qr/lightness value/}, 'second lightness value is too large';
 
 is( Chart::Color::Value::distance_rgb([1, 2, 3], [  2, 6, 11]), 9,     'compute rgb distance');
 is( Chart::Color::Value::distance_hsl([1, 2, 3], [  2, 6, 11]), 9,     'compute hsl distance');
@@ -140,7 +140,6 @@ is( $get_name_hsl->( 14,  10,  50 ), 'blob',         'found inserted color by hs
 
 @rgb = Chart::Color::Value::rgb_from_name('white');
 @hsl = Chart::Color::Value::hsl_from_name('white');
-my @all = Chart::Color::Value::rgbhsl_from_name('white');
 is( int @rgb,  3,     'white has 3 rgb values');
 is( $rgb[0], 255,     'white has full red value');
 is( $rgb[1], 255,     'white has full green value');
@@ -149,13 +148,6 @@ is( int @hsl,  3,     'white has 3 hsl values');
 is( $hsl[0],   0,     'white has zero hue value');
 is( $hsl[1],   0,     'white has zero sat value');
 is( $hsl[2], 100,     'white has full light value');
-is( int @all,  6,     'white has 6 values');
-is( $all[0], 255,     'white has full red value');
-is( $all[1], 255,     'white has full green value');
-is( $all[2], 255,     'white has full blue value');
-is( $all[3],   0,     'white has zero hue value');
-is( $all[4],   0,     'white has zero sat value');
-is( $all[5], 100,     'white has full light value');
 
 @rgb = Chart::Color::Value::rgb_from_name('one');
 @hsl = Chart::Color::Value::hsl_from_name('one');
@@ -218,6 +210,7 @@ is( @names > 0, 1,           'chartreuse is near purple because hue is circular'
 exit 0;
 
 __END__
+
 use Memory::Usage;
 my $mu = Memory::Usage->new();
 $mu->record('starting work');

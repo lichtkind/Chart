@@ -28,11 +28,6 @@ sub hsl_from_name {
     @{$rgbhsl_from_name->{$name}}[3..5] if name_taken( $name );
 }
 
-sub rgbhsl_from_name {
-    my $name = _clean_name(shift);
-    @{$rgbhsl_from_name->{$name}} if name_taken($name); 
-}
-
 sub name_from_rgb { 
     my (@rgb) = @_;
     @rgb  = @{$rgb[0]} if (ref $rgb[0] eq 'ARRAY');
@@ -111,22 +106,38 @@ sub trim_hsl { # cut values into 0 ..359, 0 .. 100, 0 .. 100
     @hsl;
 }
 
-sub distance_hsl { # $h, $s, $l, --> $d
-    return carp  "need two triplets of hsl values in 2 arrays to compute hsl distance " 
-        if @_ != 2 or ref $_[0] ne 'ARRAY' or ref $_[1] ne 'ARRAY';
-    _check_hsl( @{$_[0]} ) and return;
-    _check_hsl( @{$_[1]} ) and return;
-    my $delta_h = abs($_[0][0] - $_[1][0]);
-    $delta_h = 360 - $delta_h if $delta_h > 180;
-    sqrt($delta_h ** 2 + ($_[0][1] - $_[1][1]) ** 2 + ($_[0][2] - $_[1][2]) ** 2); 
+sub difference_rgb { # \@rgb, \@rgb --> @rgb
+    my ($rgb, $rgb2) = @_;
+    return carp  "need two triplets of rgb values in 2 arrays to compute rgb differences" 
+        unless ref $rgb eq 'ARRAY' and @$rgb == 3 and ref $rgb2 eq 'ARRAY' and @$rgb2 == 3;
+    _check_rgb(@$rgb) and return;
+    _check_rgb(@$rgb2) and return;
+    (abs($rgb->[0] - $rgb2->[0]), abs($rgb->[1] - $rgb2->[1]), abs($rgb->[2] - $rgb2->[2]) );
 }
 
-sub distance_rgb { # $r, $g, $b --> $d
-    return carp  "need two triplets of rgb values in 2 arrays to compute rgb distance " 
-        if @_ != 2 or ref $_[0] ne 'ARRAY' or ref $_[1] ne 'ARRAY';
-    _check_rgb( @{$_[0]} ) and return;
-    _check_rgb( @{$_[1]} ) and return;
-    sqrt(($_[0][0] - $_[1][0]) ** 2 + ($_[0][1] - $_[1][1]) ** 2 + ($_[0][2] - $_[1][2]) ** 2); 
+sub difference_hsl { # \@hsl, \@hsl --> $d
+    my ($hsl, $hsl2) = @_;
+    return carp  "need two triplets of hsl values in 2 arrays to compute hsl differences"
+        unless ref $hsl eq 'ARRAY' and @$hsl == 3 and ref $hsl2 eq 'ARRAY' and @$hsl2 == 3;
+    _check_hsl(@$hsl) and return;
+    _check_hsl(@$hsl2) and return;
+    my $delta_h = abs($hsl->[0] - $hsl2->[0]);
+    $delta_h = 360 - $delta_h if $delta_h > 180;
+    ($delta_h, abs($hsl->[1] - $hsl2->[1]), abs($hsl->[2] - $hsl2->[2]) );
+    
+}
+
+sub distance_rgb { # \@rgb, \@rgb --> $d
+    return carp  "need two triplets of rgb values in 2 arrays to compute rgb distance " if @_ != 2;
+    my @delta_rgb = difference_rgb( $_[0], $_[1] );
+    return unless @delta_rgb == 3;
+    sqrt($delta_rgb[0] ** 2 + $delta_rgb[1] ** 2 + $delta_rgb[2] ** 2); 
+}
+
+sub distance_hsl { # \@hsl, \@hsl --> $d
+    return carp  "need two triplets of hsl values in 2 arrays to compute hsl distance " if @_ != 2;
+    my @delta_hsl = difference_hsl( $_[0], $_[1] );
+    sqrt($delta_hsl[0] ** 2 + $delta_hsl[1] ** 2 + $delta_hsl[2] ** 2); 
 }
 
 sub hsl_from_rgb { # convert color value triplet (int --> int), (real --> real) if $real
@@ -236,14 +247,14 @@ sub _rgb_from_hsl { # float conversion
 }
 
 sub _names_from_rgb { # each of AoAoA cells (if exists) contains name or array with names (shortes first)
-    return unless exists $name_from_rgb[ $_[0] ] 
+    return '' unless exists $name_from_rgb[ $_[0] ] 
               and exists $name_from_rgb[ $_[0] ][ $_[1] ] and exists $name_from_rgb[ $_[0] ][ $_[1] ][ $_[2] ];
     my $cell = $name_from_rgb[ $_[0] ][ $_[1] ][ $_[2] ];
     ref $cell ? @$cell : $cell;
 }
 
 sub _names_from_hsl { 
-    return unless exists $name_from_hsl[ $_[0] ] 
+    return '' unless exists $name_from_hsl[ $_[0] ] 
               and exists $name_from_hsl[ $_[0] ][ $_[1] ] and exists $name_from_hsl[ $_[0] ][ $_[1] ][ $_[2] ];
     my $cell = $name_from_hsl[ $_[0] ][ $_[1] ][ $_[2] ];
     ref $cell ? @$cell : $cell;
@@ -329,10 +340,6 @@ A hue of 360 and 0 (degree in a cylindrical coordinate system) is
 considered to be the same, this modul deals only with the ladder.
 
     my @hsl = Chart::Color::Value::hsl_from_name('darkblue');
-
-=head2 rgbhsl_from_name
-
-Get all six values of color with given name (rgb and hsl, see above).
 
 =head2 name_from_rgb
 
