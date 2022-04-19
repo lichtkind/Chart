@@ -1,6 +1,6 @@
 use v5.12;
 use warnings;
-use Test::More tests => 209;
+use Test::More tests => 231;
 use Test::Warn;
 
 BEGIN { unshift @INC, 'lib', '../lib'}
@@ -245,10 +245,46 @@ is( int $blue->distance({h =>230, s => 90, l=>40}, 'rg'),   42, 'correct rg dist
 is( int $blue->distance({h =>230, s => 90, l=>40}, 'rb'),   61, 'correct rb distance between own hsl blue and blue');
 is( int $blue->distance({h =>230, s => 90, l=>40}, 'gb'),   73, 'correct gb distance between own hsl blue and blue');
 
+$red = Chart::Color->new('#FF0000');
+warning_like {$red->add()}                    {carped => qr/argument options/},"need argument to add to color object";
+warning_like {$red->add('weirdcolorname')}    {carped => qr/unknown color/},   "accept only known color names";
+warning_like {$red->add('#23232')       }     {carped => qr/has not length/},  "hex definition too short";
+warning_like {$red->add('#232321f')     }     {carped => qr/has not length/},  "hex definition too long";
+warning_like {$red->add(1,1)}                 {carped => qr/wrong number/},    "too few positional args";
+warning_like {$red->add(1,1,1,1)}             {carped => qr/wrong number/},    "too many positional args";
+warning_like {$red->add([1,1])}               {carped => qr/wrong number/},    "too few positional args in ref";
+warning_like {$red->add([1,1,1,1])}           {carped => qr/wrong number/},    "too many positional args in ref";
+warning_like {$red->add(r=>1,g=>1,t=>1)}      {carped => qr/unknown hash key/},   "don't invent named args";
+warning_like {$red->add({r=>1,g=>1,t=>1})}    {carped => qr/unknown hash key/},   "don't invent named args, in ref";
+
+my $white = Chart::Color->new('white');
+my $black = Chart::Color->new('black');
+
+is( $white->add( 255, 255, 255 )->name,          'white',   "it can't get whiter than white with additive color adding");
+is( $white->add( {Hue => 10} )->name,            'white',   "hue doesnt change when were on level white");
+is( $white->add( {Red => 10} )->name,            'white',   "hue doesnt change when adding red on white");
+is( $white->add( $white )->name,                 'white',   "adding white on white is still white");
+is( $red->add( $black )->name,                     'red',   "red + black = red");
+is( $red->add( $black, -1 )->name,                 'red',   "red - black = red");
+is( $white->add( $red, -1 )->name,                'aqua',   "white - red = aqua");
+is( $white->add( $white, -0.5 )->name,            'gray',   "white - 0.5 white = grey");
+is( Chart::Color->new(1,2,3)->add( 2,1,0)->name, 'gray1',   "adding positional args"); # = 3, 3, 3
+is( $white->add( {Lightness => -10} )->name,    'gray90',   "dimming white 10%");
+is( $black->add( {Red => 255} )->name,             'red',   "creating pure red from black");
+is( $black->add( {  b => 255} )->name,            'blue',   "creating pure blue from black with short name");
+
+
 exit 0;
 
 __END__
 
+add
+
+blend
+
+gradient
+
+complementary
 
 use  Chart::Color;
 my $cn = 'grey';

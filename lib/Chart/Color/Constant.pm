@@ -2,7 +2,7 @@ use v5.12;
 
 # named colors from X11, HTML (SVG) standard and Pantone report
 
-package Chart::Color::Value::Constant;
+package Chart::Color::Constant;
 our $VERSION = '2.402.0';
 
 our %rgbhsl = (                                  # 2.6 MB

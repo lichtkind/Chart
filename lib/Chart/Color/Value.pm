@@ -6,9 +6,9 @@ use v5.12;
 package Chart::Color::Value;
 our $VERSION = '2.402.0';
 use Carp;
-use Chart::Color::Value::Constant; # here are the actual values of named colors
+use Chart::Color::Constant; # here are the actual values of named colors
 
-our $rgbhsl_from_name = \%Chart::Color::Value::Constant::rgbhsl;
+our $rgbhsl_from_name = \%Chart::Color::Constant::rgbhsl;
 our (@name_from_rgb, @name_from_hsl);
 
 # fill @name_from_rgb and @name_from_hsl
@@ -91,6 +91,7 @@ sub trim_rgb { # cut values into the domain of definition of 0 .. 255
         $rgb[$_] =   0 if $rgb[$_] <   0;
         $rgb[$_] = 255 if $rgb[$_] > 255;
     }
+    $rgb[$_] = int $rgb[$_] + 0.5 for 0..2;
     @rgb;
 }
 
@@ -103,6 +104,7 @@ sub trim_hsl { # cut values into 0 ..359, 0 .. 100, 0 .. 100
         $hsl[$_] =   0 if $hsl[$_] <   0;
         $hsl[$_] = 100 if $hsl[$_] > 100; 
     }
+    $hsl[$_] = int $hsl[$_] + 0.5 for 0..2;
     @hsl;
 }
 

@@ -8,16 +8,6 @@ our $VERSION = '2.402.0';
 
 use Chart::Color;
 
-my %keys = ( background   => '',
-             misc         => '',
-             text         => '',
-             x_label      => '',
-             x_label2     => '',
-             y_label      => '',
-             y_label2     => '',
-             x_grid_lines => '',
-             y_grid_lines => '',
-             dataset      => []);
 
 my %scheme = ( 
     'default' => {
