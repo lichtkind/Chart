@@ -10,28 +10,30 @@ our $VERSION = '2.402.0';
 use Carp;
 use Chart::Color::Value;
 
+my $new_help = 'constructor of Chart::Color object needs either:'.
+        ' 1. an RGB or HSL hash ref e.g.: ->new({r => 255, g => 0, b => 0}), ->new({ h => 0, s => 100, l => 50 })'.
+        ' or 2. RGB array ref e.g.: ->new( [255, 0, 0 ]), or string that defines a color'.
+        ' in 3. hex form "#FF0000" or 4. as a name e.g."red".';
+
 sub new {
-    my $help = 'constructor of Chart::Color needs 3 named arguments either as RGB or HSL '.
-        ' e.g.: ->new( r => 255, g => 0, b => 0 ), ->new({ h => 0, s => 100, l => 50 })'.
-        ' or RGB as positionals e.g.: ->new( 255, 0, 0 ), or one string that defines a color'.
-        'in hex form "#FF0000" or as a name e.g."red".';
     my ($pkg, @args) = @_;
-    if (@args == 1){ # resolve 'color_name' or '#RRGGBB' or [$r, $g, $b] -> ($r, $g, $b)
-        if (not ref $args[0]){
-            @args = _rgb_from_name_or_hex($args[0]);
-            return unless @args == 3;
-        } elsif (ref $args[0] eq 'ARRAY') {
-            @args = @{$args[0]};
-        }
-    } elsif (@args == 6){                   # resolve (k1 => v1, k2 => v2, k3 => v3) -> { k1 => v1, ... }
-        @args = ({ $args[0] => $args[1], $args[2] => $args[3], $args[4] => $args[5] });
+    @args = ([@args]) if @args == 3;
+    @args = ({ $args[0] => $args[1], $args[2] => $args[3], $args[4] => $args[5] }) if @args == 6;
+    return carp $new_help.' References might be left out (resolved).' unless @args == 1;
+    _new_from_scalar(@args);
+}
+sub _new_from_scalar {
+    my ($arg) = shift;
+    if (not ref $arg){ # resolve 'color_name' or '#RRGGBB' or [$r, $g, $b] -> ($r, $g, $b)
+        my @rgb = _rgb_from_name_or_hex($arg);
+        return unless @rgb == 3;
+        $arg = { r => $rgb[0], g => $rgb[1], b => $rgb[2] };
+    } elsif (ref $arg eq 'ARRAY'){
+        return carp "need exactly 3 RGB numbers!" unless @$arg == 3;
+        $arg = { r => $arg->[0], g => $arg->[1], b => $arg->[2] };
     }
-    if (@args == 3) {                                         # resolve ($r, $g, $b) -> { r => $r, ... }
-        @args = { r => $args[0], g => $args[1], b => $args[2] }; 
-    }
-    return carp $help unless @args == 1 and ref $args[0] eq 'HASH' and keys( %{$args[0]} ) == 3;
-    
-    my %named_arg = map {_shrink_key($_) =>  $args[0]{$_}} keys( %{$args[0]} ); # clean keys
+    return carp $new_help unless ref $arg eq 'HASH' and keys %$arg == 3;
+    my %named_arg = map { _shrink_key($_) =>  $arg->{$_} } keys %$arg; # clean keys to lc first char
 
     my (@rgb, @hsl);
     if      (exists $named_arg{'r'} and exists $named_arg{'g'} and exists $named_arg{'b'}) {
@@ -44,16 +46,17 @@ sub new {
     bless [@rgb, @hsl, Chart::Color::Value::name_from_rgb( @rgb )];
 }
 sub _rgb_from_name_or_hex {
-    my $name = shift;
-    if (substr($name, 0, 1) eq '#'){                # resolve #RRGGBB -> ($r, $g, $b)
-        my $c = substr $name, 1;
-        return carp "color definition '$c' has not length of 3 or 6 hex characters" unless length($c) == 6 or length($c) == 3;
+    my $arg = shift;
+    if (substr($arg, 0, 1) eq '#'){                  # resolve #RRGGBB -> ($r, $g, $b)
+        my $c = substr $arg, 1;
+        return carp "hex color definition '$c' has not length of 3 or 6 hex characters" unless length($c) == 6 or length($c) == 3;
+        return carp "hex color definition '$c' is malformed (only chars 0-9 and a-f / A-F)" unless $c =~ /^[\da-f]+$/i;
         return (length $c == 3) ? (map { hex($_.$_) } unpack( "a1 a1 a1", $c)) 
                                 : (map { hex($_   ) } unpack( "a2 a2 a2", $c));
-    } else {                                        # resolve name -> ($r, $g, $b)
-        my @rgb = Chart::Color::Value::rgb_from_name( $name );
-        return carp "'$name' is an unknown color name" unless @rgb == 3;
-        return @rgb;
+    } else {                                       # resolve name -> ($r, $g, $b)
+        my @rgb = Chart::Color::Value::rgb_from_name( $arg );
+        carp "'$arg' is an unknown color name" unless @rgb == 3;
+        @rgb;
     }
 }
 sub red         { $_[0][0] }
@@ -68,7 +71,7 @@ sub hsl         { @{$_[0]}[3 .. 5] }
 sub rgb         { @{$_[0]}[0 .. 2] }
 sub rgb_hex     { sprintf "#%02x%02x%02x", $_[0]->rgb() }
 
-sub distance {
+sub distance_to {
     my ($self, $c2, $metric) = @_;
     return croak "missing argument: color object or scalar color definition" unless defined $c2;
     $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : Chart::Color->new( $c2 );
@@ -138,36 +141,36 @@ sub add {
     Chart::Color->new({ H => $hsl[0], S => $hsl[1], L => $hsl[2] });
 }
 
-sub blend {
+sub blend_with {
     my ($self, $c2, $pos) = @_;
     return carp "need color object or definition as first argument" unless defined $c2;
-    my $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : Chart::Color->new( $c2 );
+    my $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : _new_from_scalar( $c2 );
     return unless ref $c2 eq __PACKAGE__;
-    my $pos = shift // 0.5;
-    my $delta_hue = $self->hue - $c2->hue;
+    $pos //= 0.5;
+    my $delta_hue = $c2->hue - $self->hue;
     $delta_hue -= 360 if $delta_hue >  180;
     $delta_hue += 360 if $delta_hue < -180;
     my @hsl = ( $self->hue        + ($pos * $delta_hue),
-                $self->saturation + ($pos * ($self->saturation - $c2->saturation)),
-                $self->lightness  + ($pos * ($self->lightness  - $c2->lightness))
+                $self->saturation + ($pos * ($c2->saturation - $self->saturation)),
+                $self->lightness  + ($pos * ($c2->lightness  - $self->lightness))
     );
     @hsl = Chart::Color::Value::trim_hsl( @hsl );
     Chart::Color->new({ H => $hsl[0], S => $hsl[1], L => $hsl[2] });
 }
 
     
-sub gradient {
+sub gradient_to {
     my ($self, $c2, $steps, $power) = @_;
     return carp "need color object or definition as first argument" unless defined $c2;
-    my $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : Chart::Color->new( $c2 );
+    my $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : _new_from_scalar( $c2 );
     return unless ref $c2 eq __PACKAGE__;
     $steps //= 3;
     $power //= 1;
     return carp "third argument (dynamics), has to be positive (>= 0)" if $power <= 0;
     return $self if $steps == 1;
     my @colors = ();
-    my @delta_hsl = ($self->hue - $c2->hue, $self->saturation - $c2->saturation,
-                                            $self->lightness - $c2->lightness  );
+    my @delta_hsl = ($c2->hue - $self->hue, $c2->saturation - $self->saturation,
+                                            $c2->lightness - $self->lightness  );
     $delta_hsl[0] -= 360 if $delta_hsl[0] >  180;
     $delta_hsl[0] += 360 if $delta_hsl[0] < -180;
     for my $i (1 .. $steps-2){
@@ -194,7 +197,7 @@ sub complementary {
     my $c2 = Chart::Color->new({ h => $hsl2[0], s => $hsl2[1], l => $hsl2[2] });
     return $c2 if $count < 2;
     my (@colors_r, @colors_l);
-    my @delta = (360 / $count, (($hsl_r[1] - $hsl2[1]) * 2 / $count), (($hsl_r[2] - $hsl2[2]) * 2 / $count) );
+    my @delta = (360 / $count, (($hsl2[1] - $hsl_r[1]) * 2 / $count), (($hsl2[2] - $hsl_r[2]) * 2 / $count) );
     for (1 .. ($count - 1) / 2){
         $hsl_r[$_] += $delta[$_] for 0..2;
         $hsl_l[0] -= $delta[0];
@@ -222,6 +225,12 @@ Chart::Color - read only single color holding objects
 
 =head1 SYNOPSIS 
 
+    my $red = Chart::Color->new('red');
+    say $red->add('blue')->name;              # magenta, mixed in RGB space
+    Chart::Color->new( 0, 0, 0)->hsl          # 240, 100, 50 = blue
+    $blue->blend({H=> 0, S=> 0, L=> 80}, 0.1);# mix blue with a little grey
+    $red->gradient( '#0000FF', 10);           # 10 colors from red to blue  
+    $red->complementary( 3 );                 # get fitting red green and blue
 
 =head1 DESCRIPTION
 
@@ -336,7 +345,6 @@ Integer between 0 .. 100 describing percentage of lightness in HSL space.
 
 Three values of hue, saturation and lightness (see above).
 
-
 =head2 name
 
 Name of the color in the X11 or HTML (SVG) standard or the Pantone report.
@@ -348,7 +356,7 @@ standards, it returns an empty string.
 
 create new, related color (objects) or compute similarity of colors
 
-=head2 distance
+=head2 distance_to
 
 A number that measures the distance (difference) between two colors: 
 1. the calling object (C1) and 2. a provided first argument C2 - 
@@ -360,12 +368,12 @@ distance in cylindric HSL space. If second argument is 'rgb' or 'RGB',
 then its the Euclidean distance in RGB space. But als subspaces of both
 are possible, as r, g, b, rg, rb, gb, h, s, l, hs, hl, and sl.
 
-    my $d = $blue->distance( 'lapisblue' ); # how close to lapis color?
+    my $d = $blue->distance_to( 'lapisblue' ); # how close to lapis color?
     # how different is my blue value to airy_blue
-    $d = $blue->distance( 'airyblue', 'Blue');
-    $d = $color->distance( $c2, 'Hue' ); # same hue ?
-    $d = $color->distance( [10, 32, 112 ], 'rgb' );
-    $d = $color->distance( [{ Hue => 222, Sat => 23, Light => 12 } );
+    $d = $blue->distance_to( 'airyblue', 'Blue');
+    $d = $color->distance_to( $c2, 'Hue' ); # same hue ?
+    $d = $color->distance_to( [10, 32, 112 ], 'rgb' );
+    $d = $color->distance_to( { Hue => 222, Sat => 23, Light => 12 } );
 
 =head2 add
 
@@ -378,15 +386,16 @@ be added. In that case an optional second argument is a factor (default = 1),
 by which the RGB values will be multiplied before being added. Negative
 values of that factor lead to darkening of result colors, but its not
 subtractive color mixing, since this module does not support CMY
-color space. All RGB operations follow the logic of additive mixing.
+color space. All RGB operations follow the logic of additive mixing, 
+and reult will be rounded to keep it inside the defined RGB space.
 
     my $blue = Chart::Color->new('blue');
     my $darkblue = $blue->add( Lightness => -25 );
     my $blue2 = $blue->add( blue => 10 );
-    $blue->distance( $blue2 ); # == 0, can't get bluer than blue
+    $blue->distance( $blue2 );           # == 0, can't get bluer than blue
     my $color = $blue->add( $c2, -1.2 ); # subtract color c2 with factor 1.2
 
-=head2 blend
+=head2 blend_with
 
 Create one Chart::Color object, that is a blend of two colors: 
 1. the calling object (C1) and 2. a provided argument C2 (object or a
@@ -395,12 +404,14 @@ refrence to data that is acceptable definition) in HSL space.
 The second argument is the blend ratio, which defaults to 0.5 ( 1:1 ). 
 0 represents here C1 and 1 C2. Numbers below 0 and above 1 are possible,
 and will be applied, as long the result is inside the finite HSL space.
+There is a slight overlap with the add method which mostly operates in
+RGB (unless told so), while this method always operates in HSL space.
 
-    my $c = $color->blend( Chart::Color->new('silver') );
-    $opposite = $color->blend( $c2, -1 );
+    my $c = $color->blend_with( Chart::Color->new('silver') );
+    my $difference = $color->blend_with( $c2, -1 );
 
 
-=head2 gradient
+=head2 gradient_to
 
 Creates a gradient (a list of colors that shows a transition) between
 current (C1) and a second, given color (C2).
@@ -410,7 +421,7 @@ reference to data which is acceptable to the method new.
 
 Second argument is the number $n of colors, which make up the gradient
 (including C1 and C2). It defaults to 3. These 3 colors C1, C2 and a 
-color in between, which is the same as the result of method mix.
+color in between, which is the same as the result of method blend_with.
 
 Third argument is also a positive number ($p), which defaults to one.
 It defines the dynamics of the transition between the two colors.
@@ -422,8 +433,8 @@ to C1 and slowly getting faster and faster toward C2. Values $n < 1 do
 the opposite: starting by moving fastest from C1 to C2 (big distances)
 and becoming slower and slower.
 
-    my @colors = $c->gradient( Chart::Color->new(14,10,222), 5 );
-    @colors = $c1->gradient( $c2, 10, 3 ); # none linear gradient
+    my @colors = $c->gradient_to( Chart::Color->new(14,10,222), 5 );
+    @colors = $c1->gradient_to( $c2, 10, 3 ); # none linear gradient
 
 =head2 complementary
 
