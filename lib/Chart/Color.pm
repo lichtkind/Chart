@@ -408,6 +408,8 @@ There is a slight overlap with the add method which mostly operates in
 RGB (unless told so), while this method always operates in HSL space.
 
     my $c = $color->blend_with( Chart::Color->new('silver') );
+    $color->blend_with( 'silver' );                        # same thing
+    $color->blend_with( [192, 192, 192] );                 # still same
     my $difference = $color->blend_with( $c2, -1 );
 
 

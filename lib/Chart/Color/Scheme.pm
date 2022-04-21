@@ -6,7 +6,7 @@ use v5.12;
 package Chart::Color::Scheme;
 our $VERSION = '2.402.0';
 
-use Chart::Color;
+use Chart::Color::Value;
 
 
 my %scheme = ( 
