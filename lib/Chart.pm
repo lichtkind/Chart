@@ -774,10 +774,13 @@ and ask him.  Third, please remember that the 0th dataset will be empty,
 since that's the place in the @data array for the data point labels.
 
 
+=head1 PLAN
+
+This module is under current rewrite, without breaking any compatibility.
+
 =head1 TO DO
 
 =over 4
-
 
 =item *
 

@@ -4,7 +4,7 @@
 
 # VERSION
  
-    2.402.0
+    {{ $version }}
 
 # INSTALLING
 
