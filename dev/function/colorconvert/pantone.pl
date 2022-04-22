@@ -1,6 +1,6 @@
 
 
-BEGIN { unshift @INC, '../Chart/lib'}
+BEGIN { unshift @INC, '../../../lib'}
 
 use v5.12;
 

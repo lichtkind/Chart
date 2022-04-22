@@ -1,14 +1,17 @@
+#
+# rewrite the constants from 3 rgb to 6 values rgbhsl
+#
 
-BEGIN { unshift @INC, '../Chart/lib'}
+BEGIN { unshift @INC, '../../../lib'}
 
 use v5.12;
-
 use Chart::Color::Value;
+use Chart::Color::Constant;
 
-my $file = '../Chart/lib/Chart/Color/Value.pm';
+my $file = '../../../lib/Chart/Color/Constant.pm';
 open my $FHI, '<', $file or die "could not open $file";
 
-while (<$FHI>){
+while (<$FHI>){ # get same order as in file
     chomp;
     next unless /^\s+'(\w+)'\s+=\>/; 
     #my ($r, $g, $b) = hex2rgb( $2 );

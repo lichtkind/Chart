@@ -1,6 +1,6 @@
 
 
-BEGIN { unshift @INC, '../Chart/lib'}
+BEGIN { unshift @INC, '../../../lib'}
 
 use v5.12;
 
@@ -32,4 +32,3 @@ sub hex2rgb {
     hex substr( $hex, 4, 2);
 }
 
-__DATA__
