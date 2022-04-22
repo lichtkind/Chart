@@ -4,10 +4,9 @@ BEGIN { unshift @INC, '../../../lib'}
 
 use GD;
 use Chart::Color::Constant;
+my $ch = \%Chart::Color::Constant::rgbhsl;
 
 my $file_name = 'color_table';
-
-my $ch = \%Chart::Color::Constant::rgbhsl;
 my $font  = gdMediumBoldFont;
 my ($rows, $cols) = (39, 5);
 
@@ -22,12 +21,12 @@ for my $name (sort keys %$ch){
         $row++;
     }
     if ($row == $rows){
+        $row = 0;
         save_image( $im , $image_nr++);
         $im = new_image();
-        ($row, $col) = (0, 0);
     }
 }
-save_image( $im , $image_nr++);
+save_image( $im , $image_nr);
 
 
 sub paint_color {

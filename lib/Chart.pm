@@ -1,6 +1,6 @@
 
 package Chart;
-our $VERSION = '2.402.0';
+our $VERSION = 'v2.402.0';
 
 use Chart::Points;
 use Chart::Lines;
