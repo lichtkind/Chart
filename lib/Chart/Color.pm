@@ -8,7 +8,7 @@ package Chart::Color;
 our $VERSION = '2.402.0';
 
 use Carp;
-use Chart::Color::Value;
+use Chart::Color::Constant;
 
 my $new_help = 'constructor of Chart::Color object needs either:'.
         ' 1. an RGB or HSL hash ref e.g.: ->new({r => 255, g => 0, b => 0}), ->new({ h => 0, s => 100, l => 50 })'.
@@ -43,33 +43,32 @@ sub _new_from_scalar {
         @hsl = Chart::Color::Value::trim_hsl( @named_arg{qw/h s l/});
         @rgb = Chart::Color::Value::rgb_from_hsl( @hsl );
     } else { return carp "argument keys need to be r, g and b or h, s and l (long names and upper case work too!)" }
-    bless [@rgb, @hsl, Chart::Color::Value::name_from_rgb( @rgb )];
+    bless [scalar Chart::Color::Constant::name_from_rgb( @rgb ), @rgb, @hsl];
 }
 sub _rgb_from_name_or_hex {
     my $arg = shift;
+    my $i = index( $arg, ':');
     if (substr($arg, 0, 1) eq '#'){                  # resolve #RRGGBB -> ($r, $g, $b)
-        my $c = substr $arg, 1;
-        return carp "hex color definition '$c' has not length of 3 or 6 hex characters" unless length($c) == 6 or length($c) == 3;
-        return carp "hex color definition '$c' is malformed (only chars 0-9 and a-f / A-F)" unless $c =~ /^[\da-f]+$/i;
-        return (length $c == 3) ? (map { hex($_.$_) } unpack( "a1 a1 a1", $c)) 
-                                : (map { hex($_   ) } unpack( "a2 a2 a2", $c));
-    } else {                                       # resolve name -> ($r, $g, $b)
-        my @rgb = Chart::Color::Value::rgb_from_name( $arg );
+        return Chart::Color::Value::rgb_from_hex( $arg );
+    } elsif ($i > -1 ){
+        ###
+    } else {                                         # resolve name -> ($r, $g, $b)
+        my @rgb = Chart::Color::Constant::rgb_from_name( $arg );
         carp "'$arg' is an unknown color name" unless @rgb == 3;
         @rgb;
     }
 }
-sub red         { $_[0][0] }
-sub green       { $_[0][1] }
-sub blue        { $_[0][2] }
-sub hue         { $_[0][3] }
-sub saturation  { $_[0][4] }
-sub lightness   { $_[0][5] }
-sub name        { $_[0][6] }
+sub name        { $_[0][0] }
+sub red         { $_[0][1] }
+sub green       { $_[0][2] }
+sub blue        { $_[0][3] }
+sub hue         { $_[0][4] }
+sub saturation  { $_[0][5] }
+sub lightness   { $_[0][6] }
 
-sub hsl         { @{$_[0]}[3 .. 5] }
-sub rgb         { @{$_[0]}[0 .. 2] }
-sub rgb_hex     { sprintf "#%02x%02x%02x", $_[0]->rgb() }
+sub hsl         { @{$_[0]}[4 .. 6] }
+sub rgb         { @{$_[0]}[1 .. 3] }
+sub rgb_hex     { Chart::Color::Value::hex_from_rgb( $_[0]->rgb() ) }
 
 sub distance_to {
     my ($self, $c2, $metric) = @_;
