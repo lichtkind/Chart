@@ -776,15 +776,13 @@ since that's the place in the @data array for the data point labels.
 
 =head1 PLAN
 
-This module is under current rewrite, without breaking any compatibility.
+This module is under currently under a complete rewrite. Version will 
+bump to 3, without breaking any compatibility. The old API stays as it is,
+the new will be through a new central API.
 
 =head1 TO DO
 
 =over 4
-
-=item *
-
-Add some 3-D graphs.
 
 =item *
 
@@ -793,6 +791,10 @@ Include True Type Fonts
 =item *
 
 Violine and Box plots
+
+=item *
+
+Add some 3-D graphs.
 
 =back
 
