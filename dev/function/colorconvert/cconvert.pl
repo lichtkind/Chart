@@ -3,8 +3,7 @@
 BEGIN { unshift @INC, '../../../lib'}
 
 use v5.12;
-
-use Chart::Color::Value;
+use Chart::Color::Constant;
 
 open my $FH, '<', 'x11h.txt';
 #open my $FH, '<', 'html.txt';
@@ -20,7 +19,7 @@ while (<$HN>){
     my $name = lc $1;
     say "    '$name'     => [ $r, $g, $b],"; 
     #say "$1 $2";
-    #my @rgb = Chart::Color::Named::rgb($name);
+    #my @rgb = Chart::Color::Constant::rgb_from_name( $name );
     #say "    '$name'     => [ $2, $3, $4]," if $rgb[1] != $3 or $rgb[0] != $2 or$rgb[2] != $4;
 }
 

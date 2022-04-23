@@ -54,7 +54,7 @@ sub _rgb_from_name_or_hex {
         ###
     } else {                                         # resolve name -> ($r, $g, $b)
         my @rgb = Chart::Color::Constant::rgb_from_name( $arg );
-        carp "'$arg' is an unknown color name" unless @rgb == 3;
+        carp "'$arg' is an unknown color name, please check Chart::Color::Constant::all_names()." unless @rgb == 3;
         @rgb;
     }
 }
