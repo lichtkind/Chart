@@ -4,7 +4,7 @@
 
 # VERSION
  
-    {{ $version }}
+    {{ $dist->version }}
 
 # INSTALLING
 
