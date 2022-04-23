@@ -300,6 +300,13 @@ it will be rotated into range, e.g. 361 = 1.
 are all read only methods - giving access to different parts of an 
 objects data.
 
+=head2 name
+
+Name of the color in the X11 or HTML (SVG) standard or the Pantone report.
+The name will be found and filled in, even when the object is created
+with RGB or HSL values. If the color is not found in any of the mentioned
+standards, it returns an empty string.
+
 =head2 red
 
 Integer between 0 .. 255 describing the red portion in RGB space.
@@ -344,13 +351,6 @@ Integer between 0 .. 100 describing percentage of lightness in HSL space.
 
 Three values of hue, saturation and lightness (see above).
 
-=head2 name
-
-Name of the color in the X11 or HTML (SVG) standard or the Pantone report.
-The name will be found and filled in, even when the object is created
-with RGB or HSL values. If the color is not found in any of the mentioned
-standards, it returns an empty string.
-
 =head1 METHODS
 
 create new, related color (objects) or compute similarity of colors
@@ -377,7 +377,7 @@ are possible, as r, g, b, rg, rb, gb, h, s, l, hs, hl, and sl.
 =head2 add
 
 Create a Chart::Color object, by adding any RGB or HSL values to current
-color. (values can be negative. Same rules apply for key names as in new).
+color. (Same rules apply for key names as in new - values can be negative.)
 RGB and HSL can be combined, but please note that RGB are applied first. 
 
 If the first argument is and Chart::Color object, than RGB values will
