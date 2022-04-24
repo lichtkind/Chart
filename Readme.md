@@ -4,11 +4,11 @@
 
 # VERSION
  
-    {{ $dist->version }}
+    2.401.4
 
-# LINKS
+# HOME
 
-    [Home Page on CPAN](https://metacpan.org/pod/Chart)
+    <https://metacpan.org/pod/Chart>
 
 
 # INSTALLING
@@ -42,7 +42,7 @@
 
 # CONTRIBUTING
 
-    If you want to help please read file [CONTRIBUTING]
+    If you want to help please read file CONTRIBUTING
 
 
 # COPYRIGHT
