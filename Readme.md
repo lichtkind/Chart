@@ -6,6 +6,11 @@
  
     {{ $dist->version }}
 
+# LINKS
+
+    [Home Page on CPAN](https://metacpan.org/pod/Chart)
+
+
 # INSTALLING
 
 
@@ -19,7 +24,6 @@
     This should install to your site_perl directory.  The test scripts also
     put samples of the different charts in the samples/ directory.
 
-
 # PREREQUISITES
 
     Lincoln Stein's GD module version 2.0.36 or higher.
@@ -31,14 +35,14 @@
     
 # MAINTAINER
 
+
     - Chart-Group (chart@fs.wettzell.de)
     - Herbert Breunung (lichtkind@cpan.org)
 
 
 # CONTRIBUTING
 
-
-    If you want to help please read file CONTRIBUTING
+    If you want to help please read file [CONTRIBUTING]
 
 
 # COPYRIGHT
@@ -48,3 +52,4 @@
     All rights reserved.
     This program is free software; you can redistribute it and/or modify it under 
     the same terms as Perl itself.
+
