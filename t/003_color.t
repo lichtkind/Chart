@@ -1,6 +1,6 @@
 use v5.12;
 use warnings;
-use Test::More tests => 300;
+use Test::More tests => 301;
 use Test::Warn;
 
 BEGIN { unshift @INC, 'lib', '../lib'}
@@ -11,6 +11,7 @@ is( not( $@), 1, 'could load the module');
 
 warning_like {Chart::Color->new()}                    {carped => qr/constructor of/},  "need argument to create object";
 warning_like {Chart::Color->new('weirdcolorname')}    {carped => qr/unknown color/},   "accept only known color names";
+warning_like {Chart::Color->new('CHIMNEY:red')}       {carped => qr/ not installed/},  "accept only known palletes";
 warning_like {Chart::Color->new('#23232')       }     {carped => qr/hex color definition/},  "hex definition too short";
 warning_like {Chart::Color->new('#232321f')     }     {carped => qr/hex color definition/},  "hex definition too long";
 warning_like {Chart::Color->new('#23232g')       }    {carped => qr/hex color definition/},    "hex definition has forbidden chars";
@@ -251,14 +252,14 @@ is( int $blue->distance_to({h =>230, s => 90, l=>40}, 'rb'),   61, 'correct rb d
 is( int $blue->distance_to({h =>230, s => 90, l=>40}, 'gb'),   73, 'correct gb distance between own hsl blue and blue');
 
 $red = Chart::Color->new('#FF0000');
-warning_like {$red->add()}                    {carped => qr/argument options/},"need argument to add to color object";
-warning_like {$red->add('weirdcolorname')}    {carped => qr/unknown color/},   "accept only known color names";
-warning_like {$red->add('#23232')       }     {carped => qr/hex color definition/},  "hex definition too short";
-warning_like {$red->add('#232321f')     }     {carped => qr/hex color definition/},  "hex definition too long";
-warning_like {$red->add(1,1)}                 {carped => qr/wrong number/},    "too few positional args";
-warning_like {$red->add(1,1,1,1)}             {carped => qr/wrong number/},    "too many positional args";
-warning_like {$red->add([1,1])}               {carped => qr/wrong number/},    "too few positional args in ref";
-warning_like {$red->add([1,1,1,1])}           {carped => qr/wrong number/},    "too many positional args in ref";
+warning_like {$red->add()}                    {carped => qr/argument options/},    "need argument to add to color object";
+warning_like {$red->add('weirdcolorname')}    {carped => qr/unknown color/},       "accept only known color names";
+warning_like {$red->add('#23232')       }     {carped => qr/hex color definition/}, "hex definition too short";
+warning_like {$red->add('#232321f')     }     {carped => qr/hex color definition/}, "hex definition too long";
+warning_like {$red->add(1,1)}                 {carped => qr/argument options/},     "too few positional args";
+warning_like {$red->add(1,1,1,1)}             {carped => qr/wrong number/},         "too many positional args";
+warning_like {$red->add([1,1])}               {carped => qr/ 3 numerical values/},  "too few positional args in ref";
+warning_like {$red->add([1,1,1,1])}           {carped => qr/ 3 numerical values/},  "too many positional args in ref";
 warning_like {$red->add(r=>1,g=>1,t=>1)}      {carped => qr/unknown hash key/},   "don't invent named args";
 warning_like {$red->add({r=>1,g=>1,t=>1})}    {carped => qr/unknown hash key/},   "don't invent named args, in ref";
 

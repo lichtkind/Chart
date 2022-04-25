@@ -11,10 +11,10 @@ use Carp;
 use Chart::Color::Constant;
 
 my $new_help = 'constructor of Chart::Color object needs either:'.
-        ' 1. an RGB or HSL hash ref e.g.: ->new({r => 255, g => 0, b => 0}), ->new({ h => 0, s => 100, l => 50 })'.
-        ' or 2. RGB array ref e.g.: ->new( [255, 0, 0 ]), or string that defines a color'.
-        ' in 3. hex form "#FF0000" or 4. as a name e.g."red".';
-
+        ' 1. RGB or HSL hash or ref: ->new(r => 255, g => 0, b => 0), ->new({ h => 0, s => 100, l => 50 })'.
+        ' 2. RGB array or ref: ->new( [255, 0, 0 ]) or >new( 255, 0, 0 )'.
+        ' 3. hex form "#FF0000" or "#f00" 4. a name: "red" or "SVG:red".';
+        
 sub new {
     my ($pkg, @args) = @_;
     @args = ([@args]) if @args == 3;
@@ -24,6 +24,7 @@ sub new {
 }
 sub _new_from_scalar {
     my ($arg) = shift;
+    
     if (not ref $arg){ # resolve 'color_name' or '#RRGGBB' or [$r, $g, $b] -> ($r, $g, $b)
         my @rgb = _rgb_from_name_or_hex($arg);
         return unless @rgb == 3;
@@ -50,14 +51,29 @@ sub _rgb_from_name_or_hex {
     my $i = index( $arg, ':');
     if (substr($arg, 0, 1) eq '#'){                  # resolve #RRGGBB -> ($r, $g, $b)
         return Chart::Color::Value::rgb_from_hex( $arg );
-    } elsif ($i > -1 ){
-        ###
+    } elsif ($i > -1 ){                              # resolve pallet:name -> ($r, $g, $b)
+        my $pallet_name = substr $arg,   0, $i-1;
+        my $color_name = substr $arg, $i+1;
+        
+        my $module_base = 'Graphics::ColorNames';
+        eval "use $module_base";
+        return carp "$module_base is not installed, but it's needed to load external colors" if $@;
+        
+        my $module = $module_base.'::'.$pallet_name;
+        eval "use $module";
+        return carp "$module is not installed, to load color '$color_name'" if $@;
+        
+        my $pal = Graphics::ColorNames->new( $pallet_name );
+        my @rgb = $pal->rgb( $color_name );
+        return carp "color '$color_name' was not found, propably not part of $module" unless @rgb == 3;
+        @rgb;
     } else {                                         # resolve name -> ($r, $g, $b)
         my @rgb = Chart::Color::Constant::rgb_from_name( $arg );
         carp "'$arg' is an unknown color name, please check Chart::Color::Constant::all_names()." unless @rgb == 3;
         @rgb;
     }
 }
+
 sub name        { $_[0][0] }
 sub red         { $_[0][1] }
 sub green       { $_[0][2] }
@@ -102,25 +118,30 @@ sub distance_to {
 
 sub add {
     my ($self, @args) = @_;
-    my $help = 'Chart::Color->add argument options: 1. a color object with optional factor as second arg, '.
+    my $add_help = 'Chart::Color->add argument options: 1. a color object with optional factor as second arg, '.
         '2. a color name as string, 3. a color hex definition as in "#FF0000"'.
         '4. a list of thre values (RGB) (also in an array ref)'.
         '5. a hash with RGB and HSL keys (as in new, but can be mixed) (also in an hash ref).';
-    if (ref $args[0] eq __PACKAGE__){ # additive and subtractive color mixing
-        @args = (not defined $args[1]) ? ($args[0]->rgb)
-              : ($args[0]->red * $args[1], $args[0]->green * $args[1], $args[0]->blue * $args[1]);
-    } elsif (ref $args[0] eq 'ARRAY'){ 
-        @args = @{$args[0]};
-    } elsif (@args == 1 and not ref $args[0]){
-        @args = _rgb_from_name_or_hex($args[0]);
-        return unless @args == 3;
+    if ((@args == 1 or @args == 2) and ref $args[0] ne 'HASH'){
+        my @add_rgb;
+        if (ref $args[0] eq __PACKAGE__){ 
+            @add_rgb = $args[0]->rgb;
+        } elsif (ref $args[0] eq 'ARRAY'){ 
+            @add_rgb = @{$args[0]};
+            return carp "array ref argument needs to have 3 numerical values (RGB) in it." unless @add_rgb == 3;
+        } elsif (not ref $args[0] and not $args[0] =~ /^\d/){
+            @add_rgb = _rgb_from_name_or_hex($args[0]);
+            return unless @add_rgb > 1;
+        } else { return carp $add_help }
+        @add_rgb = ($add_rgb[0] * $args[1], $add_rgb[1] * $args[1], $add_rgb[2] * $args[1]) if defined $args[1];
+        @args = @add_rgb;
     }
     my @rgb = $self->rgb;
     if (@args == 3) {
         @rgb = Chart::Color::Value::trim_rgb( $rgb[0] + $args[0], $rgb[1] + $args[1], $rgb[2] + $args[2]);
         return Chart::Color->new( @rgb );
     }
-    return carp $help unless @args and ((@args % 2 == 0) or (ref $args[0] eq 'HASH'));
+    return carp $add_help unless @args and ((@args % 2 == 0) or (ref $args[0] eq 'HASH'));
     my %arg = ref $args[0] eq 'HASH' ? %{$args[0]} : @args;
     my %named_arg = map {_shrink_key($_) =>  $arg{$_}} keys %arg; # clean keys
     $rgb[0] += delete $named_arg{'r'} // 0;
@@ -133,7 +154,7 @@ sub add {
     $hsl[2] += delete $named_arg{'l'} // 0;
     if (%named_arg) {
         my @nrkey = grep {/^\d+$/} keys %named_arg;
-        return carp "wrong number numerical arguments (only 3 needed)" if @nrkey;
+        return carp "wrong number of numerical arguments (only 3 needed)" if @nrkey;
         carp "got unknown hash key starting with", map {' '.$_} keys %named_arg;
     }    
     @hsl = Chart::Color::Value::trim_hsl( @hsl );
@@ -242,24 +263,36 @@ colors. (see next chapter)
 
 When defining a color via "$chart->set( {background => $c});", 
 $c is a place holder for a scalar. Any multi value options displayed here
-are not available there and in the other methods here.
+are not available there and in other methods here.
 
 =head2 new( 'name' )
 
 Get a color by providing a name from the X11 or HTML (SVG) standard or
 a Pantone report. Upper/camel case will be treated as lower case and
-also inserted underscore letters ('_') will be ignored as perl does in
-numbers (1_0000 == 1000).
+inserted underscore letters ('_') will be ignored as perl does in
+numbers (1_000 == 1000).
 
     my $color = Chart::Color->new('Emerald');
-    my @names = Chart::Color::Value::all_names(); # select from these
+    my @names = Chart::Color::Constant::all_names(); # select from these
+
+=head2 new( 'standard:color' )
+
+Get a color by name from a specific standard as provided by an external
+module Graphics::ColorNames::* , which has to be installed separately.
+* is a placeholder for the pallete name, which might be: Crayola, CSS,
+EmergyC, GrayScale, HTML, IE, SVG, Werner, WWW or X. In ladder case
+Graphics::ColorNames::X has to be installed.
+
+    my $color = Chart::Color->new('SVG:green');
+    my @s = Graphics::ColorNames::all_schemes();    # installed pallets
 
 =head2 new( '#rgb' )
 
-Color definitions in "web format" are also acceptable.
+Color definitions in hexadecimal format as widely used in the web, are
+also acceptable.
 
     my $color = Chart::Color->new('#FF0000');
-    my $color = Chart::Color->new('#F00');   # works too
+    my $color = Chart::Color->new('#f00');   # works too
 
 
 =head2 new( [$r, $g, $b] )
