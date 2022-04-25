@@ -1,19 +1,19 @@
-# NAME
+## NAME
 
     Chart - a series of charting modules
 
-# VERSION
+## VERSION
  
     2.401.4
 
-# HOME
+## HOME
 
     <https://metacpan.org/pod/Chart>
 
     There is also a download link on the left side under "Tools".
 
 
-# BUILDING
+## BUILDING
 
     The git repository contains much more than the software package itself.
     If you check out sources there you have to build the package yourself.
@@ -32,7 +32,7 @@
     dzil clean
 
 
-# INSTALLING
+## INSTALLING
 
     The usual.
  
@@ -45,29 +45,29 @@
     put samples of the different charts in the samples/ directory.
 
 
-# PREREQUISITES
+## PREREQUISITES
 
     Lincoln Stein's GD module version 2.0.36 or higher.
     Carp
 
 
-# CHANGES
+## CHANGES
 
     are in file Changes
     
 
-# MAINTAINER
+## MAINTAINER
 
     - Chart-Group (chart@fs.wettzell.de)
     - Herbert Breunung (lichtkind@cpan.org)
 
 
-# CONTRIBUTING
+## CONTRIBUTING
 
     If you want to help please read file CONTRIBUTING
 
 
-# COPYRIGHT
+## COPYRIGHT
 
     Copyright(c) 1997-1998 David Bonner, 1999 Peter Clark, 
     2001-2012 Chart-Group at BKG.
