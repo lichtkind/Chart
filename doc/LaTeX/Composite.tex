@@ -134,3 +134,11 @@ axis on a composite chart, respectively. Please note that if you just
 set the `y\_ticks' option, both axes will use that number of $y$ ticks.
 Both default to undef.
 \end{AttrDecl}
+
+\begin{AttrDecl}{flip\_composite\_order}
+Flip the drawing order of the components.
+Without setting this attribute to true,
+the second component will be layered above the first one.
+And setting this attribute to true,
+the second component will be layered below the first one.
+\end{AttrDecl}

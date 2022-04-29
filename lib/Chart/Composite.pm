@@ -1437,8 +1437,16 @@ sub _draw_data
 
     # now let the component modules go to work
 
-    $self->{'sub_0'}->_draw_data;
-    $self->{'sub_1'}->_draw_data;
+    if ( $self->true( $self->{'flip_composite_order'} ) )
+    {
+        $self->{'sub_1'}->_draw_data;
+        $self->{'sub_0'}->_draw_data;
+    }
+    else
+    {
+        $self->{'sub_0'}->_draw_data;
+        $self->{'sub_1'}->_draw_data;
+    }
 
     return;
 }
