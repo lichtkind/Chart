@@ -1,3 +1,4 @@
+use v5.12;
 
 package Chart;
 our $VERSION = 'v2.401.4';

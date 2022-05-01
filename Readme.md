@@ -8,7 +8,7 @@
 
 ## HOME
 
-    <https://metacpan.org/pod/Chart>
+    https://metacpan.org/pod/Chart
 
     There is also a download link on the left side under "Tools".
 
@@ -54,6 +54,12 @@
 ## CHANGES
 
     are in file Changes
+    
+
+## DOCUMENTATION
+
+    There is a pdf (complete user manual) and a /doc directory (API reference),
+    but for the fastest overview start with /lib/Chart.pm
     
 
 ## MAINTAINER

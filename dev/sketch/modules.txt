@@ -1,0 +1,21 @@
+Chart
+
+Chart::Color
+Chart::Color::Constant
+Chart::Color::Value
+
+
+Chart::DataSet
+
+
+Chart::Coordinate
+                  linear, log, custom, polar, 3d
+                  abs -> rel
+                  rel -> abs
+                  
+                   
+Chart::Coordinate::Frame
+
+Chart::Setting
+              clean
+Chart::Setting::Template
