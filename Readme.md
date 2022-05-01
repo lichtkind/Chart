@@ -16,8 +16,13 @@
 ## BUILDING
 
     The git repository contains much more than the software package itself.
-    If you check out sources there you have to build the package yourself.
+    If you check out sources there, you have to build the package yourself.
     In order to do that you need perl and the module Dist::Zilla.
+    
+    cpan install Dist::Zilla   
+        or 
+    cpanm Dist::Zilla
+    
     Then you have to check which further Dist::Zilla plugins you miss:
     
     dzil authordeps
@@ -27,7 +32,7 @@
     dzil build
     
     Which gives you basically the same as the download from link above, 
-    just with recent (anyd maybe buggy sources) . Don't forget to:
+    just with recent (anyd maybe buggy sources). Don't forget to:
     
     dzil clean
 
