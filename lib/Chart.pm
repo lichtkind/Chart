@@ -778,8 +778,8 @@ since that's the place in the @data array for the data point labels.
 =head1 PLAN
 
 This module is under currently under a complete rewrite. Version will 
-bump to 3, without breaking any compatibility. The old API stays as it is,
-the new will be through a new central API.
+bump to 3 when rewrite is completed, without breaking any compatibility.
+The old API stays as it is, the new will be through a new central API.
 
 =head1 TO DO
 
@@ -859,6 +859,8 @@ Petr Pisar (ppisar@redhat.com)
 
 Copyright(c) 1997-1998 by David Bonner, 1999 by Peter Clark,
 2001 by the Chart group at BKG-Wettzell.
+2022 by Herbert Breunung and Chart group
+
 All rights reserved.  This program is free software; you can
 redistribute it and/or modify it under the same terms as Perl 
 itself.
