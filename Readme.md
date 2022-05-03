@@ -4,7 +4,7 @@
 
 ## VERSION
  
-    2.401.4
+    2.401.5
 
 ## HOME
 
@@ -80,9 +80,11 @@
 
 ## COPYRIGHT
 
-    Copyright(c) 1997-1998 David Bonner, 1999 Peter Clark, 
-    2001-2012 Chart-Group at BKG.
-    All rights reserved.
-    This program is free software; you can redistribute it and/or modify it under 
-    the same terms as Perl itself.
+    Copyright(c) 1997-1998 by David Bonner, 1999 by Peter Clark,
+    2001 by the Chart group at BKG-Wettzell.
+    2022 by Herbert Breunung and Chart group
+
+    All rights reserved.  This program is free software; you can
+    redistribute it and/or modify it under the same terms as Perl 
+    itself.
 
