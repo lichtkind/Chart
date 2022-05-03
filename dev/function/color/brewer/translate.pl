@@ -22,7 +22,8 @@ for my $set (keys %$rgb_data){
         for my $triplet ( @{$rgb_data->{$set}{$size}} ){
             $triplet =~ /(\d+),(\d+),(\d+)/;
             my @hsl = Chart::Color::Value::hsl_from_rgb( $1, $2, $3 );
-            push @{$hsl_data->{$set}{$size}}, "hsl( @hsl )";
+            #$" = ',';
+            push @{$hsl_data->{$set}{$size}}, sprintf "hsl( %3d, %3d, %3d )", @hsl;
         }
     }
 }
