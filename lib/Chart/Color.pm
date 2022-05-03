@@ -19,13 +19,12 @@ sub new {
     my ($pkg, @args) = @_;
     @args = ([@args]) if @args == 3;
     @args = ({ $args[0] => $args[1], $args[2] => $args[3], $args[4] => $args[5] }) if @args == 6;
-    return carp $new_help.' References might be left out (resolved).' unless @args == 1;
-    _new_from_scalar(@args);
+    return carp $new_help unless @args == 1;
+    _new_from_scalar($args[0]);
 }
 sub _new_from_scalar {
     my ($arg) = shift;
-    
-    if (not ref $arg){ # resolve 'color_name' or '#RRGGBB' or [$r, $g, $b] -> ($r, $g, $b)
+    if (not ref $arg){ # resolve 'color_name' or '#RRGGBB' -> ($r, $g, $b)
         my @rgb = _rgb_from_name_or_hex($arg);
         return unless @rgb == 3;
         $arg = { r => $rgb[0], g => $rgb[1], b => $rgb[2] };
@@ -34,7 +33,7 @@ sub _new_from_scalar {
         $arg = { r => $arg->[0], g => $arg->[1], b => $arg->[2] };
     }
     return carp $new_help unless ref $arg eq 'HASH' and keys %$arg == 3;
-    my %named_arg = map { _shrink_key($_) =>  $arg->{$_} } keys %$arg; # clean keys to lc first char
+    my %named_arg = map { _shrink_key($_) =>  $arg->{$_} } keys %$arg; # reduce keys to lc first char
 
     my (@rgb, @hsl);
     if      (exists $named_arg{'r'} and exists $named_arg{'g'} and exists $named_arg{'b'}) {
@@ -247,8 +246,8 @@ Chart::Color - read only single color holding objects
 
     my $red = Chart::Color->new('red');
     say $red->add('blue')->name;              # magenta, mixed in RGB space
-    Chart::Color->new( 0, 0, 0)->hsl          # 240, 100, 50 = blue
-    $blue->blend({H=> 0, S=> 0, L=> 80}, 0.1);# mix blue with a little grey
+    Chart::Color->new( 0, 0, 255)->hsl        # 240, 100, 50 = blue
+    $blue->blend_with({H=> 0, S=> 0, L=> 80}, 0.1);# mix blue with a little grey
     $red->gradient( '#0000FF', 10);           # 10 colors from red to blue  
     $red->complementary( 3 );                 # get fitting red green and blue
 
@@ -279,7 +278,7 @@ numbers (1_000 == 1000).
 
 Get a color by name from a specific standard as provided by an external
 module Graphics::ColorNames::* , which has to be installed separately.
-* is a placeholder for the pallete name, which might be: Crayola, CSS,
+* is a placeholder for the pallet name, which might be: Crayola, CSS,
 EmergyC, GrayScale, HTML, IE, SVG, Werner, WWW or X. In ladder case
 Graphics::ColorNames::X has to be installed.
 
@@ -298,7 +297,7 @@ also acceptable.
 =head2 new( [$r, $g, $b] )
 
 Triplet of integer RGB values (red green and blue : 0 .. 255).
-Out of range value will be corrected to the closest value in range.
+Out of range values will be corrected to the closest value in range.
 
 
     my $red = Chart::Color->new( 255, 0, 0 );
@@ -346,11 +345,11 @@ Integer between 0 .. 255 describing the red portion in RGB space.
 
 =head2 green
 
-Integer between 0 .. 255 describing the green  portion in RGB space.
+Integer between 0 .. 255 describing the green portion in RGB space.
 
 =head2 blue
 
-Integer between 0 .. 255 describing the green  portion in RGB space.
+Integer between 0 .. 255 describing the blue portion in RGB space.
 
 =head2 rgb
 
@@ -359,7 +358,7 @@ Three values of red, green and blue (see above).
 =head2 rgb_hex
 
 String starting with '#', followed by six hexadecimal figures. 
-Two digits for each of red, gree and blue value - the format used in CSS.
+Two digits for each of red, green and blue value - the format used in CSS.
 
 =head2 hue
 
@@ -378,7 +377,7 @@ Integer between 0 .. 100 describing percentage of saturation in HSL space.
 
 Integer between 0 .. 100 describing percentage of lightness in HSL space.
 0 is always black, 100 is always white and 50 the most colorful
-(depending on hue value) (or grey - depending on saturation).
+(depending on hue value) (or grey - if saturation = 0).
 
 =head2 hsl
 
@@ -402,7 +401,7 @@ are possible, as r, g, b, rg, rb, gb, h, s, l, hs, hl, and sl.
 
     my $d = $blue->distance_to( 'lapisblue' ); # how close to lapis color?
     # how different is my blue value to airy_blue
-    $d = $blue->distance_to( 'airyblue', 'Blue');
+    $d = $blue->distance_to( 'airyblue', 'Blue'); # same amount of blue?
     $d = $color->distance_to( $c2, 'Hue' ); # same hue ?
     $d = $color->distance_to( [10, 32, 112 ], 'rgb' );
     $d = $color->distance_to( { Hue => 222, Sat => 23, Light => 12 } );
@@ -413,13 +412,13 @@ Create a Chart::Color object, by adding any RGB or HSL values to current
 color. (Same rules apply for key names as in new - values can be negative.)
 RGB and HSL can be combined, but please note that RGB are applied first. 
 
-If the first argument is and Chart::Color object, than RGB values will
-be added. In that case an optional second argument is a factor (default = 1),
+If the first argument is a Chart::Color object, than RGB values will be added.
+In that case an optional second argument is a factor (default = 1),
 by which the RGB values will be multiplied before being added. Negative
 values of that factor lead to darkening of result colors, but its not
-subtractive color mixing, since this module does not support CMY
-color space. All RGB operations follow the logic of additive mixing, 
-and reult will be rounded to keep it inside the defined RGB space.
+subtractive color mixing, since this module does not support CMY color
+space. All RGB operations follow the logic of additive mixing, and the
+result will be rounded (trimmed), to keep it inside the defined RGB space.
 
     my $blue = Chart::Color->new('blue');
     my $darkblue = $blue->add( Lightness => -25 );
@@ -429,9 +428,9 @@ and reult will be rounded to keep it inside the defined RGB space.
 
 =head2 blend_with
 
-Create one Chart::Color object, that is a blend of two colors: 
+Create Chart::Color object, that is the average of two colors in HSL space: 
 1. the calling object (C1) and 2. a provided argument C2 (object or a
-refrence to data that is acceptable definition) in HSL space. 
+refrence to data that is acceptable definition). 
 
 The second argument is the blend ratio, which defaults to 0.5 ( 1:1 ). 
 0 represents here C1 and 1 C2. Numbers below 0 and above 1 are possible,
@@ -447,17 +446,17 @@ RGB (unless told so), while this method always operates in HSL space.
 
 =head2 gradient_to
 
-Creates a gradient (a list of colors that shows a transition) between
+Creates a gradient (a list of colors that build a transition) between
 current (C1) and a second, given color (C2).
 
 The first argument is C2. Either as an Chart::Color object or a 
-reference to data which is acceptable to the method new. 
+scalar (name, hex or reference), which is acceptable to the method new. 
 
 Second argument is the number $n of colors, which make up the gradient
 (including C1 and C2). It defaults to 3. These 3 colors C1, C2 and a 
 color in between, which is the same as the result of method blend_with.
 
-Third argument is also a positive number ($p), which defaults to one.
+Third argument is also a positive number $p, which defaults to one.
 It defines the dynamics of the transition between the two colors.
 If $p == 1 you get a linear transition - meaning the distance in HSL
 space (distance_hsl) is equal from one color to the next. If $p != 1,
@@ -467,8 +466,8 @@ to C1 and slowly getting faster and faster toward C2. Values $n < 1 do
 the opposite: starting by moving fastest from C1 to C2 (big distances)
 and becoming slower and slower.
 
-    my @colors = $c->gradient_to( Chart::Color->new(14,10,222), 5 );
-    @colors = $c1->gradient_to( $c2, 10, 3 ); # none linear gradient
+    my @colors = $c->gradient_to( $grey, 5 );         # we turn to grey
+    @colors = $c1->gradient_to( [14,10,222], 10, 3 ); # none linear gradient
 
 =head2 complementary
 
@@ -484,7 +483,7 @@ which is 180 degrees (half the circumference) apposed to C1.
 This circle will be divided in $n (first argument) equal partitions,
 creating $n equally distanced colors. All of them will be returned, 
 as objects, starting with C1. However, when $n is set to 1 (default),
-the result is only C2.
+the result is only C2, which is THE complementary color to C1.
 
 The second argument moves C2 along the S axis (both directions),
 so that the center of the circle is no longer in the HSL middle column
