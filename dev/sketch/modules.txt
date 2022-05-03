@@ -18,4 +18,6 @@ Chart::Coordinate::Frame
 
 Chart::Setting
               clean
+              overlay
+              
 Chart::Setting::Template
