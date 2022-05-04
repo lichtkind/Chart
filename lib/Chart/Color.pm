@@ -24,9 +24,11 @@ sub new {
 }
 sub _new_from_scalar {
     my ($arg) = shift;
+    my $name;
     if (not ref $arg){ # resolve 'color_name' or '#RRGGBB' -> ($r, $g, $b)
         my @rgb = _rgb_from_name_or_hex($arg);
         return unless @rgb == 3;
+        $name = $arg if index( $arg, ':') > -1;
         $arg = { r => $rgb[0], g => $rgb[1], b => $rgb[2] };
     } elsif (ref $arg eq 'ARRAY'){
         return carp "need exactly 3 RGB numbers!" unless @$arg == 3;
@@ -43,7 +45,8 @@ sub _new_from_scalar {
         @hsl = Chart::Color::Value::trim_hsl( @named_arg{qw/h s l/});
         @rgb = Chart::Color::Value::rgb_from_hsl( @hsl );
     } else { return carp "argument keys need to be r, g and b or h, s and l (long names and upper case work too!)" }
-    bless [scalar Chart::Color::Constant::name_from_rgb( @rgb ), @rgb, @hsl];
+    $name = Chart::Color::Constant::name_from_rgb( @rgb ) unless defined $name;
+    bless [$name, @rgb, @hsl];
 }
 sub _rgb_from_name_or_hex {
     my $arg = shift;
@@ -329,7 +332,7 @@ it will be rotated into range, e.g. 361 = 1.
 
 =head1 GETTER / ATTRIBUTES
 
-are all read only methods - giving access to different parts of an 
+are all read only methods - giving access to different parts of the 
 objects data.
 
 =head2 name
