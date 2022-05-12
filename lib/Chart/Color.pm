@@ -166,7 +166,7 @@ sub add {
 sub blend_with {
     my ($self, $c2, $pos) = @_;
     return carp "need color object or definition as first argument" unless defined $c2;
-    my $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : _new_from_scalar( $c2 );
+    $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : _new_from_scalar( $c2 );
     return unless ref $c2 eq __PACKAGE__;
     $pos //= 0.5;
     my $delta_hue = $c2->hue - $self->hue;
@@ -184,7 +184,7 @@ sub blend_with {
 sub gradient_to {
     my ($self, $c2, $steps, $power) = @_;
     return carp "need color object or definition as first argument" unless defined $c2;
-    my $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : _new_from_scalar( $c2 );
+    $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : _new_from_scalar( $c2 );
     return unless ref $c2 eq __PACKAGE__;
     $steps //= 3;
     $power //= 1;

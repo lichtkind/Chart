@@ -1,10 +1,10 @@
 2.402.0    2022-04-27
       = first minor feature add under new maintainer
-      + curated color schemes (Chart::Color::Scheme)
       + pantone report colors by name (Chart::Color::Constant)
         (all named colors moved there)
       + access to external color libs via Graphics::ColorNames::* 
       + color objects (for later use)
+      ~ slight change in default colors
       ! fixed and added colors from X11 and HTML standard
       ! fixing licence issues back to Perl 5
 

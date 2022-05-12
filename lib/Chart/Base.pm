@@ -12,7 +12,7 @@ use Carp;
 use GD;
 use GD::Image;
 use Chart::Constants;
-use Chart::Color::Constant;
+use Chart::Color;
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods          #
@@ -1246,7 +1246,7 @@ sub _set_colors
 # @li undef: If your subroutine has been called in void context
 #
 # @return a (list of) color index(es) corresponding to the (list of) role(s) in \\\@_.
-#
+# !!!
 sub _color_role_to_index
 {
     my $self = shift;
@@ -1291,24 +1291,15 @@ sub _color_role_to_index
 # @param[in] role name of a role
 # @param[in] spec [r,g,b] or name
 # @return array of rgb values as a list (i.e., \\\@rgb)
-#
+# !!!
 sub _color_spec_to_rgb {
     my $self = shift;
     my $role = shift;    # for error messages
     my $spec = shift;    # [r,g,b] or name
     my @rgb;             # result
-    if ( ref($spec) eq 'ARRAY' ) {
-        @rgb = @{$spec};
-        croak "Invalid color RGB array (" . join( ',', @rgb ) . ") for $role\n"
-        unless @rgb == 3 && grep( !m/^\d+$/ || $_ > 255, @rgb ) == 0;
-    }
-    elsif ( !ref($spec) ) {
-        @rgb = Chart::Color::Constant::rgb_from_name( $spec );
-        croak "Unknown named color ($spec) for $role\n" if @rgb < 3;
-    } else {
-        croak "Unrecognized color for $role\n";
-    }
-    @rgb;
+    my $color = Chart::Color->new($spec);
+    return croak "Unrecognized color for $role\n" unless ref $color;
+    $color->rgb;
 }
 
 ## @fn private int _brushStyles_of_roles
