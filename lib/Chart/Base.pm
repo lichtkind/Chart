@@ -1030,9 +1030,11 @@ sub _init
         grey_background => 'grey',
         (
             map { 'dataset' . $d++ => $_ }
-              qw (red green blue purple peach orange mauve olive pink light_purple
-              light_blue plum yellow turquoise light_green brown HotPink
-              PaleGreen1 DarkBlue BlueViolet orange2 chocolate1 LightGreen
+              qw (flamescarlet forestgreen navy olive lightseagreen purple
+              orangepeel gold2 chartreuse3 cornflowerblue mediumpurple2 deeppink2 
+              galaxyblue hazelnut pottersclay BlueViolet 
+              
+              PaleGreen1 DarkBlue  orange2 chocolate1 LightGreen
               pink light_purple light_blue plum yellow turquoise light_green brown
               pink PaleGreen2 MediumPurple PeachPuff1 orange3 chocolate2
               olive pink light_purple light_blue plum yellow turquoise light_green brown
@@ -1246,9 +1248,7 @@ sub _set_colors
 # @li undef: If your subroutine has been called in void context
 #
 # @return a (list of) color index(es) corresponding to the (list of) role(s) in \\\@_.
-# !!!
-sub _color_role_to_index
-{
+sub _color_role_to_index {
     my $self = shift;
 
     # Return a (list of) color index(es) corresponding to the (list of) role(s) in @_.
@@ -1286,18 +1286,9 @@ sub _color_role_to_index
     ( wantarray && @_ > 1 ? @result : $result[0] );
 }
 
-## @fn private array _color_spec_to_rgb($role,$spec)
-# Return an array (list of) rgb values for spec
-# @param[in] role name of a role
-# @param[in] spec [r,g,b] or name
-# @return array of rgb values as a list (i.e., \\\@rgb)
-# !!!
 sub _color_spec_to_rgb {
-    my $self = shift;
-    my $role = shift;    # for error messages
-    my $spec = shift;    # [r,g,b] or name
-    my @rgb;             # result
-    my $color = Chart::Color->new($spec);
+    my ($self, $role, $spec) = @_; # color role name (from set) for error msg
+    my $color = Chart::Color->new( $spec );
     return croak "Unrecognized color for $role\n" unless ref $color;
     $color->rgb;
 }
@@ -2297,7 +2288,6 @@ sub _draw_legend
 {
     my $self = shift;
     my $length;
-
     # check to see if legend type is none..
     if ( $self->{'legend'} =~ /^none$/ || length( $self->{'legend'} ) == 0 )
     {
@@ -2348,6 +2338,7 @@ sub _draw_legend
     elsif ( $self->{'legend'} eq 'top' )
     {
         $self->_draw_top_legend;
+
     }
     elsif ( $self->{'legend'} eq 'none' || length( $self->{'legend'} ) == 0 )
     {
@@ -2365,8 +2356,8 @@ sub _draw_legend
 ## @fn private int _draw_bottom_legend()
 # put the legend on the bottom of the chart
 # @return status
-sub _draw_bottom_legend
-{
+sub _draw_bottom_legend {
+
     my $self = shift;
 
     my @labels = @{ $self->{'legend_labels'} };
@@ -2444,6 +2435,8 @@ sub _draw_bottom_legend
     $y1 += $self->{'legend_space'} + $self->{'text_space'};
     $y2 -= $self->{'legend_space'} + $self->{'text_space'};
 
+    my $text_color = $self->_color_role_to_index( 'text' );
+
     # draw in the actual legend
     for $r ( 0 .. $rows - 1 )
     {
@@ -2476,11 +2469,10 @@ sub _draw_bottom_legend
                 $y = $y1 + ( $row_height * $r );
 
                 # now draw the label
-                $self->{'gd_obj'}->string( $font, $x, $y, $labels[$index], $color );
+                $self->{'gd_obj'}->string( $font, $x, $y, $labels[$index], $text_color );
             }
         }
     }
-
     # mark off the space used
     $self->{'curr_y_max'} -= $rows * $row_height + 2 * $self->{'text_space'} + 2 * $self->{'legend_space'};
 

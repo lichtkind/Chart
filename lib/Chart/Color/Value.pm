@@ -6,6 +6,26 @@ package Chart::Color::Value;
 our $VERSION = '2.402.0';
 use Carp;
 
+sub check_rgb { # carp returns 1
+    my (@rgb) = @_;
+    my $help = 'has to be an integer between 0 and 255';
+    return carp "need exactly 3 positive integer values 0 <= n < 256 for rgb input" unless @rgb == 3;
+    return carp "red value $rgb[0] ".$help   unless int $rgb[0] == $rgb[0] and $rgb[0] >= 0 and $rgb[0] < 256;
+    return carp "green value $rgb[1] ".$help unless int $rgb[1] == $rgb[1] and $rgb[1] >= 0 and $rgb[1] < 256;
+    return carp "blue value $rgb[2] ".$help  unless int $rgb[2] == $rgb[2] and $rgb[2] >= 0 and $rgb[2] < 256;
+    0;
+}
+
+sub check_hsl {
+    my (@hsl) = @_;
+    my $help = 'has to be an integer between 0 and';
+    return carp "need exactly 3 positive integer between 0 and 359 or 99 for hsl input" unless @hsl == 3;
+    return carp "hue value $hsl[0] $help 359"        unless int $hsl[0] == $hsl[0] and $hsl[0] >= 0 and $hsl[0] < 360;
+    return carp "saturation value $hsl[1] $help 100" unless int $hsl[1] == $hsl[1] and $hsl[1] >= 0 and $hsl[1] < 101;
+    return carp "lightness value $hsl[2] $help 100"  unless int $hsl[2] == $hsl[2] and $hsl[2] >= 0 and $hsl[2] < 101;
+    0;
+}
+
 sub trim_rgb { # cut values into the domain of definition of 0 .. 255
     my (@rgb) = @_;
     return (0,0,0) unless @rgb == 3;
@@ -30,8 +50,8 @@ sub trim_hsl { # cut values into 0 ..359, 0 .. 100, 0 .. 100
     @hsl;
 }
 
-sub difference_rgb { # \@rgb, \@rgb --> @rgb
-    my ($rgb, $rgb2) = @_;
+sub difference_rgb { # \@rgb, \@rgb --> @rgb             distance as vector
+    my ($rgb, $rgb2) = @_;               
     return carp  "need two triplets of rgb values in 2 arrays to compute rgb differences" 
         unless ref $rgb eq 'ARRAY' and @$rgb == 3 and ref $rgb2 eq 'ARRAY' and @$rgb2 == 3;
     check_rgb(@$rgb) and return;
@@ -99,26 +119,6 @@ sub rgb_from_hex { # translate #000000 and #000 --> r, g, b
                        : (map { hex($_   ) } unpack( "a2 a2 a2", $hex));
 }
 
-sub check_rgb { # carp returns 1
-    my (@rgb) = @_;
-    my $help = 'has to be an integer between 0 and 255';
-    return carp "need exactly 3 positive integer values 0 <= n < 256 for rgb input" unless @rgb == 3;
-    return carp "red value $rgb[0] ".$help   unless int $rgb[0] == $rgb[0] and $rgb[0] >= 0 and $rgb[0] < 256;
-    return carp "green value $rgb[1] ".$help unless int $rgb[1] == $rgb[1] and $rgb[1] >= 0 and $rgb[1] < 256;
-    return carp "blue value $rgb[2] ".$help  unless int $rgb[2] == $rgb[2] and $rgb[2] >= 0 and $rgb[2] < 256;
-    0;
-}
-
-sub check_hsl {
-    my (@hsl) = @_;
-    my $help = 'has to be an integer between 0 and';
-    return carp "need exactly 3 positive integer between 0 and 359 or 99 for hsl input" unless @hsl == 3;
-    return carp "hue value $hsl[0] $help 359"        unless int $hsl[0] == $hsl[0] and $hsl[0] >= 0 and $hsl[0] < 360;
-    return carp "saturation value $hsl[1] $help 100" unless int $hsl[1] == $hsl[1] and $hsl[1] >= 0 and $hsl[1] < 101;
-    return carp "lightness value $hsl[2] $help 100"  unless int $hsl[2] == $hsl[2] and $hsl[2] >= 0 and $hsl[2] < 101;
-    0;
-}
-
 sub _hsl_from_rgb { # float conversion
     my (@rgb) = @_;
     my ($maxi, $mini) = (0 , 1);   # index of max and min value in @rgb
@@ -167,6 +167,7 @@ Chart::Color::Value - check, convert and measure color values
     
     Chart::Color::Value::add_rgb('lucky', [0, 100, 50]);
 
+
 =head1 DESCRIPTION
 
 RGB and HSL values of named colors from the X11 and HTML standard 
@@ -181,7 +182,26 @@ Also nearby (similar) colors can be searched. Own colors can be
 has to be chosen, that is not already taken. Independently of that
 can any color be converted from rgb to hsl and back.
 
+
 =head1 ROUTINES
+
+=head2 check_rgb
+
+Return error message if RGB value triplet is not valid (in range).
+
+=head2 check_hsl
+
+Return error message if HSL value triplet is not valid (in range).
+
+
+=head2 trim_rgb
+
+Change RGB triplet to the nearest valid values.
+
+=head2 trim_hsl
+
+Change HSL triplet to the nearest valid values.
+
 
 =head2 hsl_from_rgb
 

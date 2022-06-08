@@ -270,7 +270,7 @@ are not available there and in other methods here.
 =head2 new( 'name' )
 
 Get a color by providing a name from the X11 or HTML (SVG) standard or
-a Pantone report. Upper/camel case will be treated as lower case and
+a Pantone report. Upper/Camel case will be treated as lower case and
 inserted underscore letters ('_') will be ignored as perl does in
 numbers (1_000 == 1000).
 
@@ -299,7 +299,7 @@ also acceptable.
 
 =head2 new( [$r, $g, $b] )
 
-Triplet of integer RGB values (red green and blue : 0 .. 255).
+Triplet of integer RGB values (L</red>, L</green> and L</blue> : 0 .. 255).
 Out of range values will be corrected to the closest value in range.
 
 
@@ -319,8 +319,8 @@ the first letter of each key is significant.
 
 =head2 new( {h => $h, s => $s, l => $l} )
 
-To define a color in HSL space, with values for L</hue>, saturation and
-lightness, use the following keys, which will be normalized as decribed
+To define a color in HSL space, with values for L</hue>, L</saturation> and
+L</lightness>, use the following keys, which will be normalized as decribed
 in previous paragraph. Out of range values will be corrected to the
 closest value in range. Since L</hue> is a polar coordinate,
 it will be rotated into range, e.g. 361 = 1.

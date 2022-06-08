@@ -2,7 +2,18 @@
 BEGIN { unshift @INC, '../../../../lib'}
 
 use v5.12;
-use Chart::Color::Constant;
+use Chart::Color;
+
+my $c = Chart::Color->new({hue => 180, sat => 90 , light => 60});
+say for $c->rgb;
+say $c;
+say "name:  ".$c->name;
+
+my @names = Chart::Color::Constant::names_in_hsl_range( [$c->hsl], [5, 16, 16]);
+say "nearest names: ";
+say for @names;
+
+__END__
 
 while (<DATA>){
     chomp;

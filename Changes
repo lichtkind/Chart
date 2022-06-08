@@ -1,10 +1,11 @@
-2.402.0    2022-04-27
+2.402.0  2022-06-06
       = first minor feature add under new maintainer
-      + pantone report colors by name (Chart::Color::Constant)
-        (all named colors moved there)
-      + access to external color libs via Graphics::ColorNames::* 
-      + color objects (for later use)
-      ~ slight change in default colors
+      # main theme: colors 
+      + get pantone report colors by name
+      + access to external color libs of Graphics::ColorNames::* via syntax:
+        'standard_name:color_name'
+      + full fledged color objects (also for later use)
+      ~ slight change in default colors for more calm professional look
       ! fixed and added colors from X11 and HTML standard
       ! fixing licence issues back to Perl 5
 
