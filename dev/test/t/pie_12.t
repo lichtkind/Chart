@@ -18,7 +18,7 @@ $g->set( 'legend_label_values' => 'value' );
 $g->set( 'legend'              => 'bottom' );
 $g->set( 'x_label'             => '' );
 $g->set( 'ring'                => 0.2 );
-$g->set( 'colors'              => { 'background' => 'grey' } );
+$g->set( 'colors'              => { 'background' => {h => 0, s => 0, l => 80} } );
 
 $g->png("samples/pie_12.png");
 print "ok 1\n";
