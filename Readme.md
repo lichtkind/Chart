@@ -31,29 +31,29 @@
 
     dzil build
     
-    Which gives you basically the same as the download from link above, 
-    just with recent (anyd maybe buggy sources). Don't forget to:
+    Which gives you basically the same as the download as you get on CPAN
+    (as describes under HOME), just with more up to date (and maybe buggy
+    sources). Don't forget to:
     
     dzil clean
 
 
 ## INSTALLING
 
-    The usual.
+    Once you downloaded or created a Build you unzip it and do the usual:
  
         perl Makefile.PL
         make
         make test
         make install
 
-    This should install to your site_perl directory.  The test scripts also
-    put samples of the different charts in the samples/ directory.
+    This should install to your site_perl directory.
 
 
 ## PREREQUISITES
 
     Lincoln Stein's GD module version 2.0.36 or higher.
-    Carp
+    Perl 5.12 including come core Modules.
 
 
 ## CHANGES
@@ -76,6 +76,7 @@
 ## CONTRIBUTING
 
     If you want to help please read file CONTRIBUTING
+    All contributers are listed in the POD of the main module.
 
 
 ## COPYRIGHT
