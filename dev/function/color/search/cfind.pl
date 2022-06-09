@@ -13,21 +13,13 @@ my @names = Chart::Color::Constant::names_in_hsl_range( [$c->hsl], [5, 16, 16]);
 say "nearest names: ";
 say for @names;
 
-__END__
-
-while (<DATA>){
-    chomp;
-    my ($h, $s, $l) = Chart::Color::Constant::hsl_from_name( $_ );
-    #my ($r, $g, $b) = hex2rgb( $2 );
-    my $name = lc $_;
-    say "    '$name'  ".(' 'x(20 - length($name))).sprintf( "  => [ %3s, %3s, %3s ],", $h, $s, $l); 
-}
-
-# default,
-# light,
-# dark
-# colorful
-# shady
+#while (<DATA>){
+#    chomp;
+#    my ($h, $s, $l) = Chart::Color::Constant::hsl_from_name( $_ );
+#    #my ($r, $g, $b) = hex2rgb( $2 );
+#    my $name = lc $_;
+#    say "    '$name'  ".(' 'x(20 - length($name))).sprintf( "  => [ %3s, %3s, %3s ],", $h, $s, $l); 
+#}
 
 __END__
 red
