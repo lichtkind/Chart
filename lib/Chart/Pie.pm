@@ -168,6 +168,17 @@ sub _draw_data
 
     my $labeldistance = 2 * $self->maximum( $fontW, $fontH );
 
+-    my $labeldistance = 2*$self->maximum($fontW,$fontH);
+
+
+-    $diameter = $self->minimum($width,$height) - 2*$max_label_len - $labeldistance;
+
+    my $min_width = $width - 2 * $max_label_len - 2 * $fontW;
+    my $min_height = $height - 2 * $fontH;
++    $diameter = $self->minimum($min_width, $min_height);
+
++    my $labeldistance = 2 * $self->maximum($fontW,$fontH);
+
     $start_degrees = 0;
     $end_degrees   = 0;
     my $max_radius = $self->minimum( $width, $height ) / 2;
@@ -354,7 +365,6 @@ sub _draw_data
 
     }
     $diameter = $radius * 2 - 2 * $labeldistance;
-
     $text_diameter = $diameter + $labeldistance;
     $self->{'gd_obj'}->arc( $centerX, $centerY, $diameter, $diameter, 0, 360, $misccolor );
 
