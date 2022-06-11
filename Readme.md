@@ -1,6 +1,6 @@
 ## NAME
 
-    Chart - a series of charting modules
+    Chart - swiss army knife of chart composition and drawing
 
 ## VERSION
  
@@ -65,7 +65,7 @@
 
     There is a pdf (complete user manual) and a /doc directory (API reference),
     but for the fastest overview start with /lib/Chart.pm
-    
+
 
 ## MAINTAINER
 
