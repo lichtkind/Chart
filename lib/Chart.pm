@@ -349,6 +349,7 @@ this hash are
 NB. For composite charts, there is a limit of 8 datasets per component.
 The colors for 'dataset8' through 'dataset15' become the colors
 for 'dataset0' through 'dataset7' for the second component chart.
+More option how to defin colors are listed under L<Chart::Color>.
 
 =item 'title_font'
 

@@ -3,5 +3,16 @@ Chart
   Color
       Value
       Constant
+      
   Canvas
   Coordinates
+
+
+  Legend   
+  
+  
+
+commands on canvas 
+compile to image
+
+Primitive
