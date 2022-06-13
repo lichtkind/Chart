@@ -14,7 +14,7 @@ $im->string( GD::Font->MediumBold , 20,  80, 'MediumBold', 2);
 $im->string( GD::Font->Large ,      20, 110, 'Large',      1);
 $im->string( GD::Font->Giant ,      20, 140, 'Giant',      2);
 
-say "GD Version ".GD::VERSION_STRING." in Module $GD::VERSION \n";
+say "GD C lib Version ".GD::VERSION_STRING." in Module GD $GD::VERSION \n";
 say "Image object: $im with colors: ", $im->colorsTotal;
 say "  index of first color: ", $im->colorExact( 255, 255, 255);
 say "  index of last color: ",  $im->colorClosest( 50, 50, 150);
