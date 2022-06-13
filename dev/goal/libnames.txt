@@ -1,15 +1,18 @@
 Chart
 
-  Color
-      Value
-      Constant
-      
-  Canvas
-  Coordinates
-
-
-  Legend   
+  Color                   color (relation) objects
+      Value               handle and compute color space values
+      Constant            store of color constants from various standards
   
+
+  Canvas                  AoA of Lists holing layers of Pixel
+  
+  Coordinates             translation between virtual (mathematical, data) and canvas coordinates
+
+  Legend                  drawing box showing color - meaning corelation
+  
+  Primitive
+   
   
 
 commands on canvas 

@@ -1,11 +1,17 @@
 
+    Not yet
+    In progress
+    Complete
+
+
 [color]         
 
-brewer              check colorbrewer 2 pallete
-convert             from raw data to Chart::Color::Constant perl code
-load                load rgb from Graphics::ColorNames::*
-search              search for new default colors, names near to desired
-test                test first default colors in practical example
+brewer             N check and compute colorbrewer 2 pallete
+convert            C from raw data to Chart::Color::Constant perl code
+load               C load rgb from Graphics::ColorNames::*
+search             C search for new default colors, names near to desired
+table              C demo all color constants
+test               C test first default colors in practical example
 
 
 [draw]         

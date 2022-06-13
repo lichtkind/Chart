@@ -1,11 +1,11 @@
 #!/usr/bin/perl -w
+use v5.12;
 
-BEGIN { unshift @INC, 'lib', '../../lib'}
+BEGIN { unshift @INC, 'lib', '../../../../lib'}
 use Chart::Pie;
 use GD;
-use strict;
 
-print "1..1\n";
+
 
 my $g = Chart::Pie->new( 700, 1450 );
 $g->add_dataset( 'eins', 'zwei', 'drei', 'vier', 'fuenf', 'sechs', 'sieben', 'acht', 'neun', 'zehn', 'elf', 'zwoelf', 13, 14, 15, 16 );
@@ -20,8 +20,7 @@ $g->set( 'x_label'             => '' );
 $g->set( 'ring'                => 0.2 );
 $g->set( 'colors'              => { 'background' => {h => 0, s => 0, l => 80} } );
 
-$g->png("samples/pie_12.png");
-print "ok 1\n";
+$g->png("pie_12.png");
 
 exit(0);
 
