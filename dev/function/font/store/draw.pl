@@ -46,7 +46,9 @@ close $FH;
 
 __END__
  
- stringFTCircle($cx,$cy,$radius,$textRadius,$fillPortion,$font,$points,$top,$bottom,$fgcolor)
- $image->stringFT($fgcolor,$fontname,$ptsize,$angle,$x,$y,$string,[\%options])
+stringFTCircle($cx,$cy,$radius,$textRadius,$fillPortion,$font,$points,$top,$bottom,$fgcolor)
+stringFT($fgcolor,$fontname,$ptsize,$angle,$x,$y,$string,[\%options])
 
-fnt are different, older format than fft
+
+File::ShareDir
+
