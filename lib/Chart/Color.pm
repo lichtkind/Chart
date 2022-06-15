@@ -256,23 +256,23 @@ Chart::Color - read only single color holding objects
 
 =head1 DESCRIPTION
 
-This module is designed for internal usage. It handles all of users color
-definitions done with method "$chart->set({...})". But its educational,
-(even for the casual user), to see which formats are allowed to define
-colors. (see next chapter)
+This module is designed for internal usage. It handles also all color
+definitions done by users with method "$chart->set(color => {...})". 
+To see which formats are allowed there, read the next section and please
+note that ->set() handles only scalar values.
 
 =head1 CONSTRUCTOR
 
-When defining a color via "$chart->set( {background => $c});", 
-$c is a place holder for a scalar. Any multi value options displayed here
-are not available there and in other methods here.
+There are many options to create a color objects.  In short you can 
+either use the name of a predefined constant or provide values in RGB
+or HSL color space.
 
 =head2 new( 'name' )
 
 Get a color by providing a name from the X11 or HTML (SVG) standard or
 a Pantone report. Upper/Camel case will be treated as lower case and
 inserted underscore letters ('_') will be ignored as perl does in
-numbers (1_000 == 1000).
+numbers (1_000 == 1000) (see more under L<Chart::Color::Constant>).
 
     my $color = Chart::Color->new('Emerald');
     my @names = Chart::Color::Constant::all_names(); # select from these
@@ -280,7 +280,7 @@ numbers (1_000 == 1000).
 =head2 new( 'standard:color' )
 
 Get a color by name from a specific standard as provided by an external
-module Graphics::ColorNames::* , which has to be installed separately.
+module L<Graphics::ColorNames>::* , which has to be installed separately.
 * is a placeholder for the pallet name, which might be: Crayola, CSS,
 EmergyC, GrayScale, HTML, IE, SVG, Werner, WWW or X. In ladder case
 Graphics::ColorNames::X has to be installed.
