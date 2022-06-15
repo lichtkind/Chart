@@ -1,6 +1,8 @@
-2.403.0 2022-06
- 
-      ! added shbang to new tests by Petr Pisar 
+2.402.2 2022-06-15
+      ! added shebang to new tests by Petr Pisar
+      ? linking POD of Chart::Color.pm
+      ? POD typo f_y_ticks1 => f_y_tick1
+      ? document -ring setting for ring charts
 
 2.402.1 2022-06-09
       ! fixing color value rounding in Chart::Color::Value
