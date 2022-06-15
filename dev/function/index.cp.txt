@@ -6,18 +6,25 @@
 
 [color]         
 
-brewer             N check and compute colorbrewer 2 pallete
-convert            C from raw data to Chart::Color::Constant perl code
-load               C load rgb from Graphics::ColorNames::*
-search             C search for new default colors, names near to desired
-table              C demo all color constants
-test               C test first default colors in practical example
+  brewer             N  check and compute colorbrewer 2 pallete
+  convert          C    from raw data to Chart::Color::Constant perl code
+  load             C    load rgb from Graphics::ColorNames::*
+  search           C    search for new default colors, names near to desired
+  table            C    demo all color constants
+  test             C    test first default colors in practical example
 
 
 [draw]         
 
 
 [font]         
+
+  basic            C    demo basic fonts
+  truetype          I   demo true type fonts
+  store              N  handling storage of TT fonts
+  utf                N  output utf strings
+  search             N  search for good fonts
+  
 
 
 [koor]         

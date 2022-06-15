@@ -1,18 +1,29 @@
-Chart
+Chart                     main module - distro API
 
   Color                   color (relation) objects
       Value               handle and compute color space values
       Constant            store of color constants from various standards
   
 
-  Canvas                  AoA of Lists holing layers of Pixel
   
   Coordinates             translation between virtual (mathematical, data) and canvas coordinates
 
   Legend                  drawing box showing color - meaning corelation
   
-  Primitive
+  
+  Setting
+      Template
    
+
+  Composer                 organise postion and render order of parts
+  
+  Renderer                 compile primitives to picture, manage colors
+      Primitive
+      Font
+      Canvas                  AoA of Lists holing layers of Pixel
+      Backend
+      
+  DataSet                  Data holding objects
   
 
 commands on canvas 
