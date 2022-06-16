@@ -89,19 +89,6 @@ sub set {
     return 1;
 }
 
-# hash of all set options so far
-sub getopts
-{
-    my $self = shift;
-    my %opts = ();
-
-    foreach ( keys %{ $self->{saveopts} } )
-    {
-        $opts{$_} = $self->{saveopts};
-    }
-    return %opts;
-}
-
 ## @method int add_pt(@data)
 # Graph API\n
 # Add one dataset (as a list) to the dataref
@@ -4061,8 +4048,7 @@ sub _prepare_brush
 # if the user does not provide another function
 #
 # @return status
-sub _default_f_tick
-{
+sub _default_f_tick {
     my $label = shift;
 
     return $label;
@@ -4072,8 +4058,7 @@ sub _default_f_tick
 # Get ratio width_x/width_y
 #
 # @return ratio width_x and width_y
-sub _xyRatio
-{
+sub _xyRatio {
     my $self = shift;
     my $width_x = $self->{'curr_x_max'} - $self->{'curr_x_min'} + 1;
     my $width_y = $self->{'curr_y_max'} - $self->{'curr_y_min'} + 1;
@@ -4086,8 +4071,7 @@ sub _xyRatio
 #
 # @return width(interval) of reality in x direction
 #
-sub _xPixelInReal
-{
+sub _xPixelInReal {
     my $self = shift;
     my $width_x = $self->{'curr_x_max'} - $self->{'curr_x_min'} + 1;
     my ( $min, $max ) = $self->_find_x_range();
@@ -4101,8 +4085,7 @@ sub _xPixelInReal
 #
 # @return width(interval) of reality in y direction
 #
-sub _yPixelInReal
-{
+sub _yPixelInReal {
     my $self = shift;
     my $width_y = $self->{'curr_y_max'} - $self->{'curr_y_min'} + 1;
     my ( $min, $max, $flag_all_integers ) = $self->_find_y_range();
