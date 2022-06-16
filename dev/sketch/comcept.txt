@@ -1,0 +1,8 @@
+
+
+no composite
+
+modular settings
+with templates
+composed multi charts
+variable outputs: svg and png/jpg
