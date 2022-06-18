@@ -81,6 +81,7 @@ sub distance_rgb { # \@rgb, \@rgb --> $d
 sub distance_hsl { # \@hsl, \@hsl --> $d
     return carp  "need two triplets of hsl values in 2 arrays to compute hsl distance " if @_ != 2;
     my @delta_hsl = difference_hsl( $_[0], $_[1] );
+    return unless @delta_hsl == 3;
     sqrt($delta_hsl[0] ** 2 + $delta_hsl[1] ** 2 + $delta_hsl[2] ** 2); 
 }
 
