@@ -1,8 +1,9 @@
 
-    Not yet
-    In progress
-    Complete
-
+--------------------------------------------------------------------------------------------
+                   Complete
+                    In progress
+                     Not yet
+--------------------------------------------------------------------------------------------
 
 [color]         
 
@@ -16,13 +17,16 @@
 
 [draw]         
 
+  basics
+  primitive_cmp      N  compare draw primitves in bitmap and vector format
+  
 
 [font]         
 
   basic            C    demo basic fonts
   truetype          I   demo true type fonts
   store              N  handling storage of TT fonts
-  utf                N  output utf strings
+  utf              C    output utf strings
   search             N  search for good fonts
   
 

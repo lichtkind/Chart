@@ -6,6 +6,17 @@ Chart::Color::Value
 
 
 Chart::DataSet
+ 
+      add
+      remove
+      get
+      clear
+      smooth
+      min
+      max
+      avg
+      sum 
+    
 
 
 Chart::Coordinate
@@ -21,3 +32,15 @@ Chart::Setting
               overlay
               
 Chart::Setting::Template
+
+
+
+xy /
+polar
+log
+bar
+stackedBar
+
+violine
+Pie/Ring
+

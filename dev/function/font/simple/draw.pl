@@ -1,7 +1,7 @@
 use v5.18;
 use GD;
 
-my $png_file = 'cavas.png';
+my $png_file = 'canvas.png';
 
 my $im = GD::Image->new(200,200);
 my $white = $im->colorAllocate( 255, 255, 255);
@@ -14,11 +14,8 @@ $im->string( GD::Font->MediumBold , 20,  80, 'MediumBold', 2);
 $im->string( GD::Font->Large ,      20, 110, 'Large',      1);
 $im->string( GD::Font->Giant ,      20, 140, 'Giant',      2);
 
-say "GD C lib Version ".GD::VERSION_STRING." in Module GD $GD::VERSION \n";
+say "GD C lib Version ".GD::VERSION_STRING." in Module GD $GD::VERSION";
 say "Image object: $im with colors: ", $im->colorsTotal;
-say "  index of first color: ", $im->colorExact( 255, 255, 255);
-say "  index of last color: ",  $im->colorClosest( 50, 50, 150);
-say "  index of no color: ",    $im->colorExact( 50, 50, 150);
 say ;
 say " smallest font has size: ",GD::Font->Tiny->width,' x ',GD::Font->Tiny->height;
 say " largest font has size: ",GD::Font->Giant->width,' x ',GD::Font->Giant->height;

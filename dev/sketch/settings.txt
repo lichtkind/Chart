@@ -1,12 +1,24 @@
-angle_interval   
-arrow            
-brush_size       
+angle_interval   -> grid_delta_x
+arrow            -> brush_shape
+brush_size       ->
 brush_size1      
 brush_size2      
 brushStyle       
 brushStyle1      
 brushStyle2      
 colors          
+    background
+    title
+    text
+    x_label
+    y_label
+    y_label2
+    grid_lines
+    x_grid_lines
+    y_grid_lines
+    y2_grid_lines
+    dataset0 .. dataset63
+    misc
 composite_info
 custom_x_ticks
 f_x_tick
@@ -86,3 +98,45 @@ ylabel2
 
 color:
 
+
+
+[main]
+    border_color
+    border_size
+    background = c
+#[head]
+    title = ''
+    sub_title = ''
+    title_color = c
+    logo_image
+    logo_orientation
+    logo_border
+
+    
+[legend]
+    title = ''
+    title_color = c
+    text_color 
+    spacing
+    frame = ?
+    frame_color = 
+    frame_orientation
+    background = c
+
+[plot]
+
+    grid_x ?
+    grid_color
+    tick
+    box
+    axis
+    
+
+[data]
+
+    sets
+    
+    
+binwidth
+
+border

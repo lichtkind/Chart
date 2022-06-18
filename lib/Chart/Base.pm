@@ -13,6 +13,7 @@ use GD;
 use GD::Image;
 use Chart::Constants;
 use Chart::Color;
+use Chart::Font;
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods          #
@@ -44,21 +45,17 @@ sub set {
     }
 
     # set the options
-    for ( keys %opts )
-    {
+    for ( keys %opts ) {
         $self->{$_} = $opts{$_};
         $self->{saveopts}->{$_} = $opts{$_};
 
         # if someone wants to change the grid_lines color, we should set all
         # the colors of the grid_lines
-        if ( $_ =~ /^colors$/ )
-        {
+        if ( $_ =~ /^colors$/ ) {
             my %hash = %{ $opts{$_} };
-            foreach my $key ( sort keys %hash )
-            {
-                if ( $key =~ /^grid_lines$/ )
-                {
+            foreach my $key ( sort keys %hash ) {
 
+                if ( $key =~ /^grid_lines$/ ) {
                     # ORIG:
                     #$self->{'colors'}{'y_grid_lines'}    = $hash{'grid_lines'},
                     #  $self->{'colors'}{'x_grid_lines'}  = $hash{'grid_lines'},
@@ -79,9 +76,7 @@ sub set {
                         $self->{'colors'}{'x_grid_lines'}  = $sLocal;
                         $self->{'colors'}{'y2_grid_lines'} = $sLocal;
                     }
-                    else {
-                        carp "colors{'grid_lines'} is not SCALAR and not ARRAY\n";
-                    }
+                    else { carp "colors{'grid_lines'} is not SCALAR and not ARRAY\n" }
                 }
             }
         }
@@ -305,8 +300,7 @@ sub get_data
 # @param[in] file Name of file to write graph to
 # @param[in] dataref Reference to external data space
 # @return Status of the plot
-sub png
-{
+sub png {
     my $self    = shift;
     my $file    = shift;
     my $dataref = shift;
@@ -376,8 +370,7 @@ sub png
 # draw the chart and plot the data
 # @param[in] dataref Reference to external data space
 # @return Status of the plot
-sub cgi_png
-{
+sub cgi_png {
     my $self    = shift;
     my $dataref = shift;
 

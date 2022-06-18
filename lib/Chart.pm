@@ -1,7 +1,7 @@
 use v5.12;
 
 package Chart;
-our $VERSION = 'v2.402.2';
+our $VERSION = 'v2.403.0';
 
 use Chart::Points;
 use Chart::Lines;
@@ -28,7 +28,7 @@ use Chart::Pareto;
 
 =head1 NAME
 
-Chart - a series of charting modules 
+Chart - a series of charting modules
 
 =head1 SYNOPSIS 
 
