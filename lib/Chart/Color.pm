@@ -83,6 +83,7 @@ sub blue        { $_[0][3] }
 sub hue         { $_[0][4] }
 sub saturation  { $_[0][5] }
 sub lightness   { $_[0][6] }
+sub string      { $_[0][0] ? $_[0][0] : "[ $_[0][1], $_[0][2], $_[0][3] ]" }
 
 sub hsl         { @{$_[0]}[4 .. 6] }
 sub rgb         { @{$_[0]}[1 .. 3] }
@@ -341,6 +342,12 @@ Name of the color in the X11 or HTML (SVG) standard or the Pantone report.
 The name will be found and filled in, even when the object is created
 with RGB or HSL values. If the color is not found in any of the mentioned
 standards, it returns an empty string.
+
+=head2 string
+
+String to reproduce color object by: Chart::Color->new (eval $string).
+It is either the name (if color has one) or the stringified triplet:
+"[ $red, $green, $blue ]".
 
 =head2 red
 
