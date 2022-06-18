@@ -100,7 +100,9 @@ color:
 
 
 
-[main]
+[image]
+    height = 500
+    width = 600
     border_color
     border_size
     background = c
@@ -122,6 +124,7 @@ color:
     frame_color = 
     frame_orientation
     background = c
+    border_size = 
 
 [plot]
 

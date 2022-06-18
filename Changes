@@ -1,9 +1,8 @@
-2.403.0 2022-07-15 lichtkind
+2.402.3 2022-07-18 lichtkind
 -------
-    * # main theme: fonts
-    * + added class Graph::Font
+    * + string method to color objects
+    * ? document that y_ticks1, y_ticks2 is composite only
     * ! fixed (not returning from Color::Value even sub sub carped) 
-
 
 2.402.2 2022-06-15 lichtkind
 -------

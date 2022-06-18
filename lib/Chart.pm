@@ -1,7 +1,7 @@
 use v5.12;
 
 package Chart;
-our $VERSION = 'v2.403.0';
+our $VERSION = 'v2.402.3';
 
 use Chart::Points;
 use Chart::Lines;
@@ -449,9 +449,10 @@ chart.  Default is undef.
 
 =item 'y_ticks1', 'y_ticks2'
 
-The number of y ticks to use on the first and second y-axis on a composite
-chart.  Please note that if you just set the 'y_ticks' option, both axes 
-will use that number of y ticks.  Both default to undef.
+Only for composite charts, the number of y ticks to use on the first and
+second y-axis on a composite chart.  Please note that if you just set the
+'y_ticks' option, both axes will use that number of y ticks.
+Both default to undef.
 
 =item 'f_y_tick1', 'f_y_tick2'
 
