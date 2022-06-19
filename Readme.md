@@ -57,23 +57,18 @@
     Perl 5.12 including come core Modules.
 
 
-### CHANGES
 
-[are in file Changes](https://github.com/lichtkind/Chart/blob/main/Changes)
+[CHANGES](https://github.com/lichtkind/Chart/blob/main/Changes)
+
+[CONTRIBUTING](https://github.com/lichtkind/Chart/blob/main/CONTRIBUTING)
+
+[CONTRIBUTORS](https://metacpan.org/pod/Chart#CONTRIBUTORS)
 
 
 ### MAINTAINER
 
     - Chart-Group (chart@fs.wettzell.de)
     - Herbert Breunung (lichtkind@cpan.org)
-
-
-### CONTRIBUTING
-
-[file CONTRIBUTING](https://github.com/lichtkind/Chart/blob/main/CONTRIBUTING)
-
-    If you want to help please read file CONTRIBUTING
-    All contributers are listed in the POD of the main module.
 
 
 ### COPYRIGHT
@@ -86,3 +81,5 @@
     redistribute it and/or modify it under the same terms as Perl 
     itself.
 
+    The included  Unifont (c) by Roman Czyborra and contributors 
+    is licensed under the OFL (Open Font License) 1.1.
