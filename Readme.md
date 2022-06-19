@@ -58,9 +58,9 @@
 
 
 
-[CHANGES](https://github.com/lichtkind/Chart/blob/main/Changes)
+[###CHANGES](https://github.com/lichtkind/Chart/blob/main/Changes)
 
-[CONTRIBUTING](https://github.com/lichtkind/Chart/blob/main/CONTRIBUTING)
+###[CONTRIBUTING](https://github.com/lichtkind/Chart/blob/main/CONTRIBUTING)
 
 [CONTRIBUTORS](https://metacpan.org/pod/Chart#CONTRIBUTORS)
 
