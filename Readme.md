@@ -1,12 +1,12 @@
-## NAME
+### NAME
 
     Chart - swiss army knife of chart composition and drawing
 
-## VERSION
+### VERSION
  
     2.402.3
 
-## HOME
+### HOME
 
 [Chart on CPAN](https://metacpan.org/pod/Chart)
 
@@ -14,7 +14,7 @@
     There is also a download link on the left side under "Tools".
    
 
-## BUILDING
+### BUILDING
 
     The git repository contains much more than the software package itself.
     If you check out sources there, you have to build the package yourself.
@@ -39,7 +39,7 @@
     dzil clean
 
 
-## INSTALLING
+### INSTALLING
 
     Once you downloaded or created a Build you unzip it and do the usual:
  
@@ -51,36 +51,32 @@
     This should install to your site_perl directory.
 
 
-## PREREQUISITES
+### PREREQUISITES
 
     Lincoln Stein's GD module version 2.0.36 or higher.
     Perl 5.12 including come core Modules.
 
 
-## CHANGES
+### CHANGES
 
-    are in file Changes
-    
-
-## DOCUMENTATION
-
-    There is a pdf (complete user manual) and a /doc directory (API reference),
-    but for the fastest overview start with /lib/Chart.pm
+[are in file Changes](https://github.com/lichtkind/Chart/blob/main/Changes)
 
 
-## MAINTAINER
+### MAINTAINER
 
     - Chart-Group (chart@fs.wettzell.de)
     - Herbert Breunung (lichtkind@cpan.org)
 
 
-## CONTRIBUTING
+### CONTRIBUTING
+
+[file CONTRIBUTING](https://github.com/lichtkind/Chart/blob/main/CONTRIBUTING)
 
     If you want to help please read file CONTRIBUTING
     All contributers are listed in the POD of the main module.
 
 
-## COPYRIGHT
+### COPYRIGHT
 
     Copyright(c) 1997-1998 by David Bonner, 1999 by Peter Clark,
     2001 by the Chart group at BKG-Wettzell.
