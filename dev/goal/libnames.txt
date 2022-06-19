@@ -1,32 +1,46 @@
-Chart                     main module - distro API
+Chart
 
-  Color                   color (relation) objects
-      Value               handle and compute color space values
-      Constant            store of color constants from various standards
-  
+Chart::Color
+Chart::Color::Constant
+Chart::Color::Value
 
-  
-  Coordinates             translation between virtual (mathematical, data) and canvas coordinates
 
-  Legend                  drawing box showing color - meaning corelation
-  
-  
-  Setting
-      Template
-   
+Chart::DataSet
+ 
+      add
+      remove
+      get
+      clear
+      smooth
+      min
+      max
+      avg
+      sum 
+    
 
-  Composer                 organise postion and render order of parts
-  
-  Renderer                 compile primitives to picture, manage colors
-      Primitive
-      Font
-      Canvas                  AoA of Lists holing layers of Pixel
-      Backend
-      
-  DataSet                  Data holding objects
-  
 
-commands on canvas 
-compile to image
+Chart::Coordinate
+                  linear, log, custom, polar, 3d
+                  abs -> rel
+                  rel -> abs
+                  
+                   
+Chart::Coordinate::Frame
 
-Primitive
+Chart::Setting
+              clean
+              overlay
+              
+Chart::Setting::Template
+
+
+
+xy /
+polar
+log
+bar
+stackedBar
+
+violine
+Pie/Ring
+

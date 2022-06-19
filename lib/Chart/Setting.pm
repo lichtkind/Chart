@@ -3,7 +3,7 @@
 
 use v5.12;
 
-package Chart::Font;
+package Chart::Setting;
 our $VERSION = '2.402.0';
 
 use Carp;
@@ -16,7 +16,7 @@ __END__
 
 =head1 NAME
 
-Chart::Font - read only single font holding objects
+Chart::Setting - managing settings of a chart
 
 =head1 SYNOPSIS 
 
@@ -44,10 +44,3 @@ Herbert Breunung, <lichtkind@cpan.org>
 
 =cut
 
-
-__END__
-$im->string( GD::Font->Tiny ,       20,  20, 'Tiny',       2);
-$im->string( GD::Font->Small ,      20,  50, 'Small',      1);
-$im->string( GD::Font->MediumBold , 20,  80, 'MediumBold', 2);
-$im->string( GD::Font->Large ,      20, 110, 'Large',      1);
-$im->string( GD::Font->Giant ,      20, 140, 'Giant',      2);
