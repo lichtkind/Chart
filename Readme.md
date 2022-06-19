@@ -8,10 +8,10 @@
 
 ## HOME
 
-    https://metacpan.org/pod/Chart
-
+    [Chart on CPAN](https://metacpan.org/pod/Chart)
+    This is the landing page for the user documentation.
     There is also a download link on the left side under "Tools".
-
+   
 
 ## BUILDING
 
