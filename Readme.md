@@ -54,13 +54,19 @@
 ### PREREQUISITES
 
     Lincoln Stein's GD module version 2.0.36 or higher.
-    Perl 5.12 including come core Modules.
+    Carp 1.35 or higher
+    Perl 5.12 including some core Modules.
+    
+    Optionally modules of the Graphics::ColorNames::* namespace are
+    required if your color definitions call for them.
+    
+    In future we require optionally SVG 2.5 and List::Util.
 
 
 
-[###CHANGES](https://github.com/lichtkind/Chart/blob/main/Changes)
+[CHANGES](https://github.com/lichtkind/Chart/blob/main/Changes)
 
-###[CONTRIBUTING](https://github.com/lichtkind/Chart/blob/main/CONTRIBUTING)
+[CONTRIBUTING](https://github.com/lichtkind/Chart/blob/main/CONTRIBUTING)
 
 [CONTRIBUTORS](https://metacpan.org/pod/Chart#CONTRIBUTORS)
 
