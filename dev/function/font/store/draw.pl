@@ -52,3 +52,4 @@ stringFT($fgcolor,$fontname,$ptsize,$angle,$x,$y,$string,[\%options])
 
 File::ShareDir
 
+linux : fc-list

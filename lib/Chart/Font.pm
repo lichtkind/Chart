@@ -8,6 +8,37 @@ our $VERSION = '2.402.0';
 
 use Carp;
 
+## constructor #########################################################
+
+sub new {
+    my $pkg = shift;
+    my $def = shift;
+    return unless ref $def eq 'HASH';
+    bless {};
+}
+
+## getter ##############################################################
+
+sub name {
+
+}
+
+sub bold {
+
+}
+
+sub size {
+
+}
+
+sub unicode {
+}
+
+sub truetype {
+
+}
+
+
 1;
 
 __END__
@@ -52,8 +83,8 @@ $im->string( GD::Font->MediumBold , 20,  80, 'MediumBold', 2);
 $im->string( GD::Font->Large ,      20, 110, 'Large',      1);
 $im->string( GD::Font->Giant ,      20, 140, 'Giant',      2);
 
-name
-bold
-size
-unicode
-truetype
+gdTinyFont
+gdSmallFont
+gdMediumBoldFont
+gdLargeFont
+gdGiantFont
