@@ -80,6 +80,15 @@ a new module from scratch, and I've designed it from the bottom up
 to be easy to modify.  Like GIFgraph, Chart uses Lincoln Stein's GD 
 module for all of its graphics primitives calls.
 
+=for HTML <p>
+<img src="https://github.com/lichtkind/Chart/blob/main/dev/test/samples/stackedbars.png" alt="stacked bars">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/bars_2.png" alt="multi bar chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/hbars_2.png" alt="horizontal bar chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/direction_4.png" alt="polar chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/pie_4.png" alt="pie chart">
+<img src="https://github.com/lichtkind/Chart/blob/main/dev/test/samples/split_2.png" alt="multi chart">
+</p>
+
 =head2 use-ing Chart
 
 Okay, so you caught me.  There's really no Chart::type module.
