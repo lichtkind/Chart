@@ -51,3 +51,9 @@ $im->string( GD::Font->Small ,      20,  50, 'Small',      1);
 $im->string( GD::Font->MediumBold , 20,  80, 'MediumBold', 2);
 $im->string( GD::Font->Large ,      20, 110, 'Large',      1);
 $im->string( GD::Font->Giant ,      20, 140, 'Giant',      2);
+
+name
+bold
+size
+unicode
+truetype
