@@ -1,35 +1,43 @@
 
 --------------------------------------------------------------------------------------------
-                   Complete
-                    In progress
-                     Not yet
+                 Complete
+                  Dirty (functionally complete but not tidied)
+                   Buggy ()
+                    Partially complete (som objectives met)
+                     In progress
+                      Not yet
 --------------------------------------------------------------------------------------------
 
 [color]         
 
-  brewer             N  check and compute colorbrewer 2 pallete
-  convert          C    from raw data to Chart::Color::Constant perl code
-  load             C    load rgb from Graphics::ColorNames::*
-  search           C    search for new default colors, names near to desired
-  table            C    demo all color constants
-  test             C    test first default colors in practical example
+  brewer              N  check and compute colorbrewer 2 pallete
+  convert        C       from raw data to Chart::Color::Constant perl code
+  load           C       load rgb from Graphics::ColorNames::*
+  search         C       search for new default colors, names near to desired
+  table          C       demo all color constants in an image
+  test           C       test first default colors in practical example
 
 
 [draw]         
 
-  basics
-  primitive_cmp      N  compare draw primitves in bitmap and vector format
+  basics            P    basic draw commands per backend
+  primitive_cmp       N  compare draw primitves in bitmap and vector format
+  filter         C       apply smotthing of image by filter functions
+  logo                   read image files and insert into drawn image  
   
 
 [font]         
 
-  basic            C    demo basic fonts
-  truetype          I   demo true type fonts
-  store              N  handling storage of TT fonts
-  utf              C    output utf strings
-  search             N  search for good fonts
+  basic          C       demo basic fonts
+  truetype       C       demo true type fonts
+  utf            C       output utf strings with various fonts
+  store               N  handling storage of TT fonts
+  search              N  search for good fonts
   
 
 
-[koor]         
+[koor]
+[data]
+[law]
+[output]
 
