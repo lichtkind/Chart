@@ -19,14 +19,18 @@ Chart                     main module - distro API
    
 
   Composer                 organise postion and render order of parts
+                           settings -> frames and colors
   
-  Renderer                 compile primitives to picture, manage colors
-      Primitive
+  Render                   compile primitives to picture, manage colors
+      DrawMap
+      BitMap
+
       Font
       Canvas                  AoA of Lists holing layers of Pixel
       Backend
       
-  DataSet                  Data holding objects
+  Data
+      Set                  Data holding objects
   
   Font
   

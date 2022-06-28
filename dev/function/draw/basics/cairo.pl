@@ -1,8 +1,12 @@
 use v5.18;
-use SVG;
+use Cairo;
 
-my $svg_file = 'SVG_primitives.svg';
+my $svg_file = 'Cairo_primitives.jpg';
 
+
+
+
+__END__
 my $im = SVG->new( width => 100, height => 100);
 my $group = $im->group( id => 'group',
         style => {

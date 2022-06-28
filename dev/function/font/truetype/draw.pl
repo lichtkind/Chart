@@ -61,4 +61,10 @@ __END__
  stringFTCircle($cx,$cy,$radius,$textRadius,$fillPortion,$font,$points,$top,$bottom,$fgcolor)
  $image->stringFT($fgcolor,$fontname,$ptsize,$angle,$x,$y,$string,[\%options])
 
+The value of linespacing is supposed to be a multiple of the character height, so setting linespacing to 2.0 will result in double-spaced lines of text. However the current version of libgd (2.0.12) does not do this. Instead the linespacing seems to be double what is provided in this argument. So use a spacing of 0.5 to get separation of exactly one line of text. In practice, a spacing of 0.6 seems to give nice results. Another thing to watch out for is that successive lines of text should be separated by the "\r\n" characters, not just "\n".
+The value of charmap is one of "Unicode", "Shift_JIS" and "Big5". The interaction between Perl, Unicode and libgd is not clear to me, and you should experiment a bit if you want to use this feature.
+The value of resolution is the vertical and horizontal resolution, in DPI, in the format "hdpi,vdpi". If present, the resolution will be passed to the Freetype rendering engine as a hint to improve the appearance of the rendered font.
+The value of kerning is a flag. Set it to false to turn off the default kerning of text.
+
+
 fnt are different, older format than fft

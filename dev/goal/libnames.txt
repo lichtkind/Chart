@@ -5,7 +5,9 @@ Chart::Color::Constant
 Chart::Color::Value
 
 
-Chart::DataSet
+Chart::Data
+Chart::Data::Domain
+Chart::Data::Set
  
       add
       remove

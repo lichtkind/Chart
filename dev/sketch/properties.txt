@@ -1,4 +1,85 @@
-84
+
+main
+
+  title
+    text
+    color
+    font
+    border
+
+  subtitle
+
+  logo
+  
+  
+
+legend
+
+
+plot
+
+  data
+    properties = [x, y, size, color, shape]
+    
+  position
+  size
+  color
+  shape
+  axis
+    name
+    unit
+    min
+    max
+    log =?
+    polar ?
+    stack ?
+    smooth = +
+    join ?
+
+box
+
+
+data
+   set:
+
+color
+
+
+
+border 
+    left
+    right
+    top
+    bottom
+    
+    
+    
+
+um mich herum
+
+    margin-top
+    margin-right
+    margin-bottom
+    margin-left
+
+    border: dotted, dashed, solid, 
+
+    padding-top
+    padding-right
+    padding-bottom
+    padding-left
+    
+    content
+
+
+domain-axis
+scaling = linear/log  
+shape = lidear / radial
+
+data
+  set
+  domain
+  
 
 'angle_interval'  This option tells direction, how many angle lines should be drawn. The default value is 30, which means that a line will be drawn every 30 degrees. Valid Values are: 0, 5, 10, 15, 20, 30, 45 and 60. If you choose 0, direction will draw no line.
 'arrow'           This is also an option for the direction module. If set to 'true', chart will draw a arrow from the center to the point. Defaults to 'false'.

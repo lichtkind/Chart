@@ -1,0 +1,45 @@
+
+=encoding UTF-8
+
+=head1 NAME
+
+Chart::Manual - Chart user manual
+
+=head1 VERSION
+
+version 2.2201
+
+=head1 OVERVIEW
+
+=head1 TYPES
+
+=head1 SETTINGS
+
+=cut
+
+
+The Perl module Chart creates png or jpeg output which can be written
+to a file or to stdout. Therefore, Chart can also create dynamic charts for
+web sites.
+Many different chart types are available, viz., Bars, Composite, Direc-
+tion, ErrorBars, HorizontalBars, Lines, LinesPoints, Mountain, Pareto, Pie,
+Points, Split, and StackedBars. Each specific type is implemented as a class
+by itself which is derived from the same abstract superclass, Base.
+The hierarchy of Chart classes is shown in Figure 1.
+Figure 1: The hierarchy of Chart classes
+You must create an instance of one of the concrete subclasses to get a
+Chart object. Take a look at the individual class descriptions to see how
+they work.
+All the methods and most of the options Chart provides are implemented
+in the Chart::Base class. However, drawing of the graph itself happens in the
+appropriate subclass. Figure 2 shows the elements of a chart from a layout
+perspective.
+The graph area in the middle is drawn by the subclass, all the other el-
+ements are drawn by Chart::Base. But some classes do not need all of those
+elements, or they may need additional elements. The Chart::Base meth-
+ods producing these elements have then to be overwritten in the respective
+subclass. For example, class Chart::Pie needs no axes, so the methods for
+drawing these in file Base.pm are overwritten by methods in class Chart::Pie;
+in this case, no axes are drawn. Furthermore, the legend in a pie chart is
+slightly different. Therefore, Pie.pm has its own methods for drawing the
+legends. All these rules are managed by Chart, so you do not have to attend

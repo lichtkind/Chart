@@ -11,9 +11,9 @@ my $blue  = $im->colorAllocate(  40,  40, 160);
 
 $im->string( GD::Font->Tiny ,       20,  20, 'Tiny äöü 艾勒',       2);
 $im->string( GD::Font->Small ,      20,  50, 'Small äöü 艾勒',      1);
-$im->string( GD::Font->MediumBold , 20,  80, 'MediumBold', 2);
-$im->string( GD::Font->Large ,      20, 110, 'Large',      1);
-$im->string( GD::Font->Giant ,      20, 140, 'Giant',      2);
+$im->string( GD::Font->MediumBold , 20,  80, 'MediumBold äöü 艾勒', 2);
+$im->string( GD::Font->Large ,      20, 110, 'Large äöü 艾勒',      1);
+$im->string( GD::Font->Giant ,      20, 140, 'Giant äöü 艾勒',      2);
 
 say "GD C lib Version ".GD::VERSION_STRING." in Module GD $GD::VERSION";
 say "Image object: $im with colors: ", $im->colorsTotal;

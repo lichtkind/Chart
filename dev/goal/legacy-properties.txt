@@ -8,17 +8,17 @@ ALPHABETICAL
 'brushStyle'      Sets the shape of points for Chart::Points, Chart::LinesPoints. The possibilities are 'FilledCircle', 'circle', 'donut', 'OpenCircle', 'fatPlus', 'triangle', 'upsidedownTriangle', 'square', 'hollowSquare', 'OpenRectangle', 'FilledDiamond', 'OpenDiamond', 'Star', 'OpenStar'. Default: 'FilledCircle
 'colors'  This option lets you control the colors the chart will use. It takes a reference to a hash. The hash should contain keys mapped to references to arrays of rgb values. For instance, $obj->set('colors' => {'background' => [255,255,255]}); sets the background color to white (which is the default). Valid keys for this hash are
     'background' (background color for the png)
+    'dataset0'..'dataset63' (the different datasets)
+    'grid_lines' (color of the grid lines)
+    'misc' (everything else, ie. ticks, box around the legend) NB. For composite charts, there is a limit of 8 datasets per component. The colors for 'dataset8' through 'dataset15' become the colors for 'dataset0' through 'dataset7' for the second component chart.
     'title' (color of the title)
     'text' (all the text in the chart)
     'x_label' (color of the x-axis label)
+    'x_grid_lines' (color of the x grid lines - for x axis ticks)
     'y_label' (color of the first y axis label)
     'y_label2' (color of the second y axis label)
-    'grid_lines' (color of the grid lines)
-    'x_grid_lines' (color of the x grid lines - for x axis ticks)
     'y_grid_lines' (color of the y grid lines - for to left y axis ticks)
     'y2_grid_lines' (color of the y2 grid lines - for right y axis ticks)
-    'dataset0'..'dataset63' (the different datasets)
-    'misc' (everything else, ie. ticks, box around the legend) NB. For composite charts, there is a limit of 8 datasets per component. The colors for 'dataset8' through 'dataset15' become the colors for 'dataset0' through 'dataset7' for the second component chart.
 'composite_info'     This option is only used for composite charts. It contains the information about which types to use for the two component charts, and which datasets belong to which component chart. It should be a reference to an array of array references, containing information like the following
     $obj->set ('composite_info' => [ ['Bars', [1,2]], ['Lines', [3,4] ] ]);
     This example would set the two component charts to be a bar chart and a line chart. It would use the first two data sets for the bar chart (note that the numbering starts at 1, not zero like most of the other numbered things in Chart), and the second two data sets for the line chart. The default is undef.     NB. Chart::Composite can only do two component charts.
@@ -42,9 +42,7 @@ ALPHABETICAL
 'legend_font'              Font of the text in the legend. The key has to be a GD font.
 'legend_labels' = ''       Sets the values for the labels for the different data sets. Should be assigned a reference to an array of labels. For example,          @labels = ('foo', 'bar');      $obj->set ('legend_labels' => \@labels);     Default is empty, in which case 'Dataset 1', 'Dataset 2', etc. are used as the labels.
 'legend_label_values'      Tells a pie chart what labels to draw in the legend. Valid values are 'percent', 'value', 'both' and 'none'. Defaults to 'value'.
-'line'     = 'false'       If you turn this option to 'true', then direction will connect the points with lines. Defaults to 'false'.
-                           Caution should be used when setting 'max_val' and 'min_val' to floating point or non-round numbers. This is because the scale must start & end on a tick, ticks must have round-number intervals, and include round numbers.
-                           Example: Suppose your data set has a range of 35-114 units. If you specify them as the 'min_val' & 'max_val', the y_axis will be plotted with 80 ticks every 1 unit.. If no 'min_val' & 'max_val', the system will auto scale the range to 30-120 with 10 ticks every 10 units. If the 'min_val' & 'max_val' are specified to excessive precision, they may be overridden by the system, plotting a maximum 'max_y_ticks' ticks.
+'line'     = 'false'       If you turn this option to 'true', then direction will connect the points with lines. Defaults to 'false'. Caution should be used when setting 'max_val' and 'min_val' to floating point or non-round numbers. This is because the scale must start & end on a tick, ticks must have round-number intervals, and include round numbers.  Example: Suppose your data set has a range of 35-114 units. If you specify them as the 'min_val' & 'max_val', the y_axis will be plotted with 80 ticks every 1 unit.. If no 'min_val' & 'max_val', the system will auto scale the range to 30-120 with 10 ticks every 10 units. If the 'min_val' & 'max_val' are specified to excessive precision, they may be overridden by the system, plotting a maximum 'max_y_ticks' ticks.
 'max_circles'              Sets the maximum number of circles when generating a scale for direction. Default is 100. This limit is used to avoid plotting an unreasonable large number of ticks if non-round values are used for the min_val and max_val.
 'max_val' = undef          Sets the maximum y-value on the graph, overriding the normal auto-scaling. Default is undef.
 'max_val1',
@@ -110,12 +108,31 @@ TOPICAL
     'misc' (everything else, ie. ticks, box around the legend) NB. For composite charts, there is a limit of 8 datasets per component. The colors for 'dataset8' through 'dataset15' become the colors for 'dataset0' through 'dataset7' for the second component chart.
 
 
-head
+image
 
     'title'    = ''            Tells GD graph what to use for the title of the graph. If empty, no title is drawn. It recognizes '\n' as a newline, and acts accordingly. Remember, if you want to use normal quotation marks instead of single quotation marks then you have to quote "\\n". Default is empty.
     'sub_title'                Write a sub-title under the title in smaller letters.
 
 
+
 legend
 
+
 axis
+
+    'angle_interval'  This option tells direction, how many angle lines should be drawn. The default value is 30, which means that a line will be drawn every 30 degrees. Valid Values are: 0, 5, 10, 15, 20, 30, 45 and 60. If you choose 0, direction will draw no line.
+    'arrow'           This is also an option for the direction module. If set to 'true', chart will draw a arrow from the center to the point. Defaults to 'false'.
+
+
+plot
+
+
+SPECIAL
+
+ direction
+    'angle_interval'  This option tells direction, how many angle lines should be drawn. The default value is 30, which means that a line will be drawn every 30 degrees. Valid Values are: 0, 5, 10, 15, 20, 30, 45 and 60. If you choose 0, direction will draw no line.
+    'arrow'           If set to 'true', chart will draw a arrow from the center to the point. Defaults to 'false'.
+
+ split
+
+

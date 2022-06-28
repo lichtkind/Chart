@@ -1,0 +1,5 @@
+
+
+base types are ASCII only
+truey types have some more
+but only unifont hast complete unicode

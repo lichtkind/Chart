@@ -18,18 +18,6 @@ __END__
 
 Chart::Setting - managing settings of a chart
 
-=head1 SYNOPSIS 
-
-    my $red = Chart::Color->new('red');
-    say $red->add('blue')->name;              # magenta, mixed in RGB space
-    Chart::Color->new( 0, 0, 255)->hsl        # 240, 100, 50 = blue
-    $blue->blend_with({H=> 0, S=> 0, L=> 80}, 0.1);# mix blue with a little grey
-    $red->gradient( '#0000FF', 10);           # 10 colors from red to blue  
-    $red->complementary( 3 );                 # get fitting red green and blue
-
-=head1 DESCRIPTION
-
-
 
 =head1 COPYRIGHT & LICENSE
 

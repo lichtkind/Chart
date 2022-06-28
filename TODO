@@ -28,6 +28,10 @@ General:
 
 - add optional desciption text maybe with a picture (logo) ?
 
+- svg, html and webp backend?
+
+
+
 Plottype specific:
 ------------------
 - Base class:
