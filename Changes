@@ -1,5 +1,8 @@
-2.403.0 2022-07-18 lichtkind
-
+2.403.0 2022-08-11 lichtkind
+-------
+    * + added Chart::Manual + 3 sub pages
+    * - drop PDF and HTML documentation
+    * - drop dependency on module: POSIX
 
 2.402.3 2022-07-18 lichtkind
 -------
