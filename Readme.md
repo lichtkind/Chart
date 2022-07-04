@@ -28,6 +28,10 @@
     
     dzil authordeps
     
+    and pip them into you preferred installer:
+    
+    dzil authordeps | cpanm
+    
     After having installed them via cpan or cpanm you run:
 
     dzil build
