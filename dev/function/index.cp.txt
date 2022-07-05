@@ -35,9 +35,15 @@
   search              N  search for good fonts
   
 
+[setting]
+
+  doc                I  documenting all properties
 
 [koor]
+
 [data]
+
 [law]
+
 [output]
 
