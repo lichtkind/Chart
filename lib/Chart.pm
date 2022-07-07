@@ -1,7 +1,7 @@
 use v5.12;
 
 package Chart;
-our $VERSION = 'v2.403.0-RC0';
+our $VERSION = 'v2.403.0';
 
 use Chart::Points;
 use Chart::Lines;

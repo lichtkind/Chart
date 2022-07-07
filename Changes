@@ -1,6 +1,7 @@
-2.403.0 2022-08-11 lichtkind
+2.403.0 2022-08-07 lichtkind
 -------
-    * + added Chart::Manual + 3 sub pages
+    * = test release to check metacpan POD parser
+    * + added Chart::Manual + property sub page
     * - drop PDF and HTML documentation
     * - drop dependency on module: POSIX
 

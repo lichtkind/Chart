@@ -4,7 +4,7 @@
 
 ### VERSION
  
-    2.402.3
+    2.403.0
 
 ### HOME
 
@@ -23,15 +23,17 @@
     cpan install Dist::Zilla   
         or 
     cpanm Dist::Zilla
+
     
     Then you have to check which further Dist::Zilla plugins you miss:
     
     dzil authordeps
     
-    and pip them into you preferred installer:
+    and pipe them into your preferred installer:
     
     dzil authordeps | cpanm
     
+  
     After having installed them via cpan or cpanm you run:
 
     dzil build
@@ -65,7 +67,6 @@
     required if your color definitions call for them.
     
     In future we require optionally SVG 2.5 and List::Util.
-
 
 
 [CHANGES](https://github.com/lichtkind/Chart/blob/main/Changes)
