@@ -36,14 +36,13 @@ A complete explanation of all methods geared toward the user:
 L<Chart::Manual::Methods>
 
 
-=head1 SETTINGS
+=head1 PROPERTIES
 
 The method C<set> allows to directly change particular chart properties.
-All these properties sorted by name or topic or type with their
-acceptable and default values:
+All of these explained in detail with their acceptable and default values
+are sorted there by name or topic or type:
 
-L<Chart::Manual::Settings>
-
+L<Chart::Manual::Properties>
 
 
 

@@ -1,7 +1,7 @@
 use v5.12;
 
 package Chart;
-our $VERSION = 'v2.403.0';
+our $VERSION = 'v2.403.0-RC0';
 
 use Chart::Points;
 use Chart::Lines;
@@ -336,9 +336,16 @@ since that's the place in the @data array for the data point labels.
 
 =head1 PLAN
 
-This module is under currently under a complete rewrite. Version will 
-bump to 3 when rewrite is completed, without breaking any compatibility.
-The old API stays as it is, the new will be through a new central API.
+This module is currently under a complete rebuild, that will take place 
+in two phases. First: rewrite all functionality within a modular
+architecture and hierarchical property system. This will be accessed
+via a central API using the so far unutilized Chart module
+(C<my $c = Chart->new(...);>). This API will have in part different 
+method and property names, but the old API will not be touched.
+In a second phase we will see hoch much new code can be used by the old
+modules and which new features can be brought to the legacy parts,
+which will be than discouraged, but not scrapped.
+
 
 =head1 TO DO
 

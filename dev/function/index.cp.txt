@@ -35,7 +35,7 @@
   search              N  search for good fonts
   
 
-[setting]
+[property]
 
   doc                I  documenting all properties
 

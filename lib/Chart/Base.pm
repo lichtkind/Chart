@@ -11,9 +11,8 @@ use FileHandle;
 use Carp;
 use GD;
 use GD::Image;
-use Chart::Constants;
 use Chart::Color;
-use Chart::Font;
+#use Chart::Font;
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods          #

@@ -19,14 +19,18 @@ $g->set(
         y_grid_lines => [ 127,  127,    0 ],
         dataset0     => [ 127,    0,    0 ],
         dataset1     => [   0,  127,    0 ],
-        dataset2     => [   0,    0,  127 ]
-    }
+        dataset2     => [   0,    0,  127 ],
+        background   => 'lightblue',
+    },
+    grey_background =>  'false',
 );
 $g->set( 'y_label'      => 'y label 1' );
 $g->set( 'y_label2'     => 'y label 2' );
 $g->set( 'y_grid_lines' => 'true' );
-$g->set( 'legend'       => 'bottom' );
+$g->set( 'legend'       => 'bottom',
+          legend_font   => GD::Font->Large,
+);
 
 $g->png("img/lines.png");
 
-
+say GD::Font->Large;
