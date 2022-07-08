@@ -3,7 +3,7 @@
 
 use v5.12;
 
-package Chart::Setting;
+package Chart::Property;
 our $VERSION = '2.402.0';
 
 use Carp;
@@ -16,7 +16,7 @@ __END__
 
 =head1 NAME
 
-Chart::Setting - managing settings of a chart
+Chart::Property - managing properties of a chart
 
 
 =head1 COPYRIGHT & LICENSE

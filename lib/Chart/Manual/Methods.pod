@@ -1,0 +1,10 @@
+
+=encoding UTF-8
+
+=head1 NAME
+
+Chart::Manual::Methods - user API listing
+
+=head1 OVERVIEW
+
+=cut

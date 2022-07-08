@@ -577,17 +577,17 @@ Both default to undef.
 =head1 SORTED BY TYPE
 
 Summary of all properties, grouped by chart type where there applicable. 
-The format is: name, L<type|/"DATA TYPE">, description, default value
+The format is: name, L<type|/"DATA TYPES">, description, default value
 
 =head2 ALL
 
 Properties available in all chart types:
 
-L</grey_background>  L<bool|/boolean>: image background set to grey; C<'true'>
+L</grey_background> . L<bool|/boolean>: image background set to grey; C<'true'>
 
-L</title>            L</string>: text on top of a chart; C<''>
+L</title> .......... L</string>: text on top of a chart; C<''>
 
-L</transparent>      L<bool|/boolean>: image background transparency; C<'false'>
+L</transparent> .... L<bool|/boolean>: image background transparency; C<'false'>
 
 
 
