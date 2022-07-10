@@ -8,8 +8,7 @@
 
 ### HOME
 
-[Chart on CPAN](https://metacpan.org/pod/Chart)
-
+    [Chart on CPAN](https://metacpan.org/pod/Chart)
     This is the landing page for the user documentation.
     There is also a download link on the left side under "Tools".
    
@@ -17,7 +16,7 @@
 ### BUILDING
 
     The git repository contains much more than the software package itself.
-    If you check out sources there, you have to build the package yourself.
+    If you check out sources here, you have to build the package yourself.
     In order to do that you need perl and the module Dist::Zilla.
     
     cpan install Dist::Zilla   
@@ -25,7 +24,7 @@
     cpanm Dist::Zilla
 
     
-    Then you have to check which further Dist::Zilla plugins you miss:
+    Then you have to check which further the Dist::Zilla plugins you miss:
     
     dzil authordeps
     
@@ -34,20 +33,20 @@
     dzil authordeps | cpanm
     
   
-    After having installed them via cpan or cpanm you run:
+    Than you can build a release yourself:
 
     dzil build
     
-    Which gives you basically the same as the download as you get on CPAN
-    (as describes under HOME), just with more up to date (and maybe buggy
-    sources). Don't forget to:
+    Which gives you basically the same tgz file as under the download link
+    from CPAN (as describes under HOME), just with more up to date 
+    (and maybe buggy) sources. Don't forget to:
     
     dzil clean
 
 
 ### INSTALLING
 
-    Once you downloaded or created a Build you unzip it and do the usual:
+    Once you downloaded or created a build, you unzip it and do the usual:
  
         perl Makefile.PL
         make
@@ -59,14 +58,14 @@
 
 ### PREREQUISITES
 
+    Perl 5.12 including some core Modules.
     Lincoln Stein's GD module version 2.0.36 or higher.
     Carp 1.35 or higher
-    Perl 5.12 including some core Modules.
     
     Optionally modules of the Graphics::ColorNames::* namespace are
     required if your color definitions call for them.
     
-    In future we require optionally SVG 2.5 and List::Util.
+    In future we might require optionally SVG 2.5 and List::Util.
 
 
 [CHANGES](https://github.com/lichtkind/Chart/blob/main/Changes)
