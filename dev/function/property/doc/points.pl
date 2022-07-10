@@ -4,7 +4,7 @@ use v5.12;
 BEGIN { unshift @INC, 'lib', '../../../lib'}
 use Chart::Points;
 
-my $file = "img/points.png";
+my $file = "points.png";
 
 my $g = Chart::Points->new();
 

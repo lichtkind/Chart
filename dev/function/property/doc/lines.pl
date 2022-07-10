@@ -32,4 +32,4 @@ $g->set( 'legend'       => 'bottom',
           brush_size => 12,
 );
 
-$g->png("img/lines.png");
+$g->png("lines.png");

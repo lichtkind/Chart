@@ -26,5 +26,5 @@ $g->set(
      #legend => 'right',
 );
 
-$g->png("img/direction.png");
+$g->png("direction.png");
 
