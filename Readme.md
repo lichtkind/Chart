@@ -6,8 +6,6 @@
  
     2.403.0
 
-### HOME
-
 [Chart on CPAN](https://metacpan.org/pod/Chart)
 
     This is the landing page for the user documentation.
