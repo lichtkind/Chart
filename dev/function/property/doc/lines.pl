@@ -20,17 +20,16 @@ $g->set(
         dataset0     => [ 127,    0,    0 ],
         dataset1     => [   0,  127,    0 ],
         dataset2     => [   0,    0,  127 ],
-        background   => 'lightblue',
+        #background   => 'lightblue',
     },
-    grey_background =>  'false',
+    #grey_background =>  'false',
 );
 $g->set( 'y_label'      => 'y label 1' );
 $g->set( 'y_label2'     => 'y label 2' );
 $g->set( 'y_grid_lines' => 'true' );
 $g->set( 'legend'       => 'bottom',
           legend_font   => GD::Font->Large,
+          brush_size => 12,
 );
 
 $g->png("img/lines.png");
-
-say GD::Font->Large;

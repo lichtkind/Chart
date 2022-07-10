@@ -47,11 +47,18 @@ There are a handful GD built in font object, than can be referenced:
 
 =head2 integer
 
+Whole numbers
+
 =head2 positive integer
+
+Integers greater or equal zero.
 
 =head2 real
 
+
 =head2 string
+
+text
 
 =head1 SORTED ALPHABETICALLY
 
@@ -78,10 +85,10 @@ see L</color>
 =head2 brushStyle
 
 Sets the shape of points for Chart::Points, Chart::LinesPoints.
-The possibilities are 'FilledCircle', 'circle', 'donut',
-'OpenCircle', 'fatPlus', 'triangle', 'upsidedownTriangle',
-'square', 'hollowSquare', 'OpenRectangle', 'FilledDiamond',
-'OpenDiamond', 'Star', 'OpenStar'.
+
+Possible values are: 'FilledCircle', 'circle', 'donut', 'OpenCircle', 
+'fatPlus', 'triangle', 'upsidedownTriangle', 'square', 'hollowSquare', 
+'OpenRectangle', 'FilledDiamond', 'OpenDiamond', 'Star', 'OpenStar'.
 Default: 'FilledCircle
 
 =head2 brush_style1
@@ -94,7 +101,9 @@ Composite only: brush style of points associated with right y-axis.
  
 =head2 colors
 
-The key C<color> is special, because its value has to be a hash
+The key C<color> is special, because there are a lot of things that
+need to be colored.
+its value has to be a hash
 the name of 
 This option lets you control the C</color>s the chart will use.  It takes
 a reference to a hash.  The hash should contain keys mapped to references
