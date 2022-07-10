@@ -2,6 +2,7 @@
 -------
     * = test release to check metacpan POD parser
     * ? completed pod on properties
+    * ? all names in Constants.POD
     * ! linkfixes on landing POD of Chart.pm
 
 2.403.0 2022-08-07 lichtkind

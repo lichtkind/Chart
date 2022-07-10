@@ -26,13 +26,23 @@ Yes or no decisions you can answer with the perlish C<0> or C<1> as well
 as with C<'true'> or C<'false'>, which might be shortened to C<'f'>, C<'F'>,
 C<'t'> or C<'T'>. C<'none'> as an alias of C<'false'> is also an option.
 
+=head2 code
+
+Anonymous subroutines that usually react to the firt argument given like:
+
+    C<sub { $_[0] + 1 }>
+
+
 =head2 color
 
-To defined colors you have several options: names ('blue'),
-RGB triplets ([0,255,255]) or HSL hashes 
-({ hue => 240, saturation => 100, lightness => 50 }) are the usual ones.
-Detailed explanation and even more options you find under
-L<Chart::Color>.
+The usual options are: 
+
+  names:  'blue'
+  RGB triplets: [0,255,255]
+  HSL hashes: { hue => 240, saturation => 100, lightness => 50 }
+
+Detailed explanation and even more options you find under L<Chart::Color>.
+All names are listed under L<Chart::Color::Constant/NAMES>
 
 =head2 font
 
@@ -80,7 +90,7 @@ L</Lines> only: Integer sets the width of the lines in pixels. Default is 6.
 
 =head2 background
 
-see L</color>
+see L</colors>
 
 =head2 brushStyle
 
@@ -102,17 +112,14 @@ Composite only: brush style of points associated with right y-axis.
 =head2 colors
 
 The key C<color> is special, because there are a lot of things that
-need to be colored.
-its value has to be a hash
-the name of 
-This option lets you control the C</color>s the chart will use.  It takes
-a reference to a hash.  The hash should contain keys mapped to references
-to arrays of rgb values.  For instance,
+need to be colored. Thats why its value is a hash with sub - keys within,
+which name what exactly you need to color. Their value has to be a L<color>
+(follow link to learn how colors are defined). Example:
 
     $obj->set('colors' => {'background' => [255,255,255]});
 
-sets the background color to white (which is the default).  Valid keys for
-this hash are
+sets the background color to white (which is the default).  
+Valid sub-keys are:
 
     'background' (background color for the image)
     'title' (color of the title)
@@ -130,7 +137,6 @@ this hash are
 NB. For composite charts, there is a limit of 8 datasets per component.
 The colors for 'dataset8' through 'dataset15' become the colors
 for 'dataset0' through 'dataset7' for the second component chart.
-More options how to define colors are described under L<Chart::Color>.
 
 =head2 composite_info
 
@@ -284,10 +290,9 @@ with lines. Defaults to 'false'.
 
 =head2 max_circles
 
-Sets the maximum number of circles when generating a scale for direction.
+L<Direction> only: Sets the maximum number of circles in the coordinate system.
 Default is 100. This limit is used to avoid plotting  an unreasonable 
-large number of ticks if non-round values are used for the min_val and
-max_val.
+large number of ticks if non-round values are used for the min_val and max_val.
 
 =head2 max_val
 
@@ -375,20 +380,11 @@ Netscape 4.5 is unfriendly with POST using this method.
 
 =head2 pairs
 
-Only used for direction how to handle more datasets. 
-               If 'pairs' is set to 'true', 
-               Chart uses the first dataset as a set of degrees and 
-               the second dataset as a set of values. 
-               Then, the third set is a set of degrees and the fourth a set of values \dots. \\
-               If 'pairs' is set to 'false', 
-               Chart uses the first dataset as a set of angels 
-               and all following datasets as sets of values.
-               Defaults to 'false'.
-
-Sets the maximum number of circles when generating a scale for direction.
-Default is 100. This limit is used to avoid plotting  an unreasonable 
-large number of ticks if non-round values are used for the min_val and
-max_val.
+L<Direction> only: L<bool|/boolean> if C<'true'>, Chart uses the first
+dataset as a set of degrees and the second dataset as a set of values. 
+Then, the third set is a set of degrees and the fourth a set of values ... 
+If 'pairs' is set to 'false', Chart uses the first dataset as a set of angels 
+and all following datasets as sets of values. Defaults to 'false'.
 
 =head2 png_border
 
@@ -582,6 +578,8 @@ Both default to undef.
 
 =head2 Color
 
+L<grey_background> ... L<color>:
+
 
 =head1 SORTED BY TYPE
 
@@ -609,6 +607,8 @@ L</transparent> .... L<bool|/boolean>: image background transparency; C<'false'>
 L</angle_interval>    L<pos_int|/"positive integer">: angle between radial lines; C<30>
 
 L</arrow>             L<bool|/boolean>: paint points as arrows; C<'false'>
+
+L<max_circles>        L<pos_int|/"positive integer">: max nr. of coordinate grid circles; C<100>
 
 L</polar>             L<bool|/boolean>: reverse x axis; C<false>
 
