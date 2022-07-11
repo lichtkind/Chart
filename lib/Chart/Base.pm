@@ -987,7 +987,7 @@ sub _init {
         y_label         => 'black',
         y_label2        => 'black',
         grid_lines      => 'black',
-        grey_background => 'grey',
+        grey_background => 'yes',
         (
             map { 'dataset' . $d++ => $_ }
               qw (flamescarlet forestgreen navy olive lightseagreen purple
@@ -1213,23 +1213,18 @@ sub _color_role_to_index {
         my $role  = $_;
         my $index = $self->{'color_table'}->{$role};
 
-        #print STDERR "Role = $_\n";
-
-        unless ( defined $index )
-        {
+        unless ( defined $index ) {
             my $spec =
                  $self->{'colors'}->{$role}
               || $self->{'colors_default_spec'}->{$role}
               || $self->{'colors_default_spec'}->{ $self->{'colors_default_role'}->{$role} };
 
             my @rgb = $self->_color_spec_to_rgb( $role, $spec );
-            #print STDERR "spec = $spec\n";
 
             my $string = sprintf " RGB(%d,%d,%d)", map { $_ + 0 } @rgb;
 
             $index = $self->{'color_table'}->{$string};
-            unless ( defined $index )
-            {
+            unless ( defined $index ) {
                 $index = $self->{'gd_obj'}->colorAllocate(@rgb);
                 $self->{'color_table'}->{$string} = $index;
             }
@@ -1239,7 +1234,6 @@ sub _color_role_to_index {
         $index;
     } @_;
 
-    #print STDERR "Result= ".$result[0]."\n";
     ( wantarray && @_ > 1 ? @result : $result[0] );
 }
 
@@ -3628,11 +3622,11 @@ sub _draw_y_ticks {
 # @return status
 sub _grey_background {
     my $self = shift;
-
+say "--";
     # draw it
     $self->{'gd_obj'}
       ->filledRectangle( $self->{'curr_x_min'}, $self->{'curr_y_min'}, $self->{'curr_x_max'}, $self->{'curr_y_max'},
-        $self->_color_role_to_index('grey_background') );
+        $self->_color_role_to_index('grey') );
 
     # now return
     return 1;

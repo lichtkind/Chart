@@ -126,7 +126,7 @@ or you can try just constructing the hash inside the set call, like
   $obj->set ('title' => 'Foo Bar');
 
 
-L<Chart::Manual::Settings> lists all currently supported keys and values.
+L<Chart::Manual::Properties> lists all currently supported keys and values.
 
 
 =head2 GIFgraph.pm-style API

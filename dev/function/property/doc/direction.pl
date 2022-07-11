@@ -24,6 +24,7 @@ $g->set(
      arrow => 0,
      #angle_interval => 5,
      #legend => 'right',
+     graph_border => 30,
 );
 
 $g->png("direction.png");
