@@ -13,11 +13,13 @@ my @hash = (
     'png_border' => 10,
     'pt_size'    => 18,
     'grid_lines' => 'true',
+    line => 'true',
     integer_ticks_only => 1,
     legend_labels => [qw/a b u/],
     'brush_size' => 10,               # 10 points diameter
     label_values => 'both',
     interval_ticks => 10,
+    colors => {misc => 'green'}
 );
 
 $g->set(@hash);

@@ -996,10 +996,10 @@ sub _init {
               
               PaleGreen1 DarkBlue  orange2 chocolate1 LightGreen
               pink light_purple light_blue plum yellow turquoise light_green brown
-              pink PaleGreen2 MediumPurple PeachPuff1 orange3 chocolate2
-              olive pink light_purple light_blue plum yellow turquoise light_green brown
+              PaleGreen2 MediumPurple PeachPuff1 orange3 chocolate2
+              olive light_purple light_blue yellow turquoise light_green brown
               DarkOrange PaleGreen3 SlateBlue BlueViolet PeachPuff2 orange4
-              chocolate3 LightGreen pink light_purple light_blue plum yellow turquoise light_green brown
+              chocolate3 LightGreen light_purple light_blue light_green 
               snow1 honeydew3 SkyBlue1 cyan3 DarkOliveGreen1 IndianRed3
               orange1 LightPink3 MediumPurple1 snow3 LavenderBlush1 SkyBlue3
               DarkSlateGray1 DarkOliveGreen3 sienna1 orange3 PaleVioletRed1

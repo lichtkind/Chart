@@ -20,11 +20,18 @@ $g->set(
         dataset0     => [ 127,    0,    0 ],
         dataset1     => [   0,  127,    0 ],
         dataset2     => [   0,    0,  127 ],
+        text     => 'blue',
+        title     => 'red',
         #background   => 'lightblue',
     },
     #grey_background =>  'false',
     integer_ticks_only => 1,
-    graph_border => 30,
+    graph_border => 10,
+    png_border => 10,
+    skip_y_ticks => 2,
+    point => 'true',
+
+    x_ticks => 'staggered',
 );
 $g->set( 'y_label'      => 'y label 1' );
 $g->set( 'y_label2'     => 'y label 2' );
@@ -33,7 +40,6 @@ $g->set( #'legend'       => 'bottom',
           legend_font   => GD::Font->Large,
           brush_size => 12,
           transparent => 'true',
-          png_border => 100,
 );
 
 $g->png("lines.png");

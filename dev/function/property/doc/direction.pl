@@ -19,6 +19,7 @@ $g->set(
     'precision'       => 0,
     'legend_labels'   => \@labels,
     'legend'          => 'bottom',
+     point => 'false',
 
      'polar' => 'false',
      arrow => 0,

@@ -28,7 +28,8 @@ C<'t'> or C<'T'>. C<'none'> as an alias of C<'false'> is also an option.
 
 =head2 code
 
-Anonymous subroutines that usually react to the firt argument given like:
+Anonymous subroutines that usually takes the first argument and returns
+a transformed result:
 
     C<sub { $_[0] + 1 }>
 
@@ -129,8 +130,8 @@ Valid sub-keys are:
     'y_grid_lines' (color of the y grid lines - for to left y axis ticks)
     'y2_grid_lines' (color of the y2 grid lines - for right y axis ticks)
     'dataset0'..'dataset63' (the different datasets)
-    'misc' (everything else, ie. ticks, box around the legend)
-
+    'misc' (everything else, ie. axis, ticks, box around the legend)
+    
 NB. For composite charts, there is a limit of 8 datasets per component.
 The colors for 'dataset8' through 'dataset15' become the colors
 for 'dataset0' through 'dataset7' for the second component chart.
@@ -227,8 +228,9 @@ is all you want to achieve.
 
 =head2 integer_ticks_only
 
-Specifies how to draw the x- and y-ticks: as floating point 
-('false', '0') or as integer numbers ('true', 1). Default: 'false'
+L<bool|/boolean> specifies to draw the x- and y-ticks at floating point 
+values (as normal) or when set to 'true' only at integer values.
+Default: 'false'
 
 =head2 interval
 
@@ -376,8 +378,9 @@ Default is 6, The minimum is 2.
 
 =head2 no_cache
 
-Adds Pragma: no-cache to the http header.  Be careful with this one, as
-Netscape 4.5 is unfriendly with POST using this method.
+Adds Pragma: no-cache to the http header while output for CGI.
+Be careful with this one, as Netscape 4.5 is unfriendly with POST
+using this method.
 
 =head2 pairs
 
@@ -440,9 +443,8 @@ charts from being too confusing.  Default is undef.
 
 =head2 skip_int_ticks
 
-If 'integer_ticks_only' was set to 'true' the labels and ticks will 
-be drawn every nth tick. Of course in horizontalBars it affects the
-x-axis. Default to 1, no skipping. 
+If 'true' the labels and ticks will be drawn every nth tick. Of course 
+in horizontalBars it affects the x-axis. Default to 1, no skipping. 
 
 =head2 skip_x_ticks
 
@@ -450,17 +452,17 @@ Sets the number of x-ticks and x-tick labels to skip.  (ie.
 if 'skip_x_ticks' was set to 4, Chart would draw every 4th x-tick
 and x-tick label).  Default is undef.
 
+=head2 skip_y_ticks
+
+L</HorizontalBars> only: Draw only every n'th tick with label on y-axis.
+does for other charts. Defaults to 1 (draw all).
+
 =head2 sort
 
 In a xy-plot, the data will be sorted ascending if set to 'true'.
 (Should be set if the data isn't sorted, especially in Lines, Split 
 and LinesPoints) In a Pareto Chart the data will be sorted descending. 
 Defaults to 'false'.
-
-=head2 skip_y_ticks
-
-Does the same for the y-axis at a HorizontalBars chart as 'skip_x_ticks'
-does for other charts. Defaults to 1.
 
 =head2 spaced_bars
 
@@ -520,9 +522,10 @@ is drawn.  Default is empty.
 
 =head2 x_ticks
 
-Specifies how to draw the x-tick labels.  Valid values are 'normal',
-'staggered' (staggers the labels vertically), and 'vertical' (the
-labels are draw upwards).  Default is 'normal'.
+Specifies how to draw the x-tick labels.  Valid values are 1: 'normal',
+2: 'staggered' (alternating on upper and lower row - for very long labels),
+and 3: 'vertical' (the labels are draw upwards in right angle).
+Default is 'normal'.
 
 =head2 xy_plot
 
@@ -589,11 +592,39 @@ Summary of all properties, grouped by chart type where there applicable.
 Sections are named after the Chart type in question, except B<All> and B<NoPie>.
 
 The format is: name, L<type|/"DATA TYPES">, description, default value
+Click on name for a longer explanation.
 
 =head2 All
 
 Properties available in all chart types:
 
+L<color-background|/colors> .. L</color> of whole image background ; C<'white'>
+
+L<color-datasetx|/colors> .... L</color> of points/lines/bars of dataset number x = 0..64
+
+L<color-grid_lines|/colors> .. L</color> of vertical and horizontal grid lines in the plot background; C<'black'>
+
+L<color-x_grid_lines|/colors>  L</color> of vertical grid lines; C<'black'>
+
+L<color-y_grid_lines|/colors>  L</color> of horizontal grid lines; C<'black'>
+
+L<color-text|/colors> ........ L</color> of all text ; C<'black'>
+
+L<color-title|/colors> ....... L</color> of text above the graph ; C<'black'>
+
+L<color-x_label|/colors> ..... L</color> of x-axis label text; C<'black'>
+
+L<color-y_label|/colors> ..... L</color> of y-axis (left side) label text; C<'black'>
+
+L<color-y_label2|/colors> .... L</color> of y-axis (right side) label text; C<'black'>
+
+L<color-misc|/colors> ........ L</color> of boxes, ticks, axis and alike; C<'black'>
+
+L</f_x_tick> ........ L</code> that transforms "would have" into actual tick label on left x-axis; C<undef>
+
+L</f_y_tick> ........ L</code> that transforms "would have" into actual tick label on right y-axis; C<undef>
+
+L</graph_border> ..... space between graph and title + legend in pixel; C<10>
 
 L</grey_background> . L<bool|/boolean>: sets plot background to grey; C<'true'>
 
@@ -603,7 +634,7 @@ L</legend_font> ..... L</font> of the text in the legend; C<GD::Font->Small>.
 
 L</legend_labels> ... (array ref): labels of colors in legend; C<undef>
 
-L</png_border> ...... L<pos_int|/"positive integer">: space between graph and image edge in pixel; C<10>
+L</png_border> ...... L<pos_int|/"positive integer">: space between graph parts and image edge in pixel; C<10>
 
 L</sub_title> ....... L</string>: text below the L</title> in smaller letters; C<''>
 
@@ -630,11 +661,25 @@ L</grid_lines> ...... L<bool|/boolean>: draw vertical and horizontal grid lines;
 
 L</include_zero> .... L<bool|/boolean>: forces y-axis to include zero; C<'false'>
 
-L</integer_ticks_only>  L<bool|/boolean>: draw tick label as int; C<'false'>
+L</integer_ticks_only>  L<bool|/boolean>: draw x-axis ticks with label only on whole values; C<'false'>
+
+L</max_val> ......... L<pos_int|/"positive integer">: maximum value on y-axis; C<undef>
+
+L</max_x_ticks> ..... L<pos_int|/"positive integer">: maximum of ticks and labels to draw on x-axis; C<100>
+
+L</max_y_ticks> ..... L<pos_int|/"positive integer">: maximum of ticks and labels to draw on y-axis; C<100>
+
+L</min_val> ......... L<pos_int|/"positive integer">: maximum value on y-axis; C<undef>
+
+L</min_x_ticks> ..... L<pos_int|/"positive integer">: minimum of ticks and labels to draw on x-axis; C<6> (min 2)
+
+L</min_y_ticks> ..... L<pos_int|/"positive integer">: minimum of ticks and labels to draw on y-axis; C<6> (min 2)
 
 L</precision> ....... L<pos_int|/"positive integer">: nr. of numerals after the decimal point in axis labels; C<3>
 
-L</skip_int_ticks> .. L<pos_int|/"positive integer">: every n'th tick will be drawn; C<1>
+L</skip_int_ticks> .. L<pos_int|/"positive integer">: draw only n'th tick on whole x-value; C<1> (if L</integer_ticks_only>)
+
+L</skip_x_ticks> .... L<pos_int|/"positive integer">: draw only every n'th tick with label; C<1>
 
 L</sort> ............ L<bool|/boolean>: sort data in ascending order; C<'false'>
 
@@ -643,6 +688,8 @@ L</tick_label_font> . L</font> of tick labels; C<GD::Font->Small>
 L</tick_len> ........ L<pos_int|/"positive integer">: length of the x- and y-ticks in pixels; C<4>
 
 L</x_grid_lines> .... L<bool|/boolean>: vertical grid lines matching x ticks; C<'false'>
+
+L</x_ticks> ......... qw[normal staggered vertical]: style of x-axis labels; C<'normal'>
 
 L</xy_plot> ......... L<bool|/boolean>: forces x-y-graph, with numeric x-axis; C<'false'>
 
@@ -656,6 +703,10 @@ L</y_grid_lines> .... L<bool|/boolean>: horizontal grid lines matching y ticks; 
 This includes Bars StackedBars and HorizontalBars.
 
 L</spaced_bars> ....  L<bool|/boolean>: leave space between the groups of bars; C<'true'>
+
+=head2 HorizontalBars
+
+L</skip_y_ticks> .... L<pos_int|/"positive integer">: draw every n'th tick with label on y-axis; C<1>
 
 
 =head2 Composite
@@ -699,6 +750,10 @@ L</max_circles> ...... L<pos_int|/"positive integer">: max nr. of coordinate gri
 
 L</min_circles> ...... L<pos_int|/"positive integer">: min nr. of coordinate grid circles; C<4> (min. 2)
 
+L</pair> ............. L<bool|/boolean>: use odd numbered data sets to build pairs with the next; C<false>
+
+L</point> ............ L<bool|/boolean>: paint points at all (or only lines); C<false>
+
 L</polar> ............ L<bool|/boolean>: reverse x axis; C<false>
 
 
@@ -719,11 +774,9 @@ L</pt_size> .......... L<pos_int|/"positive integer">: radius of points in pixel
 
 =head2 Pie
 
-L</graph_border> ..... space between graph and surrounding box in pixel; C<10>
+L</label_values> ..... qw[percent value both none]: label content on pie slice label; C<'percent'>
 
-L</label_values> ..... qw[percent value both none]: label content on pie slice value; C<'percent'>
-
-L</legend_label_values> .. qw[percent value both none]: labels content in the legend; C<'value'>
+L</legend_label_values> .. qw[percent value both none]: label content in the legend; C<'value'>
 
 L</legend_lines> ..... L<bool|/boolean>: draw lines connecting pie slices and label; C<'false'> 
 
