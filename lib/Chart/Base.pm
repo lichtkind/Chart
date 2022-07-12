@@ -987,7 +987,7 @@ sub _init {
         y_label         => 'black',
         y_label2        => 'black',
         grid_lines      => 'black',
-        grey_background => 'yes',
+        grey_background => 'gray90',
         (
             map { 'dataset' . $d++ => $_ }
               qw (flamescarlet forestgreen navy olive lightseagreen purple
@@ -1218,7 +1218,6 @@ sub _color_role_to_index {
                  $self->{'colors'}->{$role}
               || $self->{'colors_default_spec'}->{$role}
               || $self->{'colors_default_spec'}->{ $self->{'colors_default_role'}->{$role} };
-
             my @rgb = $self->_color_spec_to_rgb( $role, $spec );
 
             my $string = sprintf " RGB(%d,%d,%d)", map { $_ + 0 } @rgb;
@@ -1347,8 +1346,7 @@ sub _draw_title {
 # by writing more than one line as the title.
 # Both use decreased width and height of the font by one.
 # @return status
-sub _draw_sub_title
-{
+sub _draw_sub_title {
     my $self = shift;
 
     my $font = $self->{'sub_title_font'};
@@ -2217,8 +2215,7 @@ sub _plot
 # 'legend' to 'top', 'bottom', 'left', 'right' or 'none'.
 # The legend is positioned at the defined place, respectively.
 # @return status
-sub _draw_legend
-{
+sub _draw_legend {
     my $self = shift;
     my $length;
     # check to see if legend type is none..
@@ -3622,11 +3619,10 @@ sub _draw_y_ticks {
 # @return status
 sub _grey_background {
     my $self = shift;
-say "--";
     # draw it
     $self->{'gd_obj'}
       ->filledRectangle( $self->{'curr_x_min'}, $self->{'curr_y_min'}, $self->{'curr_x_max'}, $self->{'curr_y_max'},
-        $self->_color_role_to_index('grey') );
+        $self->_color_role_to_index('grey_background') );
 
     # now return
     return 1;
