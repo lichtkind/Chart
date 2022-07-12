@@ -17,6 +17,7 @@ my @hash = (
     legend_labels => [qw/a b u/],
     'brush_size' => 10,               # 10 points diameter
     label_values => 'both',
+    interval_ticks => 10,
 );
 
 $g->set(@hash);

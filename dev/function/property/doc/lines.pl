@@ -33,6 +33,7 @@ $g->set( #'legend'       => 'bottom',
           legend_font   => GD::Font->Large,
           brush_size => 12,
           transparent => 'true',
+          png_border => 100,
 );
 
 $g->png("lines.png");

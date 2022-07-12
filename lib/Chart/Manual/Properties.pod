@@ -236,7 +236,7 @@ L</Split> only: Sets the interval of one partition of plot. Defaults 'undef'.
 
 =head2 interval_ticks
 
-Sets the number of ticks for the x-axis of a Split chart. Defaults to 5.
+L</Split> only: Number of ticks for the x-axis. Defaults to 5.
 
 =head2 label_font
 
@@ -245,8 +245,8 @@ This option changes the L</font> of the axis labels.
 =head2 label_values
 
 L</Pie> only: What kind of value labels to show alongside the pie.
-Valid values are ‘percent’, ‘value’, ‘both’ and ‘none’. Defaults to
-C<‘percent’>.
+Valid values are 'percent', 'value', 'both' and 'none'. Defaults to
+C<'percent'>.
 
 =head2 legend
 
@@ -256,7 +256,8 @@ legend.  Default is 'right'.
 
 =head2 legend_example_size
 
-Sets the length of the example line in the legend in pixels. Defaults to 20.
+L</Composite> only: Length of the example line in the legend in pixels.
+Defaults to 20.
 
 =head2 legend_font
 
@@ -307,15 +308,13 @@ Default is undef.
 
 =head2 max_val1
 
-Only for composite charts, these options specify the maximum y-value
-for the first and second components respectively.  Both default to
-undef.
+L</Composite> only: Maximum y-value for the first (left y-axis) components.
+Default to undef.
 
 =head2 max_val2
 
-Only for composite charts, these options specify the maximum y-value
-for the first and second components respectively.  Both default to
-undef.
+L</Composite> only: Maximum y-value for the second (right y-axis) components.
+Default to undef.
 
 =head2 max_x_ticks
 
@@ -334,8 +333,8 @@ The value for 'max_y_ticks' should be at least 5 times larger than
 
 =head2 min_circles
 
-Sets the minimum number of circles when generating a scale for direction.
-Default is 4, minimum is 2.
+L</Direction> only: Sets the minimum number of circles when generating 
+a scale for direction. Default is 4, minimum is 2.
 
 =head2 min_val
 
@@ -357,15 +356,13 @@ be overridden by the system, plotting a maximum 'max_y_ticks' ticks.
 
 =head2 min_val1
 
-Only for composite charts, these options specify the minimum y-value
-for the first and second components respectively.  Both default to
-undef.
+L</Composite> only: Minimum y-value for the first (left y-axis) component.
+Default to undef.
 
 =head2 min_val2
 
-Only for composite charts, these options specify the minimum y-value
-for the first and second components respectively.  Both default to
-undef.
+L</Composite> only: Minimum y-value for the second (right y-axis) component.
+Default to undef.
 
 =head2 min_x_ticks
 
@@ -402,7 +399,7 @@ Defaults to 'true'.
 
 =head2 polar
 
-Direction only: If set C<true>, the maximum x value is in the center
+L</Direction> only: If set C<true>, the maximum x value is in the center
 of the coordinate system. Defaults to 'false'.
 
 =head2 precision
@@ -418,16 +415,16 @@ in pixels.  Default is 18.
 
 =head2 ring
 
-Pie charts only: sets the "thickness" of the pie, the percentage of
+L</Pie> only: sets the "thickness" of the pie, the percentage of
 the radius, which is visible. Defaults to 1 (normal pie chart).
 Good values are between 0.2 and 0.4.
 
 =head2 scale
 
-Every y-value of a split chart will be multiplied with that value, but
-the scale won't change. Which means that split allows one to overdraw certain 
-rows! Only useful if you want to give prominence to the maximal amplitudes
-of the data. Defaults to 1. 
+L</Split> only: Every y-value will be multiplied with that value, but
+the scale won't change. Which means that split allows one to overdraw 
+certain  rows! Only useful if you want to give prominence to the maximal 
+amplitudes of the data. Defaults to 1. 
 
 =head2 same_error
 
@@ -437,7 +434,7 @@ to see how the module ErrorBars works. Default: 'false'.
 
 =head2 same_y_axes
 
-Forces both component charts in a composite chart to use the same maximum 
+L</Composite> only: Forces both component charts to use the same maximum 
 and minimum y-values if set to 'true'.  This helps to keep the composite 
 charts from being too confusing.  Default is undef.
 
@@ -473,7 +470,7 @@ Default is 'true'.
 
 =head2 start
 
-Split only: Sets the start value of the first interval.
+L</Split> only: Sets the start value of the first interval.
 If the x coordinate of the first data point is zero, you should 'set' to
 zero. Default is 'undef'.
 
@@ -606,6 +603,8 @@ L</legend_font> ..... L</font> of the text in the legend; C<GD::Font->Small>.
 
 L</legend_labels> ... (array ref): labels of colors in legend; C<undef>
 
+L</png_border> ...... L<pos_int|/"positive integer">: space between graph and image edge in pixel; C<10>
+
 L</sub_title> ....... L</string>: text below the L</title> in smaller letters; C<''>
 
 L</text_space> ...... L<pos_int|/"positive integer">: extra space around any text; C<2>
@@ -629,6 +628,8 @@ L</custom_x_ticks> .. (array ref): [0,3,4] displays  0th, 3rd, and 4th x-tick; C
 
 L</grid_lines> ...... L<bool|/boolean>: draw vertical and horizontal grid lines; C<'false'>
 
+L</include_zero> .... L<bool|/boolean>: forces y-axis to include zero; C<'false'>
+
 L</integer_ticks_only>  L<bool|/boolean>: draw tick label as int; C<'false'>
 
 L</precision> ....... L<pos_int|/"positive integer">: nr. of numerals after the decimal point in axis labels; C<3>
@@ -645,7 +646,7 @@ L</x_grid_lines> .... L<bool|/boolean>: vertical grid lines matching x ticks; C<
 
 L</xy_plot> ......... L<bool|/boolean>: forces x-y-graph, with numeric x-axis; C<'false'>
 
-L</y_axes> .......... (C<'left'>, C<'right'>, C<'both'>) -position of y-axis;C<'left'>
+L</y_axes> .......... (C<'left'>, C<'right'>, C<'both'>): position of y-axis;C<'left'>
 
 L</y_grid_lines> .... L<bool|/boolean>: horizontal grid lines matching y ticks; C<'false'>
 
@@ -669,6 +670,18 @@ L</f_y_tick1> ....... L</code> that transforms "would have" into actual label on
 
 L</f_y_tick2> ....... L</code> that transforms "would have" into actual label on right y-axis; C<undef>
 
+L</legend_example_size> . Length of the color example line in legend in pixel; C<20>
+
+L</max_val1> ........ L</code> maximum y value on the left axis; C<undef>
+
+L</max_val2> ........ L</code> maximum y value on the right axis; C<undef>
+
+L</min_val1> ........ L</code> minimum y value on the left axis; C<undef>
+
+L</min_val2> ........ L</code> minimum y value on the right axis; C<undef>
+
+L</same_y_axes> ..... L</code> both y-axis have same min and max; C<undef>
+
 L</y_ticks1> ........ L<pos_int|/"positive integer">: number of y ticks on left y-axis; C<undef>
 
 L</y_ticks2> ........ L<pos_int|/"positive integer">: number of y ticks on right y-axis; C<undef>
@@ -683,6 +696,8 @@ L</arrow> ............ L<bool|/boolean>: paint points as arrows; C<'false'>
 L</line> ............. L<bool|/boolean>: connected points with lines; C<'false'>
 
 L</max_circles> ...... L<pos_int|/"positive integer">: max nr. of coordinate grid circles; C<100>
+
+L</min_circles> ...... L<pos_int|/"positive integer">: min nr. of coordinate grid circles; C<4> (min. 2)
 
 L</polar> ............ L<bool|/boolean>: reverse x axis; C<false>
 
@@ -722,7 +737,12 @@ L</pt_size> .......... L<pos_int|/"positive integer">: radius of points in pixel
 
 =head2 Split
 
-L</start> .............L</integer>: start value of the first interval; C<'undef'>
+L</interval> ......... L<pos_int|/"positive integer">: interval of a plot segment; C<'undef'>
 
+L</interval_ticks> ... L<pos_int|/"positive integer">: number of ticks on x-axis; C<5>
+
+L</scale> ............ L</integer>: factor for y-values; C<1>
+
+L</start> ............ L</integer>: start value of the first interval; C<'undef'>
 
 =cut

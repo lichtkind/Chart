@@ -26,6 +26,7 @@ $g->add_dataset(@y);
     'title'          => 'f(x) = sin x',
     'precision'      => 0,
     'y_grid_lines'   => 'true',
+    scale => 2,
 
 );
 $g->set(%hash);
