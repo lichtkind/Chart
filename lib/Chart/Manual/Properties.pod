@@ -299,7 +299,7 @@ be connected with lines. Defaults to 'false'.
 
 =head2 max_circles
 
-L<Direction> only: Sets the maximum number of circles in the coordinate system.
+L</Direction> only: Sets the maximum number of circles in the coordinate system.
 Default is 100. This limit is used to avoid plotting  an unreasonable 
 large number of ticks if non-round values are used for the min_val and max_val.
 

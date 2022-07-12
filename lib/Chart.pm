@@ -1,7 +1,7 @@
 use v5.12;
 
 package Chart;
-our $VERSION = 'v2.403.1';
+our $VERSION = 'v2.403.2';
 
 use Chart::Points;
 use Chart::Lines;
@@ -74,12 +74,12 @@ For a more thorough documentation please visit the L<Chart::Manual>.
 
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/blob/main/dev/test/samples/stackedbars.png" alt="stacked bars">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/stackedbars.png" alt="stacked bars">
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/bars_2.png" alt="multi bar chart">
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/hbars_2.png" alt="horizontal bar chart">
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/direction_4.png" alt="polar chart">
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/pie_4.png" alt="pie chart">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/blob/main/dev/test/samples/split_2.png" alt="multi chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/split_2.png" alt="multi chart">
 </p>
 
 =head2 use-ing Chart
