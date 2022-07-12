@@ -1,6 +1,6 @@
 ### NAME
 
-    Chart - swiss army knife of chart composition and drawing
+    Chart - swiss army knife for visualising series of numbers
 
 ### VERSION
  

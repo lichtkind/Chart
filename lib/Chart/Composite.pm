@@ -61,8 +61,7 @@ sub set
 # had to override it to reassemble the \@data array correctly
 #
 # @return Reference to an array of the image
-sub imagemap_dump
-{
+sub imagemap_dump {
     my $self = shift;
     my ( $i, $j );
     my @map;

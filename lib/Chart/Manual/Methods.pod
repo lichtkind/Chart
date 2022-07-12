@@ -3,7 +3,7 @@
 
 =head1 NAME
 
-Chart::Manual::Methods - user API listing
+Chart::Manual::Methods - user API descriotion
 
 =head1 OVERVIEW
 
@@ -24,13 +24,21 @@ Chart::Manual::Methods - user API listing
 
 =head2 get_data
 
+=head2 imagemap_dump
+
 =head2 jpeg
 
 =head2 new
 
 =head2 png
 
+=head2 scalar_jpeg
+
+=head2 scalar_png
+
 =head2 set
+
+L<Chart::Manual::Properties>
 
 
 =head1 SORTED THEMATICALLY
