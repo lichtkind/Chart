@@ -22,6 +22,7 @@ my %hash = (
     'tick_len'     => '5',
     'x_ticks'      => 'vertical',
     'grid_lines'   => 'true',
+    'pt_size'      => '30',
     skip_y_ticks => 2,
     'colors'       => {
         'text'         => [ 100, 0,   200 ],

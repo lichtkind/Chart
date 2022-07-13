@@ -32,7 +32,7 @@ C<'t'> or C<'T'>. C<'none'> as an alias of C<'false'> is also an option.
 Anonymous subroutines that usually takes the first argument and returns
 a transformed result:
 
-    C<sub { $_[0] + 1 }>
+    sub { $_[0] + 1 }
 
 
 =head2 color
@@ -78,43 +78,46 @@ Sections are named after the Chart type in question, except B<All> and B<NoPie>.
 The format is: name, L<type|/"DATA TYPES">, description, default value
 Click on name for a longer explanation.
 
+
 =head2 All
 
 Properties available in all chart types:
 
-L<color-background|/colors> .. L</color> of whole image background ; C<'white'>
+L<colors-background|/colors> .. L</color> of whole image background ; C<'white'>
 
-L<color-datasetx|/colors> ........ L</color> of points/lines/bars of dataset number x = 0..64
+L<colors-datasetx|/colors> ........ L</color> of points/lines/bars of dataset number x = 0..64
 
-L<color-grid_lines|/colors> ..... L</color> of vertical and horizontal grid lines in the plot background; C<'black'>
+L<colors-grid_lines|/colors> ..... L</color> of vertical and horizontal grid lines in the plot background; C<'black'>
 
-L<color-x_grid_lines|/colors>  L</color> of vertical grid lines; C<'black'>
+L<colors-x_grid_lines|/colors>  L</color> of vertical grid lines; C<'black'>
 
-L<color-y_grid_lines|/colors>  L</color> of horizontal grid lines; C<'black'>
+L<colors-y_grid_lines|/colors>  L</color> of horizontal grid lines; C<'black'>
 
-L<color-text|/colors> .............. L</color> of all text ; C<'black'>
+L<colors-text|/colors> .............. L</color> of all text ; C<'black'>
 
-L<color-title|/colors> .............. L</color> of text above the graph ; C<'black'>
+L<colors-title|/colors> .............. L</color> of text above the graph ; C<'black'>
 
-L<color-x_label|/colors> ........ L</color> of x-axis label text; C<'black'>
+L<colors-x_label|/colors> ........ L</color> of x-axis label text; C<'black'>
 
-L<color-y_label|/colors> ........ L</color> of y-axis (left side) label text; C<'black'>
+L<colors-y_label|/colors> ........ L</color> of y-axis (left side) label text; C<'black'>
 
-L<color-y_label2|/colors> ...... L</color> of y-axis (right side) label text; C<'black'>
+L<colors-y_label2|/colors> ...... L</color> of y-axis (right side) label text; C<'black'>
 
-L<color-misc|/colors> ............ L</color> of boxes, ticks, axis and alike; C<'black'>
+L<colors-misc|/colors> ............ L</color> of boxes, ticks, axis and alike; C<'black'>
 
-L</f_x_tick> ................. L</code> that transforms "would have" into actual tick label on left x-axis; C<undef>
+L</f_x_tick> .................. L</code> that transforms "would have" into actual tick label on left x-axis; C<undef>
 
-L</f_y_tick> ................. L</code> that transforms "would have" into actual tick label on right y-axis; C<undef>
+L</f_y_tick> .................. L</code> that transforms "would have" into actual tick label on right y-axis; C<undef>
 
 L</graph_border> ..... space between graph and title + legend in pixel; C<10>
 
 L</grey_background> . L<bool|/boolean>: sets plot background to grey; C<'true'>
 
-L</imagemap> .......... L<bool|/boolean>: enable imagemap_dump(); C<'false'>
+L</imagemap> ............ L<bool|/boolean>: enable imagemap_dump(); C<'false'>
 
-L</legend> ................ qw[left right top bottom none]: placement of the legend; C<'right'>
+L</label_font> ............. L</font> of axis labels; GD::Font->MediumBold
+
+L</legend> .................. qw[left right top bottom none]: placement of the legend; C<'right'>
 
 L</legend_font> ..... L</font> of the text in the legend; GD::Font->Small.
 
@@ -132,9 +135,11 @@ L</title_font> ........ L</font> of the title text; GD::Font->Large
 
 L</transparent> ..... L<bool|/boolean>: full image background transparency; C<'false'>
 
-L</x_label> ........... L</string>: x-axis label text; C<''>
+L</x_label> ............. L</string>: x-axis label text; C<''>
 
-L</y_label> ........... L</string>:labels on the standard, left y-axis; C<''>
+L</y_label> ............. L</string>:label on the standard, left y-axis; C<''>
+
+L</y_label2> .......... L</string>:label on right y-axis, if different; C<''>
 
 
 =head2 NoPie
@@ -189,6 +194,7 @@ L</y_grid_lines> ..... L<bool|/boolean>: horizontal grid lines matching y ticks;
 This includes Bars StackedBars and HorizontalBars.
 
 L</spaced_bars> ....  L<bool|/boolean>: leave space between the groups of bars; C<'true'>
+
 
 =head2 HorizontalBars
 
@@ -250,10 +256,16 @@ L</same_error> ....... L<bool|/boolean>: same values for upper and lower error b
 
 =head2 Lines
 
+including chart type LinesPoints
+
 L</brush_size> ....... L<pos_int|/"positive integer">: width of the lines in pixels; C<6>
 
 
-=head2 LinesPoints
+=head2 Points
+
+including chart type LinesPoints
+
+L</brushStyle> ........ shape of the points; C<'FilledCircle'>
 
 L</pt_size> ............ L<pos_int|/"positive integer">: radius of points in pixels; C<18>
 
@@ -269,11 +281,6 @@ L</legend_lines> .... L<bool|/boolean>: draw lines connecting pie slices and lab
 L</ring> ...................... L</real>: percentage of visible radius; C<1> (full pie)
 
 
-=head2 Points
-
-L</pt_size> ............ L<pos_int|/"positive integer">: radius of points in pixels; C<18>
-
-
 =head2 Split
 
 L</interval> .......... L<pos_int|/"positive integer">: interval of a plot segment; C<'undef'>
@@ -283,6 +290,7 @@ L</interval_ticks> .. L<pos_int|/"positive integer">: number of ticks on x-axis;
 L</scale> ............... L</integer>: factor for y-values; C<1>
 
 L</start> ............... L</integer>: start value of the first interval; C<'undef'>
+
 
 =head1 SORTED ALPHABETICALLY
 
@@ -313,7 +321,7 @@ Sets the shape of points for Chart::Points, Chart::LinesPoints.
 Possible values are: 'FilledCircle', 'circle', 'donut', 'OpenCircle', 
 'fatPlus', 'triangle', 'upsidedownTriangle', 'square', 'hollowSquare', 
 'OpenRectangle', 'FilledDiamond', 'OpenDiamond', 'Star', 'OpenStar'.
-Default: 'FilledCircle
+Default: 'FilledCircle'
 
 =head2 brush_style1
 
@@ -458,7 +466,8 @@ L</Split> only: Number of ticks for the x-axis. Defaults to 5.
 
 =head2 label_font
 
-This option changes the L</font> of the axis labels. 
+This option changes the L</font> of the axis labels.
+Default is GD::Font->MediumBold.
 
 =head2 label_values
 
@@ -757,8 +766,7 @@ If empty, no label is drawn.  Default is empty.
 
 =head2 y_label2
 
-Tells Chart what to use for labels on the second, 
-right y-axis (if different from left).
+Text of the label on the second, right y-axis (if different from left).
 If empty, no label is drawn.  Default is empty.
 
 =head2 y_axes
@@ -770,11 +778,6 @@ Valid values are 'left', 'right' and 'both'. Defaults to 'left'.
 
 Draws horizontal grid lines matching up to y ticks if set to 'true'. Default is false.
 
-=head2 ylabel2
-
-The label for the right y-axis (the second component chart) on a composite
-chart.  Default is undef.
-
 =head2 y_ticks1
 
 L<Composite> only: number of y ticks to use on the first and 
@@ -784,5 +787,19 @@ option, both axes will use that number of y ticks. Both default to undef.
 =head2 y_ticks2
 
 see L</y_ticks1>
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2022 David Bonner, Herbert Breunung.
+
+This program is free software; you can redistribute it and/or modify it 
+under same terms as Perl itself.
+
+=head1 AUTHOR
+
+David Bonner, <chartgrp@web.de>
+
+Herbert Breunung, <lichtkind@cpan.org>
+
 
 =cut

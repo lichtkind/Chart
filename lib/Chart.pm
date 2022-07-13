@@ -8,17 +8,17 @@ use Chart::Lines;
 use Chart::LinesPoints;
 use Chart::Mountain;
 
+use Chart::ErrorBars;
+use Chart::Direction;
+use Chart::Split;
+use Chart::Pareto;
+use Chart::Composite;
+
 use Chart::Bars;
 use Chart::HorizontalBars;
 use Chart::StackedBars;
-use Chart::ErrorBars;
+
 use Chart::Pie;
-
-use Chart::Direction;
-use Chart::Split;
-use Chart::Composite;
-use Chart::Pareto;
-
 
 
 

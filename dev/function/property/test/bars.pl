@@ -1,19 +1,17 @@
 #!/usr/bin/perl -w
+use v5.12;
 
-BEGIN { unshift @INC, 'lib', '../lib'}
+BEGIN { unshift @INC, 'lib', '../../../lib'}
+
 use Chart::Bars;
-use File::Temp 0.19;
-my $samples = File::Temp->newdir();
 
-print "1..1\n";
-
-$g = Chart::Bars->new( 600, 600 );
+my $g = Chart::Bars->new( 600, 600 );
 $g->add_dataset( 'foo', 'bar', 'junk', 'ding',  'bat' );
 $g->add_dataset( 30000, 40000, 80000,  50000,   90000 );
 $g->add_dataset( 80000, 60000, 30000,  30000,   40000 );
 $g->add_dataset( 50000, 70000, 20200,  80000.8, 40000 );
 
-%hash = (
+$g->set(
     'transparent'  => 'true',
     'precision'    => 1,
     'title'        => 'Bars\nChartmodul',
@@ -25,10 +23,11 @@ $g->add_dataset( 50000, 70000, 20200,  80000.8, 40000 );
     'x_label'      => 'X-Achse',
     'y_label'      => 'Y-Achse',
     'y_label2'     => 'Y-Achse2',
-    'legend'       => 'none',
+    'legend'       => 'right',
     'tick_len'     => '3',
     'x_ticks'      => 'vertical',
     'include_zero' => 'true',
+    'pt_size'      => '7',
     'skip_x_ticks' => '1',
     'grid_lines'   => 'true',
     'colors'       => {
@@ -41,12 +40,6 @@ $g->add_dataset( 50000, 70000, 20200,  80000.8, 40000 );
 
     },
     'y_ticks' => '20',
-
 );
-$g->set(%hash);
+$g->png("bars.png");
 
-$g->png("$samples/bars.png");
-
-print "ok 1\n";
-
-exit(0);
