@@ -3,7 +3,7 @@
 
 =head1 NAME
 
-Chart::Manual::Types - document all supported chart types
+Chart::Manual::Types - all chart types by example
 
 =head1 OVERVIEW
 
@@ -29,10 +29,10 @@ The class Chart::Bars creates a chart made up of a series of vertical bars.
 The length of each bar depicts one value of your second data set. 
 The first data set however, defines the domain. In this example the first
 value of the first (domain) data set is 'camel'. So the first value of 
-the second set (30000) is positioned after the first tick on the x-axis
-labeled 'camel'. Right beside it is a differently colored first value
-of the third data set (80000). Since the option L<spaced_bars|Chart::Manual::Properties/spaced_bars>
-is set to C<'true'> on default both bars are not crammed together.
+the second set (30000) is positioned above the first tick on the x-axis
+labeled 'camel'. Right beside it is a differently colored bar, depticting
+the first value of the third data set (80000). Since the option L<spaced_bars|Chart::Manual::Properties/spaced_bars>
+is set to C<'true'> on default, both bars are separated from the next group of bars. 
 In this example it also makes also sense to activate the horizontal
 L<y_grid line|Chart::Manual::Properties/y_grid line>s and give them 
 a subtle color. Further important was it to set the property L<min_val|Chart::Manual::Properties/min_val>

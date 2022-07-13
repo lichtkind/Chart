@@ -37,7 +37,7 @@
 
 [property]
 
-  doc             P      demo progs for documenting all properties
+  test           C       demo progs for documenting all properties
 
 [koor]
 

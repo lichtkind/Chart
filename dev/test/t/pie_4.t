@@ -21,6 +21,7 @@ $g->set( 'x_label'             => '' );
 $g->set( 'legend_font'         => gdSmallFont );
 $g->set( 'title_font'          => gdGiantFont );
 $g->set( 'legend_lines'        => 'false' );
+$g->set( 'ring'                => 0.35 );
 
 $g->png("samples/pie_4.png");
 print "ok 1\n";

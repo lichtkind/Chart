@@ -1,7 +1,7 @@
 use v5.12;
 
 package Chart;
-our $VERSION = 'v2.403.2';
+our $VERSION = 'v2.403.3';
 
 use Chart::Points;
 use Chart::Lines;
@@ -74,6 +74,7 @@ For a more thorough documentation please visit the L<Chart::Manual>.
 
 
 =for HTML <p>
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/composite_f.png" alt="composite of bars and lines">
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/stackedbars.png" alt="stacked bars">
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/bars_2.png" alt="multi bar chart">
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/hbars_2.png" alt="horizontal bar chart">
