@@ -8,6 +8,26 @@ Chart::Manual::Workflows - different ways to create charts
 =head1 OVERVIEW
 
 
+
+=head2 use-ing Chart
+
+Okay, so you caught me.  There's really no Chart::type module.
+All of the different chart types (Points, Lines, Bars, LinesPoints,
+Composite, StackedBars, Pie, Pareto, HorizontalBars, Split, ErrorBars,
+Direction and Mountain so far) are classes by themselves, each inheriting 
+a bunch of methods from the Chart::Base class.  Simply replace
+the word type with the type of chart you want and you're on your way.  
+For example,
+
+  use Chart::Lines;
+
+would invoke the lines module.
+Alternatively write to load all chart types at ones with 
+
+  use Chart;
+
+
+
 =head1 COPYRIGHT & LICENSE
 
 Copyright 2022 David Bonner, Herbert Breunung.

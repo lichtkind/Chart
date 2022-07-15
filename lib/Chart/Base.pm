@@ -18,8 +18,7 @@ use Chart::Color;
 #  public methods          #
 #<<<<<<<<<<<<<<<<<<<<<<<<<<#
 
-sub new            # Standard constructor
-{
+sub new {          # Standard constructor
     my $proto = shift;
     my $class = ref($proto) || $proto;
     my $self  = (bless {}, $class) ;
@@ -55,12 +54,6 @@ sub set {
             foreach my $key ( sort keys %hash ) {
 
                 if ( $key =~ /^grid_lines$/ ) {
-                    # ORIG:
-                    #$self->{'colors'}{'y_grid_lines'}    = $hash{'grid_lines'},
-                    #  $self->{'colors'}{'x_grid_lines'}  = $hash{'grid_lines'},
-                    #  $self->{'colors'}{'y2_grid_lines'} = $hash{'grid_lines'};
-                    #
-                    # NEW!!!!!!!!!!!!!!!!!!
                     if ( ref( $hash{'grid_lines'} ) eq 'ARRAY' )
                     {
                         my @aLocal = ( $hash{'grid_lines'}[0], $hash{'grid_lines'}[1], $hash{'grid_lines'}[2] );
@@ -192,47 +185,28 @@ sub add_dataset
 sub add_datafile {
     my $self     = shift;
     my $filename = shift;
-    my $format   = shift;
+    my $format   = shift // 'set';
     my ( $File, @array );
+
+    carp "Need format for the data file: 'set' (default) or 'pt' \n" unless $format eq 'set' or $format eq 'pt';
 
     # do some ugly checking to see if they gave me
     # a filehandle or a file name
-    if ( ( ref \$filename ) eq 'SCALAR' )
-    {
-
-        # they gave me a file name
+    if ( ( ref \$filename ) eq 'SCALAR' ) {
         open( $File, $filename ) or croak "Can't open the datafile: $filename.\n";
-    }
-    elsif ( ( ref \$filename ) =~ /^(?:REF|GLOB)$/ )
-    {
+    } elsif ( ( ref \$filename ) =~ /^(?:REF|GLOB)$/ ) {
 
         # either a FileHandle object or a regular file handle
         $File = $filename;
-    }
-    else
-    {
+    } else {
         carp "I'm not sure what kind of datafile you gave me,\n", "but it wasn't a filename or a filehandle.\n";
     }
 
-    #add the data
-    while (<$File>)
-    {
+    while (<$File>) {
         @array = split;
-        if ( $#array > -1 )
-        {
-            if ( $format =~ m/^pt$/i )
-            {
-                $self->add_pt(@array);
-            }
-            elsif ( $format =~ m/^set$/i )
-            {
-                $self->add_dataset(@array);
-            }
-            else
-            {
-                carp "Tell me what kind of file you gave me: 'pt' or 'set'\n";
-            }
-        }
+        next unless @array and substr($array[0], 0, 1) ne '#';
+        if ($format eq 'set'){ $self->add_dataset( @array ) }
+        else                 { $self->add_pt( @array ) }
     }
     close($File);
 }
@@ -295,8 +269,7 @@ sub png {
 
     # do some ugly checking to see if they gave me
     # a filehandle or a file name
-    if ( ( ref \$file ) eq 'SCALAR' )
-    {
+    if ( ( ref \$file ) eq 'SCALAR' ) {
 
         # they gave me a file name
         # Try to delete an existing file
@@ -1026,37 +999,17 @@ sub _init {
 # Remember the external reference.\n
 # Therefore, this function can anly be called once!
 # @param extern_ref  Reference to external data space
-sub _copy_data
-{
+sub _copy_data {
     my $self       = shift;
     my $extern_ref = shift;
-    my ( $ref, $i );
 
     # look to see if they used the other api
-    if ( $self->{'dataref'} )
-    {
-
-        # we've already got a copy, thanks
-        return 1;
-    }
-    else
-    {
-
-        # get an array reference
-        $ref = [];
-
-        # loop through and copy the external data to internal memory
-        for $i ( 0 .. $#{$extern_ref} )
-        {
-            @{ $ref->[$i] } = @{ $extern_ref->[$i] };
-            ## Speedup compared to:
-            #  for $j (0..$#{$extern_ref->[$i]}) {
-            #       $ref->[$i][$j] = $extern_ref->[$i][$j];
-            #     }
-        }
-
-        # put it in the object
-        $self->{'dataref'} = $ref;
+    if ( $self->{'dataref'} ) {
+        return 1; # we've already got a copy, thanks
+    } else {
+        return unless ref $extern_ref eq 'ARRAY';
+        
+        $self->{'dataref'} = [ map { \@$_ } @$extern_ref ]; # clone AoA
         return 1;
     }
 }
@@ -1073,15 +1026,11 @@ sub _check_data {
     my $length = 0;
 
     # first make sure there's something there
-    unless ( scalar( @{ $self->{'dataref'} } ) >= 2 )
-    {
-        croak "Call me again when you have some data to chart";
-    }
+    croak "Call me again when you have some data to chart" unless scalar @{ $self->{'dataref'} } >= 2;
 
     # make sure we don't end up dividing by zero if they ask for
     # just one y_tick
-    if ( $self->{'y_ticks'} <= 1 )
-    {
+    if ($self->{'y_ticks'} <= 1) {
         $self->{'y_ticks'} = 2;
         carp "The number of y_ticks displayed must be at least 2";
     }
@@ -1091,10 +1040,8 @@ sub _check_data {
 
     # remember the number of points in the largest dataset
     $self->{'num_datapoints'} = 0;
-    for ( 0 .. $self->{'num_datasets'} )
-    {
-        if ( scalar( @{ $self->{'dataref'}[$_] } ) > $self->{'num_datapoints'} )
-        {
+    for ( 0 .. $self->{'num_datasets'} ) {
+        if ( scalar( @{ $self->{'dataref'}[$_] } ) > $self->{'num_datapoints'} ) {
             $self->{'num_datapoints'} = scalar( @{ $self->{'dataref'}[$_] } );
         }
     }
@@ -1104,11 +1051,9 @@ sub _check_data {
 
     # find the longest x-tick label
     $length = 0;
-    for ( @{ $self->{'dataref'}->[0] } )
-    {
+    for ( @{ $self->{'dataref'}->[0] } ) {
         next if !defined($_);
-        if ( length( $self->{f_x_tick}->($_) ) > $length )
-        {
+        if ( length( $self->{f_x_tick}->($_) ) > $length ) {
             $length = length( $self->{f_x_tick}->($_) );
         }
     }
@@ -1119,15 +1064,11 @@ sub _check_data {
 
     # find x-scale, if a x-y plot is wanted
     # makes only sense for some charts
-    if (
-        $self->true( $self->{'xy_plot'} )
-        && (   $self->isa('Chart::Lines')
-            || $self->isa('Chart::Points')
-            || $self->isa('Chart::LinesPoints')
-            || $self->isa('Chart::Split')
-            || $self->isa('Chart::ErrorBars') )
-      )
-    {
+    if ( $self->true( $self->{'xy_plot'} ) && (   $self->isa('Chart::Lines')
+                                               || $self->isa('Chart::Points')
+                                               || $self->isa('Chart::LinesPoints')
+                                               || $self->isa('Chart::Split')
+                                               || $self->isa('Chart::ErrorBars') ) ) {
         $self->_find_x_scale;
     }
 
@@ -1543,8 +1484,7 @@ sub _find_x_scale {
 # y_tick_labels:    An array of strings, each is a label for the y axis.\n
 # y_tick_labels_length: The length to allow for B tick labels. (How long is
 #                       the longest?)
-sub _find_y_scale
-{
+sub _find_y_scale {
     my $self = shift;
 
     # Predeclare vars.
@@ -1579,8 +1519,7 @@ sub _find_y_scale
         }
     }
 
-    if ( $self->true( $self->{'integer_ticks_only'} ) )
-    {
+    if ( $self->true( $self->{'integer_ticks_only'} ) ) {
 
         # Allow the dataset range to be overidden by the user.
         # f_min/f_max are booleans which indicate that the min & max should not be modified.
@@ -1651,9 +1590,7 @@ sub _find_y_scale
             push @tickLabels, $labelText;
             $maxtickLabelLen = length $labelText if $maxtickLabelLen < length $labelText;
         }
-    }
-    else
-    {
+    } else {
 
         # Allow the dataset range to be overidden by the user.
         # f_min/f_max are booleans which indicate that the min & max should not be modified.
@@ -1929,8 +1866,7 @@ sub _calcTickInterval
 # @param[in] minTicks Minimal number of tick in x direction
 # @param[in] maxTicks Maximal number of tick in x direction
 # @return $tickInterval, $tickCount, $pMin, $pMax
-sub _calcXTickInterval
-{
+sub _calcXTickInterval {
     my $self = shift;
     my (
         $min,      $max,         # The dataset min & max.
@@ -2047,8 +1983,7 @@ sub _countTicks
 # @param interval
 # @param roundUP
 # @return retN*interval
-sub _round2Tick
-{
+sub _round2Tick {
     my $self = shift;
     my ( $input, $interval, $roundUP ) = @_;
     return $input if $interval == 0;
@@ -2073,8 +2008,7 @@ sub _round2Tick
 #
 # @param num Floating point number
 # @return ( exponent, mantissa)
-sub _sepFP
-{
+sub _sepFP {
     my $self = shift;
     my ($num) = @_;
     return ( 0, 0 ) if $num == 0;
@@ -2716,8 +2650,7 @@ sub _draw_none_legend {
 # and write x-Label
 #
 # @return status
-sub _draw_x_label
-{
+sub _draw_x_label {
     my $self  = shift;
     my $label = $self->{'x_label'};
     my $font  = $self->{'label_font'};
@@ -2819,8 +2752,7 @@ sub _draw_y_label
 ## @fn private int _draw_ticks()
 # draw the ticks and tick labels
 # @return status
-sub _draw_ticks
-{
+sub _draw_ticks {
     my $self = shift;
 
     #if the user wants an xy_plot, calculate the x-ticks too
@@ -2850,8 +2782,7 @@ sub _draw_ticks
 ## @fn private int _draw_x_number_ticks()
 # draw the ticks and tick labels
 # @return status
-sub _draw_x_number_ticks
-{
+sub _draw_x_number_ticks {
     my $self      = shift;
     my $data      = $self->{'dataref'};
     my $font      = $self->{'tick_label_font'};

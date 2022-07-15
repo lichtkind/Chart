@@ -4,6 +4,7 @@
     * + addded images to landing page
     * ? completed types page in manual
     * ? started methods page in manual
+    * ! fixed overlong tick label due rounding error near zero
 
 2.403.2 2022-08-13 lichtkind
 -------

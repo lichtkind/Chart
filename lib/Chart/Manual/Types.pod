@@ -22,38 +22,44 @@ polar coordinate systems. Also composite charts are possible.
 =head2 Bars
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/manual/bars.png" alt="dual bar chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/bars.png" alt="dual bar chart">
 </p>
 
 The class Chart::Bars creates a chart made up of a series of vertical bars.
 The length of each bar depicts one value of your second data set. 
 The first data set however, defines the domain. In this example the first
 value of the first (domain) data set is 'camel'. So the first value of 
-the second set (30000) is positioned above the first tick on the x-axis
+the second set (300) is positioned above the first tick on the x-axis
 labeled 'camel'. Right beside it is a differently colored bar, depticting
-the first value of the third data set (80000). Since the option L<spaced_bars|Chart::Manual::Properties/spaced_bars>
+the first value of the third data set (800). Since the option L<spaced_bars|Chart::Manual::Properties/spaced_bars>
 is set to C<'true'> on default, both bars are separated from the next group of bars. 
 In this example it also makes also sense to activate the horizontal
-L<y_grid line|Chart::Manual::Properties/y_grid line>s and give them 
+L<y_grid_lines|Chart::Manual::Properties/y_grid_lines> and give them 
 a subtle color. Further important was it to set the property L<min_val|Chart::Manual::Properties/min_val>
 to zero, so that the bars could be seen in full length and not from
-the min value of the data sets (30000) on upwards. L<precision|Chart::Manual::Properties/precision>
+the min value of the data sets (300) on upwards. L<precision|Chart::Manual::Properties/precision>
 set to zero just drops the decimals on the tick label so the chart looks
-a little cleaner.
+a little cleaner. All the the other color set serv the same purpose.
 
     use Chart::Bars;
     
     my $g = Chart::Bars->new( 600, 600 );
     $g->add_dataset( qw/ camel cat dog bear shell/ );
-    $g->add_dataset( 30000, 40000, 80000,  50000,   90000 );
-    $g->add_dataset( 80000, 60000, 30000,  30000,   40000 );
+    $g->add_dataset( 300, 400, 800, 500, 900 );
+    $g->add_dataset( 800, 600, 300, 300, 400 );
+    
     $g->set(
         title         => 'Bars !',
         x_label       => 'Group',
         y_label       => 'Value',
         y_grid_lines  => 'true',
         colors => {
-            y_grid_lines => [180, 180, 180],
+            y_grid_lines => 'gray70',
+            misc         => 'gray55',
+            text         => 'gray55',
+            x_label      => 'gray40',
+            y_label      => 'gray40',
+            title        => 'gray20',
         },
         min_val       =>  0,
         precision     =>  0,
@@ -74,7 +80,7 @@ chart types may come into visual conflict. Chart::Composite can do
 only composite charts made up of two components. 
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/composite_f.png" alt="composite chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/composite_f.png" alt="composite chart">
 </p>
 
 
@@ -118,57 +124,193 @@ Of course, it is also possible to use the add pt() method in the
 appropriate way to achieve the same results.
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/error_1.png" alt="error bar chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/error_1.png" alt="error bar chart">
 </p>
 
 
 =head2 HorizontalBars
 
-The class Chart::HorizontalBars creates a chart of horizontally ori-
-ented bars. 
-
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/hbars_2.png" alt="horizontal bar chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/hbars.png" alt="horizontal bar chart">
 </p>
+
+
+The class Chart::HorizontalBars creates a chart of horizontally oriented bars. 
+Same rules apply as in L</Bars>, except due negative values in our data sets
+here L<min_val|Chart::Manual::Properties/min_val> doesn't have to be set to zero.
+And instead of L<y_grid_lines|Chart::Manual::Properties/y_grid_lines>
+we activate and color L<x_grid_lines|Chart::Manual::Properties/x_grid_lines>
+
+
+    use Chart::HorizontalBars;
+
+    my $g = Chart::HorizontalBars->new( 600, 600 );
+    $g->add_dataset( qw/ camel cat dog bear shell/ );
+    $g->add_dataset( -300,  400, 800, -500, 200 );
+    $g->add_dataset(  800, -600, 300,  300, 400 );
+    $g->set(
+        title         => 'Bars !',
+        x_label       => 'Group',
+        y_label       => 'Value',
+        x_grid_lines  => 'true',
+        precision     =>  0,
+        colors => {
+            x_grid_lines => 'gray70',
+            misc         => 'gray55',
+            text         => 'gray55',
+            x_label      => 'gray40',
+            y_label      => 'gray40',
+            title        => 'gray20',
+        }
+    );
+    $g->png("hbars.png");
+
 
 =head2 Lines
 
-The class Chart::Lines creates a lines chart. (If you want the data
-points marked with symbols, check Chart::LinesPoints on page 35.)
-
-
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/lines_4.png" alt="line chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/lines.png" alt="xy chart with lines">
 </p>
+
+The class Chart::Lines creates a chart with lines that connect the would
+be data points. If you want to make the points more visible, 
+use L</LinesPoints>. The only special property is L<brush_size|Chart::Manual::Properties/brush_size>,
+the thickness of the lines, which was not even utilized in this example.
+To make things nicer we put only some softer colors to the horizontal (y)
+grid lines and the box and ticks (misc) and placed the legend on the bottom
+so that the chart doesn't get sqeezed by it.
+
+
+    use Chart::Lines;
+
+    my $g = Chart::Lines->new( 600, 400 );
+    $g->add_dataset( 'foo', 'bar', 'whee', 'ding', 'bat',    'bit' );
+    $g->add_dataset(  3.2,  4.34, 9.456,  10.459, 11.24234, 14.0234 );
+    $g->add_dataset( -1.3,   8.4,  5.34,   3.234,     4.33, 13.09 );
+    $g->add_dataset(    5,     7,     2,      10,       12,  2.3445 );
+    $g->set( 
+        title        => 'Lines Chart',
+        legend       => 'bottom' ,
+        y_label      => 'y label 1',
+        precision    =>  0,
+        y_grid_lines => 'true',
+        colors       => {
+            y_label      => 'orangepeel',
+            y_grid_lines => [ 190, 190, 190 ],
+            misc         => [ 100, 100, 100 ],
+        },
+    );
+    $g->png("lines.png");
 
 
 =head2 LinesPoints
 
-The class Chart::LinesPoints creates a lines chart where addition-
-ally the individual data points are marked with a symbol. (If you
-want just lines without additional symbols, check Chart::Lines on
-page 32. If you want just symbols for the data points but no lines,
-check Chart::Points on page 47.) 
-
-
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/linespoints_3.png" alt="line point chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/linespoints.png" alt="xy chart with connected points">
 </p>
+
+The class Chart::LinesPoints creates chart, which is a combination of
+L</Points> and L</Lines>: shaped symbols connected by lines. This
+requires a combination of the special properties of both chart types:
+L<brushStyle|Chart::Manual::Properties/brushStyle> (point shape),
+L<pt_size|Chart::Manual::Properties/pt_size> (point diameter) and
+L<brush_size|Chart::Manual::Properties/brush_size> (line thickness).
+
+In our example we named both axis via L<x_label|Chart::Manual::Properties/x_label>
+and L<y_label|Chart::Manual::Properties/y_label> and set L<xy_plot|Chart::Manual::Properties/xy_plot>
+off, which is not really needed, since it is on C<'false'> per default.
+This allows you to give the x-axis  none numerical, custom tick labels,
+which are by accident the numbers 1 .. 18, as the first data row shows.
+The purpose of this maneuver is to not have zero as the first column label.
+
+Because the origin of coordinate system is usually in the left lower
+corner, we used a trick to flip the y-axis having the smallest values up. 
+We negated all values in the data, so that 8 is lower than 2, because
+-8 is smaller than -2. Than we transformed the y-axis labels with a function, 
+that negates the value of the original label, erasing the minus sign.
+
+For additional clarity, we put the names of the teams into the legend,
+which is per default on the right side. And to make the code more compact,
+we packed the first (just labels) and the four real data sets (rows)
+together into an array or arrays and gave it as second argument directly
+to the drawing method.
+
+    use Chart::LinesPoints;
+
+    my $g = Chart::LinesPoints->new( 600, 300 );
+    $g->set(
+        'title'              => 'Soccer Season 2002',
+        'legend_labels'      => ['NY Soccer Club', 'Denver Tigers', 
+                                 'Houston Spacecats', 'Washington Presidents'],
+        'y_label'            => 'position in the table',
+        'x_label'            => 'day of play',
+        'grid_lines'         => 'true',
+        'f_y_tick'           =>  sub { - $_[0] },
+        # 'xy_plot'          => 'false',
+        'integer_ticks_only' => 'true',
+    );
+    $g->png("linespoints.png", [
+        [qw(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17)],
+        [qw(-7 -5 -6 -8 -9 -7 -5 -4 -3 -2 -4 -6 -3 -5 -3 -4 -6)],
+        [qw(-1 -1 -1 -1 -2 -2 -3 -3 -4 -4 -6 -3 -2 -2 -2 -1 -1)],
+        [qw(-4 -4 -3 -2 -1 -1 -1 -2 -1 -1 -3 -2 -4 -3 -4 -2 -2)],
+        [qw(-6 -3 -2 -3 -3 -3 -2 -1 -2 -3 -1 -1 -1 -1 -1 -3 -3)],
+    ]);
 
 
 =head2 Mountain
 
-The class Chart::Mountain creates a mountain chart, i. e., the individ-
-ual data sets are stacked and the areas under the curves are colour
-filled. The first data set will be shown at the top of the stack, the
-last at the bottom. 
-
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/mountain-2.png" alt="mountain chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/mountain.png" alt="mountain chart">
 </p>
+
+The class Chart::Mountain creates a mountain chart, which is a line chart
+(see L</Lines>), where the area under the curve, right to the curve below
+is filled with the color of the data set. In the following example we use
+custom colors in hex notation (which Chart::Color supports) which getting
+mapped onto the colors settings of L<dataset0|Chart::Manual::Properties/colors-datasetx> .. dataset4.
+As always, the first (data set) row in the data are the domain or x-axis
+labels. Another specialty of mountain charts are patterns (not provided !),
+to fill the area with. We load them via GD and give them over to the
+C<'patterns'> property.
+
+    use Chart::Mountain;
+
+    my @data = (
+        ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th" ],
+        [ 3, 7, 8, 2, 4  , 8.5, 2, 5, 9],
+        [ 4, 2, 5, 6, 3  , 2.5, 3, 3, 4],
+        [ 7, 3, 2, 8, 8.5, 2  , 9, 4, 5],
+    );
+    my @hex_colors = ('#0099FF', '#00CC00', '#EEAA00', '#FF0099','#3333FF');
+    my $PNG;
+    my @patterns = map {
+        open( $PNG, '<', "./patterns/PATTERN$_.PNG" ) or die "Can't load pattern $_";
+        GD::Image->newFromPng( $PNG );
+    } 0 .. 4;
+
+    my $g = new Chart::Mountain();
+    $g->set(
+        title      => 'Mountain Chart with Patterns',
+        x_label    => 'Lengths',
+        y_label    => 'Height',
+        grid_lines => 'true',
+        patterns   => \@patterns,
+        precision  => 1,
+        colors => {
+                grid_lines => 'gray70',
+                misc       => 'gray55',
+                map { ( "dataset$_" => $hex_colors[$_] ) } 0 .. $#hex_colors,
+        },
+    );
+    $g->png( 'mountain.png', \@data );
 
 
 =head2 Pareto
+
+=for HTML <p>
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/pareto_1.png" alt="pareto chart">
+</p>
 
 The class Chart::Pareto creates a Pareto chart, i. e., a set of absolute
 values overlaid with a line chart of the accumulated values. (This
@@ -177,32 +319,89 @@ function or as a Lorenz curve.) This representation usually makes
 sense only if the values are sorted (either in ascending or in de-
 scending order). Chart::Pareto plots only one data set and its labels.
 
-
-=for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/pareto_1.png" alt="pareto chart">
-</p>
-
-
 =head2 Pie
 
-The class Chart::Pie creates a pie chart. The first added set must
-contain the labels, the second set the values. 
-
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/pie_8.png" alt="pie chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/pie.png" alt="pie chart">
 </p>
+
+The class Chart::Pie creates a pie or ring chart. The first added data
+set must contain the labels and the second set the values. Our example
+displays a ring chart with a thickness of 35% (of the radius).
+If the L<ring|Chart::Manual::Properties/ring> property is omitted,
+the chart falls back to regular pie. Every ring slice is labeled with the
+stated label, plus the percentage of its value, as defined with the property
+L<label_values|Chart::Manual::Properties/label_values>. Connecting lines
+between label and slice are drawn because L<legend_lines|Chart::Manual::Properties/legend_lines>
+is set to C<'true'>. The actual legend is placed on the bottom, in order
+to leave the ring as large as possible. The legend again shows the
+association between color and data point and its value because 
+L<legend_label_values|Chart::Manual::Properties/legend_label_values>
+is set to C<'values'>. Unlike other chart types, where one data set is 
+correlated with a color, here every slice has to have its own color.
+Thats why the first data point has the color of L<dataset0|Chart::Manual::Properties/colors-datasetx> 
+the second of dataset1 and so forth. In most case the default colors
+are good enough unless you want special meanings in mind. Please also note
+the multi line (row) title.
+
+
+    use Chart::Pie;
+
+    my $g = Chart::Pie->new( 500, 450 );
+    $g->add_dataset( qw/eins zwei drei vier fuenf sechs sieben acht neun zehn/ );
+    $g->add_dataset( 120, 50, 100, 80, 40, 45, 150, 60, 110, 50 );
+
+    $g->set( 'title'               => 'Pie\nDemo Chart',
+             'legend'              => 'bottom',
+             'legend_label_values' => 'value',
+             'label_values'        => 'percent',
+             'legend_lines'        => 'true',
+             'ring'                => 0.35, 
+    );
+
+    $g->png("pie.png");
 
 
 =head2 Points
 
-The class Chart::Points creates a point chart (also called scatter-
-gram) where the individual data points are marked with a symbol.
-(If you want lines in addition, check Chart::LinesPoints on page 35.)
-
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/points.png" alt="point chart">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/points_5.png" alt="point chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/points.png" alt="xy chart with points">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/points_5.png" alt="point styles demo">
 </p>
+
+The class Chart::Points creates a xy-chart (also called scattergram),
+where the individual data points are marked with a symbol.
+The shape of the symbol is selected by the property L<brushStyle|Chart::Manual::Properties/brushStyle>,
+which was not utilized in this example, in order to use the default shape:
+a circle of a diameter set by L<pt_size|Chart::Manual::Properties/pt_size>.
+All shapes can be seen in the demo above.
+(If you want in addition lines, connecting the points, check L</LinesPoints>.)
+
+The first data set comprises the domain set, displayed on the x-axis.
+L<precision|Chart::Manual::Properties/precision> set to zero cuts the 
+decimals on the y-axis labels and keeps it clean. The method C<add_pt>
+appends to every data set anothr value, adding another column to the chart.
+L<png_border|Chart::Manual::Properties/png_border> does just adds frame
+of 10 pixel width around the entire image.
+
+    use Chart::Points;
+
+    my $g = Chart::Points->new();
+    $g->add_dataset( 'foo', 'bar', 'blank' );
+    $g->add_dataset(  3,  4,  9 );
+    $g->add_dataset(  8,  6,  0 );
+    $g->add_dataset(  5,  7,  2 );
+    $g->add_pt( 'dat', 1, 5,  7 );
+
+    $g->set(
+        title        => 'Points Chart',
+        pt_size      => 18,
+      # brushStyle   => 'Star',
+        precision    =>  0,
+        grid_lines   => 'true',
+        png_border   => 10,
+    );
+    $g->png("points.png");
 
 
 =head2 Split
@@ -220,19 +419,45 @@ the y values. Rather, the axis will show only the sequence numbers
 of the intervals. 
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/split_2.png" alt="multi chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/split_2.png" alt="multi chart">
 </p>
 
 
 =head2 StackedBars
 
-The class Chart::StackedBars creates a chart made up of stacked ver-
-tical bars. The first data set will be shown at the bottom of the stack,
-the last at the top. Chart::StackedBars is a subclass of Chart::Base.
-
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/stackedbars.png" alt="stacked bars chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/stackedbars.png" alt="stacked bar chart">
 </p>
+
+The class Chart::StackedBars creates a chart made up of stacked vertical 
+bars instead of being beside each other. This means the bars depicting
+data set 3 are on top of data set 2 and data set 4 is the highest.
+Except this change, same rules again apply as in  L</Bars>.
+
+    use Chart::StackedBars;
+    
+    my $g = Chart::StackedBars->new( 600, 400 );
+    $g->add_dataset( 'camel', 'dromedar', 'llama', 'vicuna');
+    $g->add_dataset( 3, 4,  9,  10,  );
+    $g->add_dataset( 8, 6,  1,  12,  );
+    $g->add_dataset( 5, 7,  2,  13,  );
+
+    $g->set(
+        'title'           => 'Stacked Bars',
+        'legend'          => 'left',
+         precision        =>  0,
+        'grey_background' => 'false',
+            colors => {
+             x_grid_lines => 'gray70',
+             misc         => 'gray55',
+             text         => 'gray55',
+             x_label      => 'gray40',
+             y_label      => 'gray40',
+             title        => 'gray20',
+         }
+    );
+    $g->png("stackedbars.png");
+
 
 =head1 COPYRIGHT & LICENSE
 

@@ -1,5 +1,5 @@
 
-# xy charts (plots) with points (dots)
+# xy charts with points (circles or other shapes)
 
 use v5.12;
 

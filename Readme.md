@@ -4,7 +4,7 @@
 
 ### VERSION
  
-    2.403.1
+    2.403.3
 
 [Chart on CPAN](https://metacpan.org/pod/Chart)
 
@@ -62,7 +62,8 @@
     Carp 1.35 or higher
     
     Optionally modules of the Graphics::ColorNames::* namespace are
-    required if your color definitions call for them.
+    required if your color definitions calls for them.
+    (see Chart::Color for details)
     
     In future we might require optionally SVG 2.5 and List::Util.
 
