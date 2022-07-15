@@ -72,13 +72,15 @@ For a more thorough documentation please visit the L<Chart::Manual>.
 
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/composite_f.png" alt="composite of bars and lines">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/stackedbars.png" alt="stacked bars">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/bars_2.png" alt="multi bar chart">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/hbars_2.png" alt="horizontal bar chart">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/direction_4.png" alt="polar chart">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/pie_4.png" alt="pie chart">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/split_2.png" alt="multi chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/composite_f.png" alt="composite of bars and lines" width="200" height="150">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/stackedbars.png" alt="stacked bars"  width="300" height="200">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/bars_2.png" alt="multi bar chart"  width="300" height="250">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/hbars_2.png" alt="horizontal bar chart"  width="250" height="200">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/direction_4.png" alt="polar chart"  width="250" height="250">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/pie_4.png" alt="pie chart"  width="250" height="225">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/mountain_2-1.png" alt="mountain chart" width="200" height="150">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/split_2.png" alt="split chart" width="250" height="250">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/error_1.png" alt="error bar chart" width="200" height="150">
 </p>
 
 =head2 use-ing Chart

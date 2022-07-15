@@ -1,14 +1,15 @@
-2.403.3 2022-08-13 lichtkind
+2.403.3 2022-08-16 lichtkind
 -------
-    * = POD fix release
+    * = POD rewrite release
     * + addded images to landing page
-    * ? completed types page in manual
-    * ? started methods page in manual
+    * + data files can have # comments
+    * ? wrote most of types page in manual
+    * ? some small addons for properties page
     * ! fixed overlong tick label due rounding error near zero
 
 2.403.2 2022-08-13 lichtkind
 -------
-    * = POD fix release
+    * = POD rewrite release
     * ? completed properties page in manual
     * ? started types page in manual with first test example
     * ! linkfixes on landing POD of Chart.pm
@@ -16,7 +17,7 @@
 
 2.403.1 2022-08-12 lichtkind
 -------
-    * = POD fix release
+    * = POD rewrite release
     * ? completed most of properties
     * ? all names listed in Color::Constants.POD
 

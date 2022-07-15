@@ -86,54 +86,118 @@ only composite charts made up of two components.
 
 =head2 Direction
 
-The class Chart::Direction creates a diagram based on polar coordi-
-nates. This type of diagram is occasionally referred to as a radial or
-as a radar chart. Chart::Direction plots data specified by angle (e. g.,
-wind direction) and absolute value (e. g., wind strength). The first
-dataset to add is always the set of angles in degrees. The second
-set contains the absolute values. How additional datasets should
-be entered depends on the option pairs (cf. below). By default,
-Chart::Direction will draw a point chart. You can also get a lines
-chart by setting the option point to 'false' and the option line to
-'true'. If you want a lines and point chart, then set both point and
-line to 'true'. In addition, Chart::Direction plots arrows from the
-center to the point or to the end of the line if the option arrow is
-set to 'true'. 
-
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/samples/direction_4.png" alt="polar chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/manual/direction.png" alt="polar chart">
 </p>
 
+The class Chart::Direction creates a diagram based on polar coordinates.
+This type of diagram is occasionally referred to as a radial or as a radar
+chart, which has a circle as x-axis and its values define an angle.
+The y-value in the center is L<min_value|Chart::Manual::Properties/min_value> and 
+the most outer circle is at L<max_value|Chart::Manual::Properties/max_value>.
+In order to reverse that you have to set L<polar|Chart::Manual::Properties/polar> C<'true'>.
+In our example we preferred to have a real comparison between arrow lengths
+so we artificially put zero as C<min_value> by setting L<include_zero|Chart::Manual::Properties/include_zero>
+C<'true'>. The just mentioned arrow style we achieve by deactivating
+L<point|Chart::Manual::Properties/point> (drawing small circles) and 
+turning on L<arrow|Chart::Manual::Properties/arrow>. An additional 
+C<'true'> L<line|Chart::Manual::Properties/line> would connect the
+points (arrow heads) with lines (as well as the first and last).
+As in L<\Lines> and L<\Points>: L<pt_size|Chart::Manual::Properties/pt_size>
+defines the point size and L<brush_size|Chart::Manual::Properties/brush_size>
+the line thickness. Usually the background of each chart (just inside
+the coordinate system) is a light gray - here deactivated. Radial
+grid lines are drawn every 45 degrees (L<angle_interval|Chart::Manual::Properties/angle_interval>).
 
+As with most chart types, the first data set defines the domain : 
+the x-values of all following data sets, which then define the associated
+y-values (and therefore all sets have to have the same length).
+Because we set in this example L<pairs|Chart::Manual::Properties/pairs>
+C<'true'>, now every odd numbered data set is the domain for the next,
+but they still have to have the same length
+
+
+    use Chart::Direction;
+
+    my $g = Chart::Direction->new( 500, 500 );
+    
+    $g->add_dataset( 210, 220, 200, 215, 225, 200 );
+    $g->add_dataset( 30,  40,  20,  35,  45,  20 );
+
+    $g->add_dataset( 30, 40, 20, 35, 45, 20 );
+    $g->add_dataset( 30, 40, 20, 35, 45, 20 );
+
+    $g->add_dataset( 120, 130, 110, 125, 135, 110 );
+    $g->add_dataset( 30,  40,  20,  35,  45,  20 );
+
+    $g->add_dataset( 300, 310, 290, 305, 315, 290 );
+    $g->add_dataset( 30,  40,  20,  35,  45,  20 );
+
+    $g->set(
+        title           => 'Direction Demo',
+        angle_interval  =>  45,
+        precision       =>   0,
+        arrow           => 'true',
+        point           => 'false',
+        include_zero    => 'true',
+        legend          => 'none',
+        grey_background => 'false',
+        pairs           => 'true',
+    );
+    $g->png("direction.png");
 
 
 =head2 ErrorBars
 
-The class Chart::ErrorBars creates a point chart with error bars. This
-class expects the error values within the data array. By use of the
-add dataset() method the error values are the next two sets after
-the y values. The first set after the y values has to be the set of values
-for the upper error bounds. The next set is the array of the lower
-error bounds. Note that the error values are not specified absolutely
-but rather as offsets from the y value: the upper error values will be
-added to the y values, the lower error values will be subtracted.
-If you want to use the same value for the upper and lower error, you
-can set the same error option to 'true'. In this case only the set
-after the y values is interpreted as a set of errors.
-Of course, it is also possible to use the add pt() method in the
-appropriate way to achieve the same results.
-
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/error_1.png" alt="error bar chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/error.png" alt="error bar chart">
 </p>
 
+The class Chart::ErrorBars creates a point chart with error bars, which
+are vertical lines, depicting the uncertainty - a range which is possible
+for that value. As seen in the example, we need four data sets to define
+a series of error bars. The first data set are the x-values of the error
+bars, the second the y-values. The third set holds the lenght of the upper
+part of the error bar and the fourth set the lower part (distance between
+main point and the lower bound of the error bar). The fourth set might be
+omitted, when property L<same_error|Chart::Manual::Properties/same_error>
+is set C<'true'>. In this case upper and lower part of the error bar have
+the same size. Because in all this produced only one set of error bars
+with one color, there is no need for a legend. That is why it is switched
+off by setting property L<legend|Chart::Manual::Properties/legend> to 
+C<'none'>. The label on the x-axis are painted in the C<'staggered'> style,
+so they don't overlap. L<pt_size|Chart::Manual::Properties/pt_size> refers
+to the diameter in pixel of the errors bars central point.
+L<brush_size|Chart::Manual::Properties/brush_size> is the thickness of the bar.
+For better readability C<'both'> L<y-axes|Chart::Manual::Properties/y-axes> were labeled.
+
+    use Chart::ErrorBars;
+
+    my $g = Chart::ErrorBars->new();
+    $g->add_dataset(qw(1   1.1  1.2  1.3  1.4  1.5  1.6  1.7  1.8  1.9  2   2.1 2.2 2.3 2.4 2.5));
+    $g->add_dataset(qw(1   1.1  1.2  1.1  1.14 1.15 1.26 1.2 1.1  1.19 1.2 1.4 1.6 2.0 2.5 3.1));
+    $g->add_dataset(qw(0.4 0.1  0.2  0.1  0.14 0.15 0.26 0.27 0.1  0.19 0.2 0.1 0.1 0.2 0.1 0.3));
+    $g->add_dataset(qw(0.2 0.11 0.12 0.11 0.2  0.3  0.12 0.27 0.11 0.3  0.2 0.2 0.2 0.1 0.1 0.2));
+    $g->set(
+        title          => 'Error Bars Demo',
+        legend         => 'none',
+        y_axes         => 'both',
+        x_ticks        => 'staggered',
+        pt_size        => 12,
+        brush_size     => 2,
+        grid_lines     => 'true',
+        colors => {
+            grid_lines   => 'gray70',
+            misc         => 'gray65',
+        },
+    );
+    $g->png("error.png");
 
 =head2 HorizontalBars
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/hbars.png" alt="horizontal bar chart">
 </p>
-
 
 The class Chart::HorizontalBars creates a chart of horizontally oriented bars. 
 Same rules apply as in L</Bars>, except due negative values in our data sets
@@ -272,7 +336,8 @@ mapped onto the colors settings of L<dataset0|Chart::Manual::Properties/colors-d
 As always, the first (data set) row in the data are the domain or x-axis
 labels. Another specialty of mountain charts are patterns (not provided !),
 to fill the area with. We load them via GD and give them over to the
-C<'patterns'> property.
+C<'patterns'> property. Patterns are small images with one color and the
+second being transparent
 
     use Chart::Mountain;
 
