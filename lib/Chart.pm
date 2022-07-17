@@ -1,7 +1,7 @@
 use v5.12;
 
 package Chart;
-our $VERSION = 'v2.403.3';
+our $VERSION = 'v2.403.4';
 
 use Chart::Points;
 use Chart::Lines;
@@ -72,15 +72,15 @@ For a more thorough documentation please visit the L<Chart::Manual>.
 
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/composite_f.png" alt="composite of bars and lines" width="200" height="150">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/stackedbars.png" alt="stacked bars"  width="300" height="200">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/bars_2.png" alt="multi bar chart"  width="300" height="250">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/hbars_2.png" alt="horizontal bar chart"  width="250" height="200">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/direction_4.png" alt="polar chart"  width="250" height="250">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/pie_4.png" alt="pie chart"  width="250" height="225">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/mountain_2-1.png" alt="mountain chart" width="200" height="150">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/split_2.png" alt="split chart" width="250" height="250">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/error_1.png" alt="error bar chart" width="200" height="150">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/test/composite_f.png"  alt="composite of bars and lines" width="300" height="225">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/test/stackedbars.png"  alt="stacked bars"          width="300" height="200">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/test/bars_2.png"       alt="multi bar chart"       width="300" height="250">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/test/hbars_2.png"      alt="horizontal bar chart"  width="300" height="240">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/test/direction_4.png"  alt="polar chart"           width="250" height="250">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/test/pie_4.png"        alt="pie chart"             width="250" height="225">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/test/mountain_2-1.png" alt="mountain chart"        width="300" height="225">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/test/split_2.png"      alt="split chart"           width="250" height="250">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/test/error_1.png"      alt="error bar chart"       width="300" height="225">
 </p>
 
 =head2 use-ing Chart
@@ -342,7 +342,7 @@ This module is currently under a complete rebuild, that will take place
 in two phases. First: rewrite all functionality within a modular
 architecture and hierarchical property system. This will be accessed
 via a central API using the so far unutilized Chart module
-(C<my $c = Chart->new(...);>). This API will have in part different 
+'my $c = Chart->new(...);'. This API will have in part different 
 method and property names, but the old API will not be touched.
 In a second phase we will see hoch much new code can be used by the old
 modules and which new features can be brought to the legacy parts,

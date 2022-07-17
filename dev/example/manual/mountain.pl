@@ -18,7 +18,7 @@ my @patterns = map {
     GD::Image->newFromPng( $PNG );
 } 0 .. 4;
 
-my $g = new Chart::Mountain();
+my $g = new Chart::Mountain( 500, 300);
 $g->set(
     title      => 'Mountain Chart with Patterns',
     x_label    => 'Lengths',

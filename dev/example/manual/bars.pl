@@ -4,7 +4,7 @@ BEGIN { unshift @INC, 'lib', '../../../lib'}
 
 use Chart::Bars;
     
-    my $g = Chart::Bars->new( 600, 600 );
+    my $g = Chart::Bars->new( 400, 400 );
     $g->add_dataset( qw/ camel cat dog bear shell/ );
     $g->add_dataset( 300, 400, 800,  500,   900 );
     $g->add_dataset( 800, 600, 300,  300,   400 );

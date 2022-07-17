@@ -329,7 +329,7 @@ Sets the shape of points for Chart::Points, Chart::LinesPoints.
 Possible values are: 'FilledCircle', 'circle', 'donut', 'OpenCircle', 
 'fatPlus', 'triangle', 'upsidedownTriangle', 'square', 'hollowSquare', 
 'OpenRectangle', 'FilledDiamond', 'OpenDiamond', 'Star', 'OpenStar'.
-Default: 'FilledCircle'. Look at Demo at L<L<arrow|Chart::Manual::Types/Points>.
+Default: 'FilledCircle'. Look at Demo at L<Chart::Manual::Types/Points>.
 
 =head2 brush_style1
 

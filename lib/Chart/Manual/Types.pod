@@ -11,18 +11,19 @@ This page illustrates all supported chart types, describes their
 special abilities and programming needs. More detailled information will
 be linked whenever available.
 
-Generally, each chart type here is implementd by a class: Chart::* (name),
-which inherits most of its methods from Chart::Base.
-
 Currently available are xycharts with points, lines, mountains,
 bar charts, stacked bars, error bars, pie and ring charts with split and
 polar coordinate systems. Also composite charts are possible.
+
+Generally, each chart type here is implementd by a class: Chart::* (name),
+which inherits most of its methods from Chart::Base. Every constructor
+takes two arguments, which are width and height of the later generated image.
 
 
 =head2 Bars
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/bars.png" alt="dual bar chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/bars.png" alt="dual bar chart" width="400" height="400">
 </p>
 
 The class Chart::Bars creates a chart made up of a series of vertical bars.
@@ -43,7 +44,7 @@ a little cleaner. All the the other color set serv the same purpose.
 
     use Chart::Bars;
     
-    my $g = Chart::Bars->new( 600, 600 );
+    my $g = Chart::Bars->new( 400, 400 );
     $g->add_dataset( qw/ camel cat dog bear shell/ );
     $g->add_dataset( 300, 400, 800, 500, 900 );
     $g->add_dataset( 800, 600, 300, 300, 400 );
@@ -70,6 +71,10 @@ a little cleaner. All the the other color set serv the same purpose.
 
 =head2 Composite
 
+=for HTML <p>
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/composite.png" alt="composite chart">
+</p>
+
 The class Chart::Composite creates a two component chart with two
 types of charts which are layered one above each other. Just set
 the option composite info. For example, you can create a two
@@ -77,17 +82,39 @@ component chart with bars and lines. A composite chart does not
 make sense with all combinations of chart types, but it works pretty
 good with Lines, Points, LinesPoints and Bars. Note that two similar
 chart types may come into visual conflict. Chart::Composite can do
-only composite charts made up of two components. 
+only composite charts made up of two components.
 
-=for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/composite_f.png" alt="composite chart">
-</p>
+In this example are the data sets one and two displayed as L</Bars> and
+the next two als L</LinesPoints> as set by the property 
+L<composite_info|Chart::Manual::Properties/composite_info>.
+Please read these sections too. Otherwise we only colored the last data 
+set for better contrast und cut the decimals from the axis labels via
+L<precision|Chart::Manual::Properties/precision>.
 
+    use Chart::Composite;
+
+    my $g = Chart::Composite->new( );
+    $g->add_dataset( 1,   2,   3 );
+    $g->add_dataset( 10,  20,  30 );
+    $g->add_dataset( 15,  25,  32 );
+    $g->add_dataset( 7,   24,  23 );
+    $g->add_dataset( 5.1, 7.5, 9.9 );
+    $g->set(
+        title          => 'Composite Chart',
+        composite_info => [ [ 'Bars',        [ 1, 2 ] ], 
+                            [ 'LinesPoints', [ 3, 4 ] ]  ],
+        include_zero   => 'true',
+        precision      => 0,
+        colors  => {
+            dataset3     => 'darkorange',
+        }
+    );
+    $g->png("composite.png");
 
 =head2 Direction
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/test/manual/direction.png" alt="polar chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/direction.png" alt="polar chart">
 </p>
 
 The class Chart::Direction creates a diagram based on polar coordinates.
@@ -169,7 +196,7 @@ C<'none'>. The label on the x-axis are painted in the C<'staggered'> style,
 so they don't overlap. L<pt_size|Chart::Manual::Properties/pt_size> refers
 to the diameter in pixel of the errors bars central point.
 L<brush_size|Chart::Manual::Properties/brush_size> is the thickness of the bar.
-For better readability C<'both'> L<y-axes|Chart::Manual::Properties/y-axes> were labeled.
+For better readability C<'both'> L<y_axes|Chart::Manual::Properties/y_axes> were labeled.
 
     use Chart::ErrorBars;
 
@@ -354,7 +381,7 @@ second being transparent
         GD::Image->newFromPng( $PNG );
     } 0 .. 4;
 
-    my $g = new Chart::Mountain();
+    my $g = new Chart::Mountain( 500, 300);
     $g->set(
         title      => 'Mountain Chart with Patterns',
         x_label    => 'Lengths',
@@ -374,15 +401,57 @@ second being transparent
 =head2 Pareto
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/pareto_1.png" alt="pareto chart">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/pareto.png" alt="pareto chart">
 </p>
 
-The class Chart::Pareto creates a Pareto chart, i. e., a set of absolute
-values overlaid with a line chart of the accumulated values. (This
-latter curve is also known as an empirical cumulative distribution
-function or as a Lorenz curve.) This representation usually makes
-sense only if the values are sorted (either in ascending or in de-
-scending order). Chart::Pareto plots only one data set and its labels.
+The class Chart::Pareto creates a combination of a L</Bars> and a L</Lines>
+chart. The bars display absolute values of the data set (Pareto accepts
+only one), while the line represent the accumulation (sum of all values
+from the start on the left up to this value). For a better orientation
+the absolute values should be sorted. In case your data set is not already,
+change the property <sort|Chart::Manual::Properties/sort> to C<'true'>.
+(Note that the days of the week are not in chronological order,
+but in the order of decreasing sale amounts.) The first given  data set
+is like in most cases the domain (x-axis labels). So the color of the first
+data set containing numbers has the color of 
+L<dataset0|Chart::Manual::Properties/colors-datasetx> and the accumulation
+gets the color of dataset1 (which are per default also red and green, 
+but in reverse order).
+
+For better optics we set L<spaced_bars|Chart::Manual::Properties/spaced_bars>
+off, so that the bars touch each other and give a nice counterweight to
+the red color of the line. It's also a bit nicer, when the red labels
+above the red line don't stick out the chart, so we increased the 
+L<max_val|Chart::Manual::Properties/max_val> from 5180 to 5500. Finally
+to prevent the y-axis from overcrowding we set labels (and y_grid_lines)
+only every 250 by setting L<skip_int_ticks|Chart::Manual::Properties/skip_int_ticks>
+and activating L<integer_ticks_only|Chart::Manual::Properties/integer_ticks_only>.
+
+    use Chart::Pareto;
+
+    my $g = Chart::Pareto->new( 450, 400 );
+    $g->add_dataset( 'Mo', 'Tue', 'We', 'Th', 'Fr', 'Sa', 'Su' );
+    $g->add_dataset( 2500, 1000,  250,  700,  100,  610,  20 );
+    $g->set(
+        title              => 'Sold Tickets for Beethovens 9th',
+        y_label            => 'Sold Tickets',
+        x_label            => '! sold out in the first week !',
+        sort               => 'true',
+        max_val            => 5500,
+        integer_ticks_only => 'true',
+        skip_int_ticks     => 250,
+        y_grid_lines       => 'true',
+        spaced_bars        => 'false',
+        legend             => 'none',
+        colors  => {
+            title        => 'darkblue',
+            dataset0     => 'green',
+            dataset1     => 'red',
+            x_label      => 'red',
+            y_grid_lines => 'white',
+        },
+    );
+    $g->png("pareto.png");
 
 =head2 Pie
 
@@ -415,7 +484,6 @@ the multi line (row) title.
     my $g = Chart::Pie->new( 500, 450 );
     $g->add_dataset( qw/eins zwei drei vier fuenf sechs sieben acht neun zehn/ );
     $g->add_dataset( 120, 50, 100, 80, 40, 45, 150, 60, 110, 50 );
-
     $g->set( 'title'               => 'Pie\nDemo Chart',
              'legend'              => 'bottom',
              'legend_label_values' => 'value',
@@ -431,7 +499,7 @@ the multi line (row) title.
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/points.png" alt="xy chart with points">
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/points_5.png" alt="point styles demo">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/test/points_5.png" alt="point styles demo">
 </p>
 
 The class Chart::Points creates a xy-chart (also called scattergram),
@@ -457,7 +525,6 @@ of 10 pixel width around the entire image.
     $g->add_dataset(  8,  6,  0 );
     $g->add_dataset(  5,  7,  2 );
     $g->add_pt( 'dat', 1, 5,  7 );
-
     $g->set(
         title        => 'Points Chart',
         pt_size      => 18,
@@ -471,22 +538,49 @@ of 10 pixel width around the entire image.
 
 =head2 Split
 
-The class Chart::Split creates a lines chart where both x and y axes
+=for HTML <p>
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/split.png" alt="multi chart">
+</p>
+
+The class Chart::Split creates a L</Lines> chart where both x and y axes
 are assumed to be numeric. Split charts are mainly intended for cases
 where many data points are spread over a wide x range while at the
 same time the y range is limited. Typical examples are weather or
 seismic data. The x axis will be split into several intervals of the
-same length (specified with the mandatory option interval). The
-intervals will be displayed in a stacked fashion. The start of the
-top interval is set with the mandatory option start. Chart::Split will
+same length (specified with the mandatory option L<interval|Chart::Manual::Properties/interval>
+and starting at L<start|Chart::Manual::Properties/start>). Chart::Split will
 draw only positive x coordinates. The y axis will not be labelled with
 the y values. Rather, the axis will show only the sequence numbers
-of the intervals. 
+of the intervals.
 
-=for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/samples/split_2.png" alt="multi chart">
-</p>
+    use Chart::Split;
 
+    my $g = Chart::Split->new( 500, 500 );
+    
+    my @domain = 1 .. 4000;
+    my @rnd    = map { srand( time() / $_ * 50 ); rand(10) } @domain, 4001;
+    my @diff   = map { abs $rnd[$_-1] - $rnd[$_] } @domain;
+    pop @rnd;
+
+    $g->add_dataset(@domain);
+    $g->add_dataset(@rnd);
+    $g->add_dataset(@diff);
+    $g->set(
+        title          => "Random Numbers Test",
+        x_label        => "4000 Random Numbers",
+        start          => 0,
+        interval       => 400,
+        brush_size     => 1,
+        interval_ticks => 0,
+        legend         => 'bottom',
+        legend_labels  => ['random numbers', 'difference' ],
+        colors => {
+               title => 'darkblue',
+               text  => 'gray45',
+               misc  => 'gray45',
+        },
+    );
+    $g->png("split.png");
 
 =head2 StackedBars
 
@@ -506,12 +600,11 @@ Except this change, same rules again apply as in  L</Bars>.
     $g->add_dataset( 3, 4,  9,  10,  );
     $g->add_dataset( 8, 6,  1,  12,  );
     $g->add_dataset( 5, 7,  2,  13,  );
-
     $g->set(
-        'title'           => 'Stacked Bars',
-        'legend'          => 'left',
-         precision        =>  0,
-        'grey_background' => 'false',
+        title             => 'Stacked Bars',
+        legend            => 'left',
+        precision         =>  0,
+        grey_background   => 'false',
             colors => {
              x_grid_lines => 'gray70',
              misc         => 'gray55',

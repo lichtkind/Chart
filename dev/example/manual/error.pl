@@ -16,6 +16,7 @@ $g->set(
     pt_size        => 12,
     brush_size     => 2,
     grid_lines     => 'true',
+    'sort'     => 'true',
     colors => {
         grid_lines   => 'gray70',
         misc         => 'gray65',
