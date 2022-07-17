@@ -24,7 +24,7 @@ $g->add_dataset( -3, 0, 8, 4,  2,  1,  0 );
 
 $g->set(@hash);
 
-$g->png("samples/points_3.png");
+$g->png("test/points_3.png");
 
 print "ok 1\n";
 

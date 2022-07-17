@@ -25,7 +25,7 @@ $g->set( 'title'        => 'Points Chart with 100 Points' );
 $g->set( 'skip_x_ticks' => 10 );
 
 #$g->set ('skip_int_ticks'=> 10);
-$g->png("samples/points_100.png");
+$g->png("test/points_100.png");
 
 print "ok 1\n";
 

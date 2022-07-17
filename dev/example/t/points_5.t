@@ -72,7 +72,7 @@ $g->add_dataset( 14,    14,    14 );
 
 $g->set( 'legend_labels' => \@labels );
 
-$g->png("samples/points_5.png");
+$g->png("test/points_5.png");
 
 print "ok 1\n";
 

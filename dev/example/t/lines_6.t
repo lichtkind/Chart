@@ -33,7 +33,7 @@ $g->add_dataset( 7,     -5,    -3,     4,      7 );
 
 $g->set(%hash);
 
-$g->png("samples/lines_6.png");
+$g->png("test/lines_6.png");
 
 print "ok 1\n";
 

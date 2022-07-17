@@ -228,12 +228,12 @@ $graphic->set( 'y_label' => $einheit );
 
 if ( $graphic->can('gif') )
 {
-    my $wettgif = "samples/" . $gif_name . ".gif";
+    my $wettgif = "test/" . $gif_name . ".gif";
     $graphic->gif($wettgif);
 }
 elsif ( $graphic->can('png') )
 {
-    my $wettgif = "samples/" . $gif_name . ".png";
+    my $wettgif = "test/" . $gif_name . ".png";
     $graphic->png($wettgif);
 }
 

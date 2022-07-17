@@ -93,7 +93,7 @@ $graphic->set( 'f_x_tick' => \&convert_to_real_x );
 
 if ( $graphic->can('png') )
 {
-    my $picture_file = "samples/f_ticks_1.png";
+    my $picture_file = "test/f_ticks_1.png";
     $graphic->png($picture_file);
 }
 

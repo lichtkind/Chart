@@ -22,7 +22,7 @@ $g->add_dataset( 3,     4,     9 );
 $g->add_dataset( 8, 6, 0 );
 $g->add_dataset( 5, 7, 2 );
 
-$g->png("samples/points.png");
+$g->png("test/points.png");
 
 print "ok 1\n";
 

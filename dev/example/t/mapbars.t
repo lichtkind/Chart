@@ -4,7 +4,7 @@ BEGIN { unshift @INC, 'lib', '../../lib'}
 use strict;
 use Chart::Bars;
 
-my $png_name = "samples/mapbars.png";
+my $png_name = "test/mapbars.png";
 my @legend_keys = ( "Actual ", "Goal" );
 
 my $Graph = new Chart::Bars( 600, 400 );

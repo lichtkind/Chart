@@ -53,7 +53,7 @@ my @opts = (
 
 foreach my $i ( 1 .. @opts - 1 )
 {
-    my $newpath = File::Spec->catfile( 'samples', "mountain_2-$i.png" );
+    my $newpath = File::Spec->catfile( 'test', "mountain_2-$i.png" );
     my $opts    = $opts[$i];
     my $g       = new Chart::Mountain();
     $g->set(%$opts);

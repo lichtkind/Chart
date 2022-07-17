@@ -40,7 +40,7 @@ $g->set(
     x_label        => 'Date',
 );
 
-$g->png("samples/bars_9.png");
+$g->png("test/bars_9.png");
 print "ok 1\n";
 
 exit(0);

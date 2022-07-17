@@ -30,7 +30,7 @@ $g->set( 'y_label2'     => 'y label 2' );
 $g->set( 'y_grid_lines' => 'true' );
 $g->set( 'legend'       => 'top' );
 
-$g->png("samples/lines_4.png");
+$g->png("test/lines_4.png");
 
 print "ok 1\n";
 

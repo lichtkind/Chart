@@ -24,7 +24,7 @@ $g->set(
 
 );
 
-$g->png("samples/error_1.png");
+$g->png("test/error_1.png");
 
 print "ok 1\n";
 

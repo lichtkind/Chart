@@ -48,7 +48,7 @@ $obj->set(
     'title_font'      => ( GD::Font->Giant )
 );
 
-$obj->png( "samples/mountain_4.png", \@data );
+$obj->png( "test/mountain_4.png", \@data );
 
 print "ok 1\n";
 exit(0);

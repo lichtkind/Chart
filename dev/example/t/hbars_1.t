@@ -40,7 +40,7 @@ $g->add_dataset( 5,  4,  2,  5,  3,  6,  1,  4,  5,  4,  2,  5 );
 
 $g->set(%hash);
 
-$g->png("samples/hbars_1.png");
+$g->png("test/hbars_1.png");
 
 print "ok 1\n";
 

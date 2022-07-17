@@ -20,7 +20,7 @@ $g->set( 'legend'       => 'none' );
 $g->set( 'xy_plot'      => 1 );
 $g->set( 'x_ticks'      => 'vertical' );
 
-$g->png("samples/lines_9.png");
+$g->png("test/lines_9.png");
 
 $g = Chart::Lines->new;
 $g->add_dataset( 10, 20, 30, 40,  50,  60 );
@@ -36,7 +36,7 @@ $g->set(
     xlabels => \@labels,
     xrange  => [ 0, 100 ]
 );
-$g->png("samples/lines_9b.png");
+$g->png("test/lines_9b.png");
 
 print "ok 1\n";
 

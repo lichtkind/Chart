@@ -38,7 +38,6 @@ $g->add_dataset( 17,       5,       7,      2,        6 );
         'title'      => 'red',
         'x_label'    => 'blue',
         'y_label'    => 'blue',
-        'background' => 'grey',
         'text'       => 'blue',
     },
 
@@ -46,7 +45,7 @@ $g->add_dataset( 17,       5,       7,      2,        6 );
 
 $g->set(%hash);
 
-$g->png("samples/bars_2.png");
+$g->png("test/bars_2.png");
 
 print "ok 1\n";
 

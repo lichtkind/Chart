@@ -29,7 +29,7 @@ $g->set(
 );
 $g->set( 'legend_lines' => 'true' );
 
-$g->png("samples/pie_1.png");
+$g->png("test/pie_1.png");
 print "ok 1\n";
 
 exit(0);

@@ -18,7 +18,7 @@ $g->set(
     'composite_info' => [ [ 'Bars', [ 1 .. 3 ] ], [ 'LinesPoints', [4] ] ]
 );
 
-$g->png("samples/composite_5.png");
+$g->png("test/composite_5.png");
 
 print "ok 1\n";
 

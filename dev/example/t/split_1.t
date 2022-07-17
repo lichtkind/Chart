@@ -31,7 +31,7 @@ $g->add_dataset(@y);
 );
 $g->set(%hash);
 
-$g->png("samples/split_1.png");
+$g->png("test/split_1.png");
 print "ok 1\n";
 
 exit(0);

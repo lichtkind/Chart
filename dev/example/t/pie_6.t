@@ -25,7 +25,7 @@ $g->add_dataset( 90,     0,          1,             216,      0 );
 
 $g->set(%opt);
 
-$g->png("samples/pie_6.png");
+$g->png("test/pie_6.png");
 
 print "ok 1\n";
 exit(0);

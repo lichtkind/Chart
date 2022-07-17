@@ -34,7 +34,7 @@ my %chart_settings = (
 );
 
 $chart->set(%chart_settings);
-$chart->png("samples/composite_6.png");
+$chart->png("test/composite_6.png");
 
 print "ok 1\n";
 

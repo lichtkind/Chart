@@ -22,7 +22,7 @@ $g->set( 'grid_lines'      => 'true' );
 $g->set( 'grey_background' => 'false' );
 $g->set( 'legend'          => 'bottom' );
 
-$g->png("samples/linespoints_1.png");
+$g->png("test/linespoints_1.png");
 
 print "ok 1\n";
 

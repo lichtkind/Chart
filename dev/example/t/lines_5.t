@@ -41,7 +41,7 @@ $g->add_dataset(@y2_values);
 
 $g->set(%hash);
 
-$g->png("samples/lines_5.png");
+$g->png("test/lines_5.png");
 
 sub formatter
 {

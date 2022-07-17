@@ -72,12 +72,12 @@ $graphic->set( 'f_y_tick' => \&formatter );
 
 if ( $graphic->can('gif') )
 {
-    my $picture_file = "samples/f_ticks.gif";
+    my $picture_file = "test/f_ticks.gif";
     $graphic->gif($picture_file);
 }
 if ( $graphic->can('png') )
 {
-    my $picture_file = "samples/f_ticks.png";
+    my $picture_file = "test/f_ticks.png";
     $graphic->png($picture_file);
 }
 

@@ -65,7 +65,7 @@ $g->set( 'y_label2'     => 'y label 2' );
 $g->set( 'y_grid_lines' => 'true' );
 $g->set( 'legend'       => 'bottom' );
 
-my $FileName = "samples/scalarImage.png";
+my $FileName = "test/scalarImage.png";
 $g->png($FileName);
 
 my $dataref     = $g->get_data();

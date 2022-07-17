@@ -23,7 +23,7 @@ $g->set(
     # 'polar' => 'true',
 );
 
-$g->png("samples/direction_1.png");
+$g->png("test/direction_1.png");
 
 print "ok 1\n";
 

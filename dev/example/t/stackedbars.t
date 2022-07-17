@@ -17,7 +17,7 @@ $g->set(
     'grey_background' => 'false',
 );
 
-$g->png("samples/stackedbars.png");
+$g->png("test/stackedbars.png");
 
 print "ok 1\n";
 

@@ -42,7 +42,7 @@ $g->set(
     #    max_val            => 9000,
 );
 
-$g->png("samples/bars_6.png");
+$g->png("test/bars_6.png");
 print "ok 1\n";
 
 exit(0);

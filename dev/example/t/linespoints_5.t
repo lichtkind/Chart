@@ -63,6 +63,6 @@ $g->set( 'brush_size'   => '4' );
 
 # $g-> set ('skip_x_ticks' => $skip_x);
 
-$g->png("samples/linespoints_5.png");
+$g->png("test/linespoints_5.png");
 print "ok 1\n\n";
 

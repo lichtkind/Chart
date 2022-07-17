@@ -20,7 +20,7 @@ $g->set( 'x_label'             => '' );
 $g->set( 'ring'                => 0.1 );
 $g->set( 'colors'              => { 'background' => 'grey' } );
 
-$g->png("samples/pie_7.png");
+$g->png("test/pie_7.png");
 print "ok 1\n";
 
 exit(0);

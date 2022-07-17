@@ -20,7 +20,7 @@ $g->set( 'include_zero'  => 'true' );
 $g->set( 'stepline'      => 'true' );
 $g->set( 'stepline_mode' => 'begin' );
 
-$g->png("samples/lines_8.png");
+$g->png("test/lines_8.png");
 
 print "ok 1\n";
 

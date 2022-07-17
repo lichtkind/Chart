@@ -23,7 +23,7 @@ $g->set( 'title_font'          => gdGiantFont );
 $g->set( 'legend_lines'        => 'false' );
 $g->set( 'ring'                => 0.35 );
 
-$g->png("samples/pie_4.png");
+$g->png("test/pie_4.png");
 print "ok 1\n";
 
 exit(0);

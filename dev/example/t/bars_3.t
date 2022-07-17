@@ -30,7 +30,7 @@ $g->add_dataset( -2.4,   3.4,      1.9,      1.2,       -1.1,     -2.9 );
 );
 $g->set(%hash);
 
-$g->png("samples/bars_3.png");
+$g->png("test/bars_3.png");
 
 print "ok 1\n";
 

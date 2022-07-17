@@ -45,7 +45,7 @@ $g->add_dataset(@data2);
 );
 
 $g->set(%hash);
-$g->png("samples/linespoints_2.png");
+$g->png("test/linespoints_2.png");
 print "ok 1\n";
 
 exit(0);

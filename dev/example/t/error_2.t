@@ -24,7 +24,7 @@ $g->set(
     'custom_x_ticks' => [ 0, 1 ],
 );
 
-$g->png("samples/error_2.png");
+$g->png("test/error_2.png");
 
 print "ok 1\n";
 

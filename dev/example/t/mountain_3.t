@@ -76,7 +76,7 @@ $obj->set(
     'grey_background' => 0,
 );
 
-$obj->png( "samples/mountain_3.png", \@data );
+$obj->png( "test/mountain_3.png", \@data );
 
 print "ok 1\n";
 exit(0);

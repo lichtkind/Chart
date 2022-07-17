@@ -31,7 +31,7 @@ $g->set( 'y_label2'     => 'y label 2' );
 $g->set( 'y_grid_lines' => 'true' );
 $g->set( 'legend'       => 'left' );
 
-$g->png("samples/lines_2.png");
+$g->png("test/lines_2.png");
 
 print "ok 1\n";
 

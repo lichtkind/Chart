@@ -19,7 +19,7 @@ $g->set(
     'include_zero'   => 'true',
 );
 
-$g->png("samples/composite_4.png");
+$g->png("test/composite_4.png");
 
 print "ok 1\n";
 

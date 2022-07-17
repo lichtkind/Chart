@@ -13,7 +13,7 @@ my @x_values = ();    # x axis
 my @y_values = ();
 
 my $graphic;
-my $picture_file = "samples/bars_4.png";
+my $picture_file = "test/bars_4.png";
 my $min_y        = -5;                     # max. y-values
 my $max_y        = 5;
 

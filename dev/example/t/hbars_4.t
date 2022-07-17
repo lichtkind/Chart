@@ -19,7 +19,7 @@ $g->add_dataset( 2,     10,    3,      8,      3 );
 );
 
 $g->set(%hash);
-$g->png("samples/hbars_4.png");
+$g->png("test/hbars_4.png");
 
 print "ok 1\n";
 exit(0);

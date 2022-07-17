@@ -31,7 +31,7 @@ $g->set(
     }
 );
 $g->set( 'brush_size2' => 1 );
-$g->png("samples/composite.png");
+$g->png("test/composite.png");
 
 print "ok 1\n";
 

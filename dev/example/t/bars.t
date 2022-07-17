@@ -44,7 +44,7 @@ $g->add_dataset( 50000, 70000, 20200,  80000.8, 40000 );
 );
 $g->set(%hash);
 
-$g->png("samples/bars.png");
+$g->png("test/bars.png");
 
 print "ok 1\n";
 

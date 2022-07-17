@@ -21,7 +21,7 @@ $g->set(
 
 );
 
-$g->png("samples/direction_2.png");
+$g->png("test/direction_2.png");
 
 print "ok 1\n";
 

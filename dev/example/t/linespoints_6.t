@@ -430,6 +430,6 @@ $g->set( 'pt_size'         => '20' );
 $g->set( 'brush_size'      => '4' );
 $g->set( 'skip_x_ticks'    => '50' );
 
-$g->png("samples/linespoints_6.png");
+$g->png("test/linespoints_6.png");
 print "ok 1\n\n";
 

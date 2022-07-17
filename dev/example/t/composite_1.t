@@ -8,7 +8,7 @@ my $obj = Chart::Composite->new( 600, 500 );
 my @legend_ary;
 my ( $legend, @zeile );
 my @all_aryref;
-open( OUT, ">samples/composite_1.png" ) or die "cannot write file samples/composite_1.png\n";
+open( OUT, ">test/composite_1.png" ) or die "cannot write file test/composite_1.png\n";
 
 my $i       = 0;
 my $e       = 0;

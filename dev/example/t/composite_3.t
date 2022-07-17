@@ -9,7 +9,7 @@ my $obj = Chart::Composite->new( 800, 600 );    #Breite, Höhe
 my @legend_ary;
 my ( $legend, @zeile );
 my @all_aryref;
-open( OUT, ">samples/composite_3.png" ) or die "kann Datei nicht schreiben\n";
+open( OUT, ">test/composite_3.png" ) or die "kann Datei nicht schreiben\n";
 
 my $i       = 0;
 my $e       = 0;

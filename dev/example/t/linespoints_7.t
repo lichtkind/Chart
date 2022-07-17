@@ -37,6 +37,6 @@ $g->set( 'pt_size'         => '10' );
 $g->set( 'brush_size'      => '3' );
 $g->set( 'stepline'        => 'true' );
 
-$g->png("samples/linespoints_7.png");
+$g->png("test/linespoints_7.png");
 print "ok 1\n\n";
 

@@ -19,7 +19,7 @@ $g->set( 'grey_background'     => 'false' );
 $g->set( 'colors'              => { 'title' => 'red' } );
 $g->set( 'legend_lines'        => 'true' );
 
-$g->png("samples/pie_2.png");
+$g->png("test/pie_2.png");
 print "ok 1\n";
 
 exit(0);

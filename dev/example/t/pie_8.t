@@ -28,7 +28,7 @@ $g->set(
     }
 );
 
-$g->png("samples/pie_8.png");
+$g->png("test/pie_8.png");
 print "ok 1\n";
 
 exit(0);

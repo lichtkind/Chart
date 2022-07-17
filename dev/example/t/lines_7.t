@@ -22,7 +22,7 @@ $g->set( 'legend'       => 'bottom' );
 $g->set( 'precision'    => '0' );
 $g->set( 'include_zero' => 'true' );
 
-$g->png("samples/lines_7.png");
+$g->png("test/lines_7.png");
 
 print "ok 1\n";
 

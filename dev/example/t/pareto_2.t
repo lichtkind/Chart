@@ -38,7 +38,7 @@ $g->add_dataset( 37, 15, 9, 4, 3.5, 2.1, 1.2, 1.5, 6.2, 16 );
 );
 
 $g->set(%hash);
-$g->png("samples/pareto_2.png");
+$g->png("test/pareto_2.png");
 
 print "ok 1\n";
 

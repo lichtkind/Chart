@@ -47,7 +47,7 @@ $g->set(
     }
 );
 
-$g->png("samples/stackedbars_2.png");
+$g->png("test/stackedbars_2.png");
 
 print "ok 1\n";
 

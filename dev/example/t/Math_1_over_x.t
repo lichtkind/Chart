@@ -85,12 +85,12 @@ $graphic->set( 'y_label'         => 'f = 1/x' );
 
 if ( $graphic->can('gif') )
 {
-    my $picture_file = "samples/Math_1_over_x.gif";
+    my $picture_file = "test/Math_1_over_x.gif";
     $graphic->gif($picture_file);
 }
 if ( $graphic->can('png') )
 {
-    my $picture_file = "samples/Math_1_over_x.png";
+    my $picture_file = "test/Math_1_over_x.png";
     $graphic->png($picture_file);
 }
 

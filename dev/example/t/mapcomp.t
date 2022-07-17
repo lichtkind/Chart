@@ -4,7 +4,7 @@ BEGIN { unshift @INC, 'lib', '../../lib'}
 use strict;
 use Chart::Composite;
 
-my $png_name = "samples/mapcomp.png";
+my $png_name = "test/mapcomp.png";
 my @legend_keys = ( "Actual ", "Goal" );
 
 #

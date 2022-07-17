@@ -33,7 +33,7 @@ $g->add_dataset(@data4);
 );
 
 $g->set(%hash);
-$g->png("samples/linespoints_3.png");
+$g->png("test/linespoints_3.png");
 
 #just a trick, to let the y scale start at the biggest point:
 #initiate with negativ values, remove the minus sign!

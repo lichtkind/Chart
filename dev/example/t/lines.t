@@ -22,7 +22,7 @@ $g->add_dataset( 5,     7,     2.3,    10,     12, );
     }
 );
 $g->set(%hash);
-$g->png("samples/lines.png");
+$g->png("test/lines.png");
 print "ok 1\n";
 
 #

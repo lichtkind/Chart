@@ -35,7 +35,7 @@ $g->set( 'legend'              => 'right' );
 $g->set( 'grey_background'     => 'false' );
 $g->set( 'legend_lines'        => 'true' );
 
-$g->png("samples/pie_10.png");
+$g->png("test/pie_10.png");
 print "ok 1\n";
 
 exit(0);

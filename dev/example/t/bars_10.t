@@ -36,7 +36,7 @@ $g->add_dataset( 0, 0, 0, 0, 0 );
 
 $g->set(%hash);
 
-$g->png("samples/bars_10.png");
+$g->png("test/bars_10.png");
 
 print "ok 1\n";
 

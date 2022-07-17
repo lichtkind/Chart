@@ -53,7 +53,7 @@ $g->add_dataset( @y[@s] );
 $g->add_dataset(@x2);
 $g->set(%hash);
 $g->set( xy_plot => 1 );
-$g->jpeg("samples/composite_8.jpg");
+$g->jpeg("test/composite_8.jpg");
 
 print "ok 1\n";
 

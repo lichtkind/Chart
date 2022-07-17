@@ -28,7 +28,7 @@ $g->set(
     'grey_background' => 'false',
 );
 
-$g->png("samples/direction_3.png");
+$g->png("test/direction_3.png");
 
 print "ok 1\n";
 

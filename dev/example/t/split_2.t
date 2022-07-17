@@ -33,7 +33,7 @@ $g->add_dataset(@y2);
     'legend'         => 'bottom',
 );
 $g->set(%options);
-$g->png("samples/split_2.png");
+$g->png("test/split_2.png");
 print "ok 1\n";
 
 exit(0);
