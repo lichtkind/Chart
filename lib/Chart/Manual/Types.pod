@@ -513,7 +513,7 @@ All shapes can be seen in the demo above.
 The first data set comprises the domain set, displayed on the x-axis.
 L<precision|Chart::Manual::Properties/precision> set to zero cuts the 
 decimals on the y-axis labels and keeps it clean. The method C<add_pt>
-appends to every data set anothr value, adding another column to the chart.
+appends to every data set another value, adding another column to the chart.
 L<png_border|Chart::Manual::Properties/png_border> does just adds frame
 of 10 pixel width around the entire image.
 

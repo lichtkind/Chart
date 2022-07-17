@@ -3,18 +3,23 @@
 
 =head1 NAME
 
-Chart::Manual::Properties - Complete Guide to Chart's changeable Properties
+Chart::Manual::Properties - complete guide to Chart's changeable properties
 
 =head1 INTRO
 
 Individual properties of a chart can be changed via method C<set>:
 
-    $chart->set( %properties);
-    $chart->set( key => 'value', ... );
+    $chart_object->set( %properties);
+    $chart_object->set( key => 'value', ... );
 
-This page documents all viable keys and values for this operation.
-After detailing the data types, all keys are 
-
+This page documents all viable keys and values for this method.
+The first section defines the most common data types for and its acceptable
+values. Please note that different chart L<Types|Chart::Manual::Types>
+react to different of properties. Therefore the 
+L<section section|/"BY CHART TYPE"> groups all properties by chart type
+or set of types, where they have an effect in a tabular manner.
+A fuller description of each property provides the 
+L<third section|/ALPHABETICALLY>, where they are alpabetically sorted.
 
 =head1 DATA TYPES
 
@@ -70,7 +75,7 @@ Integers greater or equal zero.
 Text for title, subtitle and labels on axis, tics and legend.
 
 
-=head1 SORTED BY CHART TYPE
+=head1 BY CHART TYPE
 
 Summary of all properties, grouped by chart type where there applicable.
 Sections are named after the Chart type in question, except B<All> and B<NoPie>.
@@ -300,7 +305,7 @@ L</scale> .............. L</integer>: factor for y-values; C<1>
 L</start> .............. L</integer>: start value of the first interval; C<'undef'>
 
 
-=head1 SORTED ALPHABETICALLY
+=head1 ALPHABETICALLY
 
 =head2 angle_interval
 

@@ -121,12 +121,12 @@ can subsequently change with the set method.
 This is where the fun begins.  Set looks for a hash of keys and
 values.  You can pass it a hash that you've already constructed, like
 
-  %hash = ('title' => 'Foo Bar');
+  %hash = ( property_name => 'new value' );
   $obj->set (%hash);
 
 or you can try just constructing the hash inside the set call, like
 
-  $obj->set ('title' => 'Foo Bar');
+  $obj->set ( property_name => 'new value' );
 
 
 L<Chart::Manual::Properties> lists all currently supported keys and values.

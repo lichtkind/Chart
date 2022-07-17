@@ -28,4 +28,3 @@ $g->png("linespoints.png", [
 
 
 
-

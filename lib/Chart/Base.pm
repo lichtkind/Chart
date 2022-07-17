@@ -99,8 +99,7 @@ sub add_pt {
     my $self = shift;
     my @data = ();
 
-    if ( ( ref $_[0] ) =~ /^ARRAY/ )
-    {
+    if ( ref $_[0] eq 'ARRAY' ) {
         my $rdata = shift;
         @data = @$rdata if @$rdata;
     }
@@ -136,25 +135,16 @@ sub add_pt {
 # to the dataref,
 #
 # @param data Dataset (reference to a list) to add
-sub add_dataset
-{
+sub add_dataset {
     my $self = shift;
     my @data = ();
 
-    if ( ( ref $_[0] ) =~ /^ARRAY/ )
-    {
+    if ( ref $_[0] eq 'ARRAY' ) {
         my $rdata = shift;
         @data = @$rdata if @$rdata;
-    }
-    elsif ( ( ref \$_[0] ) =~ /^SCALAR/ )
-    {
-        if ( defined $_[0] )
-        {
-            @data = @_;
-        }
-    }
-    else
-    {
+    } elsif ( ( ref \$_[0] ) =~ /^SCALAR/ )  {
+        @data = @_ if defined $_[0];
+    } else {
         croak "Not an array or reference to array";
         return;
     }
@@ -214,29 +204,24 @@ sub add_datafile {
 ## @method int clear_data()
 # Clear Graph API (by undefining 'dataref'
 # @return Status of function
-sub clear_data
-{
+sub clear_data {
     my $self = shift;
-
-    # undef the internal data reference
+    
     $self->{'dataref'} = undef;
-
-    # now return
+    
     return 1;
 }
 
 ## @method arrayref get_data()
 #  Get array of data of the last graph
 # @return Reference to data set of the last graph
-sub get_data
-{
+sub get_data {
     my $self = shift;
     my $ref  = [];
     my ( $i, $j );
 
     # give them a copy, not a reference into the object
-    for $i ( 0 .. $#{ $self->{'dataref'} } )
-    {
+    for $i ( 0 .. $#{ $self->{'dataref'} } ) {
         @{ $ref->[$i] } = @{ $self->{'dataref'}->[$i] }
 ## speedup, compared to...
           #   for $j (0..$#{$self->{'dataref'}->[$i]}) {
@@ -3084,28 +3069,18 @@ sub _draw_x_ticks {
     ## And, what about the right-tick space??  Only affects Composite, I guess....
 
     #The one and only way to get the RIGHT x value and the width
-    if ( $self->{'y_axes'} =~ /^right$/i )
-    {
+    if ( $self->{'y_axes'} =~ /^right$/i ) {
         $x1 = $self->{'curr_x_min'};
-        $width =
-          $self->{'curr_x_max'} -
-          $x1 -
-          ( $w * $self->{'y_tick_label_length'} ) -
-          3 * $self->{'text_space'} -
-          $self->{'tick_len'};
+        $width = $self->{'curr_x_max'} - $x1 - $self->{'tick_len'}
+               - ( $w * $self->{'y_tick_label_length'} ) -
+               - ( 3 * $self->{'text_space'} );
     }
-    elsif ( $self->{'y_axes'} =~ /^both$/i )
-    {
+    elsif ( $self->{'y_axes'} =~ /^both$/i ) {
         $x1 = $self->{'curr_x_min'} + ( $w * $self->{'y_tick_label_length'} ) + 3 * $self->{'text_space'} + $self->{'tick_len'};
-        $width =
-          $self->{'curr_x_max'} -
-          $x1 -
-          ( $w * $self->{'y_tick_label_length'} ) -
-          3 * $self->{'text_space'} -
-          $self->{'tick_len'};
-    }
-    else
-    {
+        $width = $self->{'curr_x_max'} - $x1 - $self->{'tick_len'}
+               - ( $w * $self->{'y_tick_label_length'} )
+               - 3 * $self->{'text_space'};
+    } else {
         $x1 = $self->{'curr_x_min'} + ( $w * $self->{'y_tick_label_length'} ) + 3 * $self->{'text_space'} + $self->{'tick_len'};
         $width = $self->{'curr_x_max'} - $x1;
     }
@@ -3115,27 +3090,20 @@ sub _draw_x_ticks {
 
     # get the delta value, figure out how to draw the labels
     $delta = $width / ( $self->{'num_datapoints'} > 0 ? $self->{'num_datapoints'} : 1 );
-    if ( !defined( $self->{'skip_x_ticks'} ) )
-    {
+    if ( !defined( $self->{'skip_x_ticks'} ) ) {
+        $self->{'skip_x_ticks'} = 1;
+    } elsif ( $self->{'skip_x_ticks'} == 0 ) {
         $self->{'skip_x_ticks'} = 1;
     }
-    elsif ( $self->{'skip_x_ticks'} == 0 )
-    {
-        $self->{'skip_x_ticks'} = 1;
-    }
-    if ( $delta <= ( $self->{'x_tick_label_length'} * $w ) / $self->{'skip_x_ticks'} )
-    {
-        if ( $self->{'x_ticks'} =~ /^normal$/i )
-        {
+    if ( $delta <= ( $self->{'x_tick_label_length'} * $w ) / $self->{'skip_x_ticks'} ) {
+        if ( $self->{'x_ticks'} =~ /^normal$/i ) {
             $self->{'x_ticks'} = 'staggered';
         }
     }
 
     # now draw the labels
-    if ( $self->{'x_ticks'} =~ /^normal$/i )
-    {    # normal ticks
-        if ( $self->{'skip_x_ticks'} > 1 )
-        {    # draw only every nth tick and label
+    if ( $self->{'x_ticks'} =~ /^normal$/i ) {    # normal ticks
+        if ( $self->{'skip_x_ticks'} > 1 ) {    # draw only every nth tick and label
             for ( 0 .. int( ( $self->{'num_datapoints'} - 1 ) / $self->{'skip_x_ticks'} ) )
             {
                 if ( defined( $data->[0][ $_ * $self->{'skip_x_ticks'} ] ) )
@@ -3157,77 +3125,51 @@ sub _draw_x_ticks {
                     $self->{'gd_obj'}->string( $font, $x2, $y1, $label, $textcolor );
                 }
             }
-        }
-        else
-        {
-            for ( 0 .. $self->{'num_datapoints'} - 1 )
-            {
-                if ( defined($_) )
-                {
+        } else {
+            for ( 0 .. $self->{'num_datapoints'} - 1 ) {
+                if ( defined($_) ) {
                     $label = $self->{f_x_tick}->( $data->[0][$_] );
                     $x2 = $x1 + ( $delta / 2 ) + ( $delta * $_ ) - ( $w * length($label) ) / 2;
                     $self->{'gd_obj'}->string( $font, $x2, $y1, $label, $textcolor );
                 }
             }
         }
-    }
-
-    elsif ( $self->{'x_ticks'} =~ /^staggered$/i )
-    {    # staggered ticks
+    } elsif ( $self->{'x_ticks'} =~ /^staggered$/i ) {    # staggered ticks
         if ( $self->{'skip_x_ticks'} > 1 )
         {
             $stag = 0;
-            for ( 0 .. int( ( $self->{'num_datapoints'} - 1 ) / $self->{'skip_x_ticks'} ) )
-            {
-                if ( defined( $data->[0][ $_ * $self->{'skip_x_ticks'} ] ) )
-                {
+            for ( 0 .. int( ( $self->{'num_datapoints'} - 1 ) / $self->{'skip_x_ticks'} ) ) {
+                if ( defined( $data->[0][ $_ * $self->{'skip_x_ticks'} ] ) ) {
                     $x2 =
                       $x1 +
                       ( $delta / 2 ) +
                       ( $delta * ( $_ * $self->{'skip_x_ticks'} ) ) -
                       ( $w * length( $self->{f_x_tick}->( $data->[0][ $_ * $self->{'skip_x_ticks'} ] ) ) ) / 2;
-                    if ( ( $stag % 2 ) == 1 )
-                    {
+                    if ( ( $stag % 2 ) == 1 ) {
                         $y1 -= $self->{'text_space'} + $h;
                     }
                     $self->{'gd_obj'}
                       ->string( $font, $x2, $y1, $self->{f_x_tick}->( $data->[0][ $_ * $self->{'skip_x_ticks'} ] ),
                         $textcolor );
-                    if ( ( $stag % 2 ) == 1 )
-                    {
-                        $y1 += $self->{'text_space'} + $h;
-                    }
+                    $y1 += $self->{'text_space'} + $h if $stag % 2;
                     $stag++;
                 }
             }
         }
-        elsif ( $self->{'custom_x_ticks'} )
-        {
+        elsif ( $self->{'custom_x_ticks'} ) {
             $stag = 0;
-            for ( sort ( @{ $self->{'custom_x_ticks'} } ) )
-            {    # sort to make it look good
-                if ( defined($_) )
-                {
+            for ( sort ( @{ $self->{'custom_x_ticks'} } ) ) {    # sort to make it look good
+                if ( defined($_) ) {
                     $x2 = $x1 + ( $delta / 2 ) + ( $delta * $_ ) - ( $w * length( $self->{f_x_tick}->( $data->[0][$_] ) ) ) / 2;
-                    if ( ( $stag % 2 ) == 1 )
-                    {
-                        $y1 -= $self->{'text_space'} + $h;
-                    }
+                    $y1 -= $self->{'text_space'} + $h if $stag % 2;
                     $self->{'gd_obj'}->string( $font, $x2, $y1, $self->{f_x_tick}->( $data->[0][$_] ), $textcolor );
-                    if ( ( $stag % 2 ) == 1 )
-                    {
-                        $y1 += $self->{'text_space'} + $h;
-                    }
+                    $y1 += $self->{'text_space'} + $h if $stag % 2;
                     $stag++;
                 }
             }
-        }
-        else
-        {
-            for ( 0 .. $self->{'num_datapoints'} - 1 )
-            {
-                if ( defined( $self->{f_x_tick}->( $data->[0][$_] ) ) )
-                {
+        } else {
+            for ( 0 .. $self->{'num_datapoints'} - 1 ) {
+                if ( defined( $self->{f_x_tick}->( $data->[0][$_] ) ) ) {
                     $x2 = $x1 + ( $delta / 2 ) + ( $delta * $_ ) - ( $w * length( $self->{f_x_tick}->( $data->[0][$_] ) ) ) / 2;
                     if ( ( $_ % 2 ) == 1 )
                     {
@@ -3241,16 +3183,11 @@ sub _draw_x_ticks {
                 }
             }
         }
-    }
-    elsif ( $self->{'x_ticks'} =~ /^vertical$/i )
-    {    # vertical ticks
+    } elsif ( $self->{'x_ticks'} =~ /^vertical$/i ) {    # vertical ticks
         $y1 = $self->{'curr_y_max'} - $self->{'text_space'};
-        if ( $self->{'skip_x_ticks'} > 1 )
-        {
-            for ( 0 .. int( ( $self->{'num_datapoints'} - 1 ) / $self->{'skip_x_ticks'} ) )
-            {
-                if ( defined($_) )
-                {
+        if ( $self->{'skip_x_ticks'} > 1 ) {
+            for ( 0 .. int( ( $self->{'num_datapoints'} - 1 ) / $self->{'skip_x_ticks'} ) ) {
+                if ( defined($_) ) {
                     $x2 = $x1 + ( $delta / 2 ) + ( $delta * ( $_ * $self->{'skip_x_ticks'} ) ) - $h / 2;
                     $y2 = $y1 - (
                         (
@@ -3263,25 +3200,17 @@ sub _draw_x_ticks {
                         $textcolor );
                 }
             }
-        }
-        elsif ( $self->{'custom_x_ticks'} )
-        {
-            for ( @{ $self->{'custom_x_ticks'} } )
-            {
-                if ( defined($_) )
-                {
+        } elsif ( $self->{'custom_x_ticks'} ) {
+            for ( @{ $self->{'custom_x_ticks'} } ) {
+                if ( defined($_) ) {
                     $x2 = $x1 + ( $delta / 2 ) + ( $delta * $_ ) - $h / 2;
                     $y2 = $y1 - ( ( $self->{'x_tick_label_length'} - length( $self->{f_x_tick}->( $data->[0][$_] ) ) ) * $w );
                     $self->{'gd_obj'}->stringUp( $font, $x2, $y2, $self->{f_x_tick}->( $data->[0][$_] ), $textcolor );
                 }
             }
-        }
-        else
-        {
-            for ( 0 .. $self->{'num_datapoints'} - 1 )
-            {
-                if ( defined($_) )
-                {
+        } else {
+            for ( 0 .. $self->{'num_datapoints'} - 1 ) {
+                if ( defined($_) ) {
                     $x2 = $x1 + ( $delta / 2 ) + ( $delta * $_ ) - $h / 2;
                     $y2 = $y1 - ( ( $self->{'x_tick_label_length'} - length( $self->{f_x_tick}->( $data->[0][$_] ) ) ) * $w );
                     $self->{'gd_obj'}->stringUp( $font, $x2, $y2, $self->{f_x_tick}->( $data->[0][$_] ), $textcolor );
@@ -3311,10 +3240,8 @@ sub _draw_x_ticks {
     # now plot the ticks
     $y1 = $self->{'curr_y_max'};
     $y2 = $self->{'curr_y_max'} - $self->{'tick_len'};
-    if ( $self->{'skip_x_ticks'} > 1 )
-    {
-        for ( 0 .. int( ( $self->{'num_datapoints'} - 1 ) / $self->{'skip_x_ticks'} ) )
-        {
+    if ( $self->{'skip_x_ticks'} > 1 ) {
+        for ( 0 .. int( ( $self->{'num_datapoints'} - 1 ) / $self->{'skip_x_ticks'} ) ) {
             $x2 = $x1 + ( $delta / 2 ) + ( $delta * ( $_ * $self->{'skip_x_ticks'} ) );
             $self->{'gd_obj'}->line( $x2, $y1, $x2, $y2, $misccolor );
             if (   $self->true( $self->{'grid_lines'} )
@@ -3323,11 +3250,8 @@ sub _draw_x_ticks {
                 $self->{'grid_data'}->{'x'}->[$_] = $x2;
             }
         }
-    }
-    elsif ( $self->{'custom_x_ticks'} )
-    {
-        for ( @{ $self->{'custom_x_ticks'} } )
-        {
+    } elsif ( $self->{'custom_x_ticks'} ) {
+        for ( @{ $self->{'custom_x_ticks'} } ) {
             $x2 = $x1 + ( $delta / 2 ) + ( $delta * $_ );
             $self->{'gd_obj'}->line( $x2, $y1, $x2, $y2, $misccolor );
             if (   $self->true( $self->{'grid_lines'} )
@@ -3336,16 +3260,13 @@ sub _draw_x_ticks {
                 $self->{'grid_data'}->{'x'}->[$_] = $x2;
             }
         }
-    }
-    else
-    {
-        for ( 0 .. $self->{'num_datapoints'} - 1 )
-        {
+    } else {
+        for ( 0 .. $self->{'num_datapoints'} - 1 ) {
             $x2 = $x1 + ( $delta / 2 ) + ( $delta * $_ );
             $self->{'gd_obj'}->line( $x2, $y1, $x2, $y2, $misccolor );
             if (   $self->true( $self->{'grid_lines'} )
-                or $self->true( $self->{'x_grid_lines'} ) )
-            {
+                or $self->true( $self->{'x_grid_lines'} ) ) {
+
                 $self->{'grid_data'}->{'x'}->[$_] = $x2;
             }
         }
@@ -3375,27 +3296,19 @@ sub _draw_y_ticks {
     $self->{grid_data}->{'y2'} = [];
 
     # make sure we got a real font
-    unless ( ( ref $font ) eq 'GD::Font' )
-    {
-        croak "The tick label font you specified isn\'t a GD Font object";
-    }
+    croak "The tick label font you specified isn\'t a GD Font object" unless  ( ref $font ) eq 'GD::Font';
 
     # find out how big the font is
     ( $w, $h ) = ( $font->width, $font->height );
 
     # figure out which ticks not to draw
-    if ( $self->{'min_val'} >= 0 )
-    {
+    if ( $self->{'min_val'} >= 0 ) {
         $s = 1;
         $f = $#labels;
-    }
-    elsif ( $self->{'max_val'} <= 0 )
-    {
+    } elsif ( $self->{'max_val'} <= 0 ) {
         $s = 0;
         $f = $#labels;    # -1 entfernt
-    }
-    else
-    {
+    } else {
         $s = 0;
         $f = $#labels;
     }
