@@ -17,6 +17,10 @@ $g->set(
     precision    =>  0,
     grid_lines   => 'true',
     png_border   => 10,
+    colors => {
+        grid_lines => 'gray70',
+
+    },
 );
 
 $g->png("points.png");

@@ -233,8 +233,8 @@ The class Chart::HorizontalBars creates a chart of horizontally oriented bars.
 Same rules apply as in L</Bars>, except due negative values in our data sets
 here L<min_val|Chart::Manual::Properties/min_val> doesn't have to be set to zero.
 And instead of L<y_grid_lines|Chart::Manual::Properties/y_grid_lines>
-we activate and color L<x_grid_lines|Chart::Manual::Properties/x_grid_lines>
-
+we activate and color L<x_grid_lines|Chart::Manual::Properties/x_grid_lines>.
+Deactivating the grey background of the plot just adds a little friendliness. 
 
     use Chart::HorizontalBars;
 
@@ -256,6 +256,7 @@ we activate and color L<x_grid_lines|Chart::Manual::Properties/x_grid_lines>
             y_label      => 'gray40',
             title        => 'gray20',
         }
+        grey_background  => 'false',
     );
     $g->png("hbars.png");
 
@@ -520,7 +521,8 @@ L<precision|Chart::Manual::Properties/precision> set to zero cuts the
 decimals on the y-axis labels and keeps it clean. The method C<add_pt>
 appends to every data set another value, adding another column to the chart.
 L<png_border|Chart::Manual::Properties/png_border> does just adds frame
-of 10 pixel width around the entire image.
+of 10 pixel width around the entire image. They middle gray grid lines
+are just easy for the eyes.
 
     use Chart::Points;
 
@@ -537,6 +539,10 @@ of 10 pixel width around the entire image.
         precision    =>  0,
         grid_lines   => 'true',
         png_border   => 10,
+        colors => {
+            grid_lines => 'gray70',
+
+        },
     );
     $g->png("points.png");
 

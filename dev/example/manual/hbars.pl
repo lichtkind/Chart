@@ -14,6 +14,7 @@ use Chart::HorizontalBars;
         y_label       => 'Value',
         x_grid_lines  => 'true',
         precision     =>  0,
+        grey_background => 'false',
         colors => {
             x_grid_lines => 'gray70',
             misc         => 'gray55',
