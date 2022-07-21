@@ -30,6 +30,7 @@ $g->add_dataset( 7,     -5,    -3,     4,      7 );
         'y_grid_lines' => [ 255, 255, 255 ],
         'x_grid_lines' => [ 255, 255, 255 ],
     },
+     grey_background => 'false',
 );
 
 $g->set(%hash);
