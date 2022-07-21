@@ -24,7 +24,7 @@ which are width and height of the later generated image.
 =head1 Bars
 
 =for HTML <p>
-<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/bars.png" alt="dual bar chart" width="400" height="400">
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/bars.png" alt="dual bar chart" width="500" height="300">
 </p>
 
 The class Chart::Bars creates a chart made up of a series of vertical bars.
@@ -45,7 +45,7 @@ a little cleaner. All the the other color set serv the same purpose.
 
     use Chart::Bars;
     
-    my $g = Chart::Bars->new( 400, 400 );
+    my $g = Chart::Bars->new( 500, 300 );
     $g->add_dataset( qw/ camel cat dog bear shell/ );
     $g->add_dataset( 300, 400, 800, 500, 900 );
     $g->add_dataset( 800, 600, 300, 300, 400 );
