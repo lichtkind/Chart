@@ -1,8 +1,14 @@
-2.403.5 2022-08-17 lichtkind
+2.403.6 2022-08-22 lichtkind
+-------
+    * = POD rewrite release
+    * ! gap in HTML tag in POD prevented lanfing page illustrations
+    * ? final touche on new POD documentation
+
+2.403.5 2022-08-18 lichtkind
 -------
     * = POD rewrite release
     * ? completed workflow page in manual
-    * ? completed mthods page in manual
+    * ? completed methods page in manual
 
 2.403.4 2022-08-17 lichtkind
 -------

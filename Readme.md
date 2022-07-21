@@ -4,7 +4,7 @@
 
 ### VERSION
  
-    2.403.5
+    2.403.6
 
 [Chart on CPAN](https://metacpan.org/pod/Chart)
 
@@ -68,7 +68,7 @@
     In future we might require optionally SVG 2.5 and List::Util.
 
 
-[CHANGES](https://github.com/lichtkind/Chart/blob/main/Changes)
+[CHANGES](https://github.com/lichtkind/Chart/blob/main/Changes) (with roadmap)
 
 [CONTRIBUTING](https://github.com/lichtkind/Chart/blob/main/CONTRIBUTING)
 

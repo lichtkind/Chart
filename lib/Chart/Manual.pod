@@ -8,7 +8,7 @@ Chart::Manual - Chart user documentation index
 =head1 SYNOPSIS
 
 Chart is a collection of modules for visualizing numerical data.
-Its design goals are (in that order) maximal flexibility, feature richness
+It is designed for: (in that order) maximal flexibility, feature richness
 and minimal dependencies. It can write PNG and JPG images into files and
 STDOUT (for web and shell usage).
 
