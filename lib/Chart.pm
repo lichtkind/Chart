@@ -66,7 +66,7 @@ Chart - a series of charting modules
 
 =head1 DESCRIPTION
 
-Chart help you to create PNG and JPG images with visualizations of numeric data.
+Chart helps you to create PNG and JPG images with visualizations of numeric data.
 This page gives you a summary how to use it. 
 For a more thorough documentation and lots of example code please visit the L<Chart::Manual>.
 
