@@ -460,9 +460,9 @@ Default is C<'false'>.
 
 Lets Chart know you're going to ask for information about the placement
 of the data for use in creating an image map from the png.  This information
-can be retrieved using the imagemap_dump() method.  NB. that the 
-imagemap_dump() method cannot be called until after the Chart has been
-generated (ie. using the png() or cgi_png() methods).
+can be retrieved using the L<imagemap_dump()|Chart::Manual::Methods/imagemap_dump> 
+method.  NB. that the imagemap_dump() method cannot be called until after
+the Chart has been L<generated|"/Chart::Manual::Workflows/create image">.
 
 =head2 include_zero
 

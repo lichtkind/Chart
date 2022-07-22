@@ -21,7 +21,7 @@ L<constructor|Chart::Manual::Methods/new> takes two arguments,
 which are width and height of the later generated image.
 
 
-=head1 Bars
+=head2 Bars
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/bars.png" alt="dual bar chart" width="500" height="300">
@@ -70,7 +70,7 @@ a little cleaner. All the the other color set serv the same purpose.
     $g->png("bars.png");
 
 
-=head1 Composite
+=head2 Composite
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/composite.png" alt="composite chart">
@@ -113,7 +113,7 @@ L<precision|Chart::Manual::Properties/precision>.
     $g->png("composite.png");
 
 
-=head1 Direction
+=head2 Direction
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/direction.png" alt="polar chart">
@@ -176,7 +176,7 @@ But they still all sets have to have the same length.
     $g->png("direction.png");
 
 
-=head1 ErrorBars
+=head2 ErrorBars
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/error.png" alt="error bar chart">
@@ -223,7 +223,7 @@ For better readability C<'both'> L<y_axes|Chart::Manual::Properties/y_axes> were
     $g->png("error.png");
 
 
-=head1 HorizontalBars
+=head2 HorizontalBars
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/hbars.png" alt="horizontal bar chart">
@@ -298,7 +298,7 @@ so that the chart doesn't get sqeezed by it.
     $g->png("lines.png");
 
 
-=head1 LinesPoints
+=head2 LinesPoints
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/linespoints.png" alt="xy chart with connected points">
@@ -353,7 +353,7 @@ to the drawing method.
     ]);
 
 
-=head1 Mountain
+=head2 Mountain
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/mountain.png" alt="mountain chart">
@@ -403,7 +403,7 @@ second being transparent.
     $g->png( 'mountain.png', \@data );
 
 
-=head1 Pareto
+=head2 Pareto
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/pareto.png" alt="pareto chart">
@@ -459,7 +459,7 @@ and activating L<integer_ticks_only|Chart::Manual::Properties/integer_ticks_only
     $g->png("pareto.png");
 
 
-=head1 Pie
+=head2 Pie
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/pie.png" alt="pie chart">
@@ -501,7 +501,7 @@ note the multi line (row) title text.
     $g->png("pie.png");
 
 
-=head1 Points
+=head2 Points
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/points.png" alt="xy chart with points">
@@ -547,7 +547,7 @@ are just easy for the eyes.
     $g->png("points.png");
 
 
-=head1 Split
+=head2 Split
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/split.png" alt="multi chart">
