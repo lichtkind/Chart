@@ -347,7 +347,7 @@ objects data.
 Name of the color in the X11 or HTML (SVG) standard or the Pantone report.
 The name will be found and filled in, even when the object is created
 with RGB or HSL values. If the color is not found in any of the mentioned
-standards, it returns an empty string.
+standards, it returns an empty string. All names are at: L<Chart::Color::Constant/NAMES>
 
 =head2 string
 
