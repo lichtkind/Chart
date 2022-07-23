@@ -1,41 +1,76 @@
 Chart                     main module - distro API
 
-  Color                   color (relation) objects
-      Value               handle and compute color space values
-      Constant            store of color constants from various standards
-  
 
   
-  Coordinates             translation between virtual (mathematical, data) and canvas coordinates
 
 
   Part
       Legend                  drawing box showing color - meaning corelation
+      Coordinates             translation between virtual (mathematical, data) and canvas coordinates
+      Axis
+      Head
+      Plot
   
   
-  Setting
+  Property
       Template            template manager
       Legacy              manage legacy settings and its defaults
+      Validator
+      Color                   color (relation) objects
+          Value               handle and compute color space values
+          Constant            store of color constants from various standards
+      Font
    
+  Type 
 
-  Composer                 organise postion and render order of parts
+
                            settings -> frames and colors
   
-  Render                   compile primitives to picture, manage colors
-      DrawMap
-      BitMap
+    PipeLine                   compile primitives to picture, manage colors
+        Arrange    
+        Compose                organise postion and render order of parts
+            Point
+            Line
+            Bar
+            Pie
+            Violine
+        Render             
+        PixelMap       AoA of Lists holing layers of Pixel
+        Backend
 
-      Font
-      Canvas                  AoA of Lists holing layers of Pixel
-      Backend
-      
+  
+  Definition 
+
+     
   Data
       Set                  Data holding objects
+      Transformation       (Mapper)
+             
   
-  Font
   
 
 commands on canvas 
 compile to image
 
 Primitive
+
+
+
+
+HL commands
+      +
+LL properties/templates
+      +        
+  data
+
+    |              Arrange
+    
+Definition
+
+    |              Compose
+
+Draw Primites   => SVG
+
+    |              Render
+
+PixelMap   => PNG, JPG, WebP
