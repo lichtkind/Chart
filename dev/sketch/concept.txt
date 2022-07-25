@@ -2,7 +2,7 @@
 
 API
 
-Chart->new( $height, $$width)
+Chart->new( $height, $width)
 
 no composite
 modular settings
