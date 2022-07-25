@@ -44,7 +44,7 @@ L<Chart::Manual::Properties>
 Much of what is documented here will be superseded by a new API provided
 by upcoming version 3.0. The old API will be discouraged but not deprecated,
 except maybe the module Chart::Composite and some properties.
-
+The new API will aply only to objects created by Chart-E<gt>new(...);
 
 =head1 COPYRIGHT & LICENSE
 

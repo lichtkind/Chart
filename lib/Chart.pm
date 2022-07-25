@@ -175,7 +175,7 @@ array should be set up the same way as for the normal png method.
 
 =back
 
-=head2 Graph.pm-style API
+=head2 column based API
 
 You might ask, "But what if I just want to add a few points to the graph, 
 and then display it, without all those references to references?".  Well,

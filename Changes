@@ -2,13 +2,13 @@
 -------
     * = POD rewrite release
     * ? move landing page examples in own category, independent from script runs
-    * ! bad dates in Changes
-
+    * ? reduce references to gone modules in Chart.pm POD
+    * ! bad dates, typos in Changes
 
 2.403.6 2022-07-21 lichtkind
 -------
     * = POD rewrite release
-    * ! gap in HTML tag in POD prevented lanfing page illustrations
+    * ! gap in HTML tag in POD prevented landing page demo images
     * ? final touches on new POD documentation
 
 2.403.5 2022-07-18 lichtkind
@@ -39,13 +39,13 @@
     * ? completed properties page in manual
     * ? started types page in manual with first test example
     * ! linkfixes on landing POD of Chart.pm
-    * ! linkfixes on Color::Constants.pm POD 
+    * ! linkfixes on Color::Constant.pm POD 
 
 2.403.1 2022-07-12 lichtkind
 -------
     * = POD rewrite release
     * ? completed most of properties
-    * ? all names listed in Color::Constants.POD
+    * ? all names listed in Color::Constant.pm POD
 
 2.403.0 2022-07-07 lichtkind
 -------

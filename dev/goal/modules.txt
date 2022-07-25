@@ -4,47 +4,61 @@ Chart                     main module - distro API
   
 
 
-  Part
-      Legend                  drawing box showing color - meaning corelation
-      Coordinates             translation between virtual (mathematical, data) and canvas coordinates
-      Axis
-      Head
-      Plot
-  
-  
-  Property
-      Template            template manager
-      Legacy              manage legacy settings and its defaults
-      Validator
-      Color                   color (relation) objects
-          Value               handle and compute color space values
-          Constant            store of color constants from various standards
-      Font
-   
-  Type 
-
-
-                           settings -> frames and colors
-  
-    PipeLine                   compile primitives to picture, manage colors
-        Arrange    
-        Compose                organise postion and render order of parts
+    Part                  classes producing draw primitives from definition
+        Legend                  drawing box showing color - meaning corelation
+        Coordinates             translation between virtual (mathematical, data) and canvas coordinates
+        Axis
+        Head
+        Plot
             Point
             Line
             Bar
             Pie
             Violine
-        Render             
-        PixelMap       AoA of Lists holing layers of Pixel
-        Backend
+      
+  
+  
+    Property
+        Template           template manager
+        Legacy             manage legacy settings and its defaults
+        Validate           mapping legacy properties to new ones
+    
+    DataType
+        Color              color (relation) objects
+            Value          handle and compute color space values
+            Constant       store of color constants from various standards
+        Font
+  
+
+                           settings -> frames and colors
+  
+    PipeLine                converts API calls into images
+        Arrange             organise postions, sizes and render order of parts
+        Definition          hash contains all properties and relevant data
+        Draw                converts definition into primitives               
+        DrawPrimitives      list of drawing op codes
+        Render              convert primitives into pixels 
+        PixelMap            AoA of Lists holing layers of Pixel
+        
+        
+    Backend
+        GD
+        SVG
+        Prima
+        PNG
+        JPG
+        GIF
+        BMP
+        WebP
 
   
-  Definition 
 
      
-  Data
-      Set                  Data holding objects
-      Transformation       (Mapper)
+    Data
+        Set                  Data holding objects
+        Transformation       (Mapper)
+        Function
+        Statistic
              
   
   
@@ -52,25 +66,25 @@ Chart                     main module - distro API
 commands on canvas 
 compile to image
 
-Primitive
 
 
 
 
-HL commands
+high level (HL) commands --> store them
       +
-LL properties/templates
+low level (LL) 
       +        
   data
-
-    |              Arrange
+                            weave (properties/templates/defaults)  
+                            extract data, 
+    |              Arrange (pos, size, z-index)
     
 Definition
 
-    |              Compose
+    |              Draw
 
-Draw Primites   => SVG
+DrawPrimites   => SVG
 
     |              Render
 
-PixelMap   => PNG, JPG, WebP
+PixelMap   => GIF, PNG, JPG, WebP, BMP
