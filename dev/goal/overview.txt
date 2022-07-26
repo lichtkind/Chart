@@ -1,0 +1,22 @@
+
+
+
+
+high level (HL) commands --> store them
+      +
+low level (LL) 
+      +        
+  data
+                            weave (properties/templates/defaults)  
+                            extract/prepare  data, 
+    |                       Arrange (pos, size, z-index)
+    
+Definition
+
+    |              Draw
+
+DrawPrimites   => SVG
+
+    |              Render
+
+PixelMap   => GIF, PNG, JPG, WebP, BMP
