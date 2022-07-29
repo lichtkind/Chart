@@ -1,7 +1,7 @@
 use v5.12;
 
 package Chart;
-our $VERSION = 'v2.404_00';
+our $VERSION = 'v2.403.7';
 
 use Chart::Points;
 use Chart::Lines;
@@ -97,7 +97,7 @@ For example,
   use Chart::Lines;
 
 would invoke the lines module.
-Alternatively write to load all chart types at ones with 
+Alternatively load all chart types at ones and write:
 
   use Chart;
 

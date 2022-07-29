@@ -1,8 +1,11 @@
-2.403.7 2022-07-  lichtkind
+2.403.7 2022-07-29  lichtkind
 -------
     * = POD rewrite release
-    * ? move landing page examples in own category, independent from script runs
+    * ? move landing page examples in own category, independent from test script runs
     * ? reduce references to gone modules in Chart.pm POD
+    * ? clearify some bits in POD
+    * ? several final touches on types manual page and example images
+    * ! fix sub title in manual demo of pie chart
     * ! bad dates, typos in Changes
 
 2.403.6 2022-07-21 lichtkind

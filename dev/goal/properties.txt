@@ -3,30 +3,29 @@ main
 
   title = {text}
   subtitle = {text}
-
   logo
     image
-    border
-       top, bottom, left, right
-  
-  
+    {border}
 
+    
   legend
-    border
-       top, bottom, left, right
+    {border}
     @label
-      border
-        top, bottom, left, right
+      {border}
       @color
-      axis_color  
     title = {text}
     description = {text}
-    ?box
-    
+      pos = top|bottom
+    box
+      width
+      color
+      style
+      {border}
+
 
     axis
-      radial
-      polar
+      ?radial
+      ?polar
       x,y,z? 
         label
         ?arrow
@@ -34,23 +33,27 @@ main
         ?log
         ?invert
         ?visible
+
           
       tick
         start
         end
         division
         label_skip
+        lengths
         @label
           color
           font
           style
+          distance
         @special
           text
           color
-          pos
+          value
         
       subtick
         division
+        lengths
   
       grid
         special
@@ -129,8 +132,14 @@ data
 
 
 {text}
-    text
-    color
-    font
-    border
-       top, bottom, left, right
+    ~text
+    \color
+    \font
+    border = {border}
+
+{border}
+    +border
+       +top
+       +bottom
+       +left
+       +right

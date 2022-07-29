@@ -12,7 +12,7 @@ use Carp;
 use GD;
 use GD::Image;
 use Chart::Color;
-#use Chart::Font;
+#use Property::DataType::Font;
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods          #

@@ -21,8 +21,8 @@ $g->set(
         colors  => {
             title        => 'darkblue',
             dataset0     => 'green',
-            dataset1     => 'red',
-            x_label      => 'red',
+            dataset1     => 'aurorared',
+            x_label      => 'aurorared',
             y_grid_lines => 'white',
         },
 );

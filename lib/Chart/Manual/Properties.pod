@@ -12,12 +12,13 @@ Individual properties of a chart can be changed via method C<set>:
     $chart_object->set( %properties);
     $chart_object->set( key => 'value', ... );
 
-This page documents all viable keys and values for this method.
+This page documents all viable keys and values for this calls.
+
 The first section lists the most common data types and their acceptable
 values. 
 
-Please note that every chart L<type|Chart::Manual::Types> reacts only to
-a distinct property subset. The L<section section|/"BY CHART TYPE">
+Please note that all chart L<type|Chart::Manual::Types> reacts only to
+a distinct subset of properties. The L<section section|/"BY CHART TYPE">
 therefore groups all properties by chart type or set of types, where they
 have an effect. The descriptions in this section are shortened to achive
 a tabular overview.
@@ -25,6 +26,11 @@ a tabular overview.
 A fuller description of each property provides the 
 L<third section|/ALPHABETICALLY>, where they are alpabetically sorted.
 
+The general layout of a chart image:
+
+=for HTML <p>
+<img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/layout.png" alt="layout">
+</p>
 
 =head1 DATA TYPES
 
@@ -74,7 +80,7 @@ There are a handful GD built in font object, than can be referenced:
 
 =head2 integer
 
-Whole numbers (without decimals) to set position, size and alike
+Whole numbers (without decimals) to set position, size and alike.
 
 =head2 positive integer
 

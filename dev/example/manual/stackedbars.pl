@@ -10,12 +10,13 @@ $g->add_dataset( 8, 6,  1,  12,  );
 $g->add_dataset( 5, 7,  2,  13,  );
 
 $g->set(
-    'title'           => 'Stacked Bars',
-    'legend'          => 'left',
-     precision        =>  0,
-    'grey_background' => 'false',
+    title            => 'Stacked Bars',
+    legend           => 'left',
+    precision        =>  0,
+    y_grid_lines     => 'true',
+    grey_background  => 'false',
         colors => {
-         x_grid_lines => 'gray70',
+         grid_lines   => 'gray80',
          misc         => 'gray55',
          text         => 'gray55',
          x_label      => 'gray40',

@@ -1,7 +1,7 @@
 ROADMAP:
 -------
 
-3.0 rewrite comlete
+3.0 rewrite complete
 ...
 
 2.406 rewrite axis, tiks, label, box rendering
@@ -10,7 +10,7 @@ ROADMAP:
 
 we are here <-------------------------------------------------
 
-2.403 dropped old pdf and html and added new POD documentation with embedded HML img
+2.403 replaced old pdf and html with new POD documentation with embedded HML img
 2.402 new, powerful color management: HSL, hex_RGB, hash_RGB, Pantone colors
 2.401 reformat distribution to be based on Dist::Zilla, solve CPAN issues
 

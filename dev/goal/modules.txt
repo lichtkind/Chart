@@ -2,33 +2,34 @@ Chart                     main module - distro API
 
 
     Property
-        Default            ?? or jus a template
-        Template           template manager
-        Legacy             manage legacy settings and its defaults
-        Validate           mapping legacy properties to new ones
+        Default             ?? or jus a template
+        Template            template manager
+        Legacy              manage legacy settings and its defaults
+        Expand              expand shortcuts
+        Validate            mapping legacy properties to new ones
     
         DataType
-            Color              color (relation) objects
-                Value          handle and compute color space values
-                Constant       store of color constants from various standards
+            Color           color (relation) objects
+                Value       handle and compute color space values
+                Constant    store of color constants from various standards
             Font
 
     Data
         Domain
-        Set                  Data holding objects
-        Transformation       (Mapper)
+        Set                 Data holding objects
+        Transformation      (Mapper)
         Function            create data sets with functions
         Statistic
 
-    Part                  classes producing draw primitives from definition
-        Legend                  drawing box showing color - meaning corelation
-        Coordinates             translation between virtual (mathematical, data) and canvas coordinates
-        Axis              labels ticks labels grid
+    Part                    classes producing draw primitives from definition
+        Legend              drawing box showing color - meaning corelation
+        Coordinates         translation between virtual (mathematical, data) and canvas coordinates
+        Axis                labels ticks labels grid
         Head
         Plot
             Point
             Line
-            Bar            horizontal and vertical
+            Bar             horizontal and vertical
             Pie
             Violine
 

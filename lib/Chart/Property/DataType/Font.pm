@@ -3,7 +3,7 @@
 
 use v5.12;
 
-package Chart::Font;
+package Chart::Property::DataType::Font;
 our $VERSION = '2.402.0';
 
 use Carp;

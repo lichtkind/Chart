@@ -7,15 +7,16 @@ use Chart::LinesPoints;
 my $g = Chart::LinesPoints->new( 600, 300 );
 
 $g->set(
-    'title'              => 'Soccer Season 2002',
-    'legend_labels'      => ['NY Soccer Club', 'Denver Tigers', 
+    title              => 'Soccer Season 2002',
+    legend_labels      => ['NY Soccer Club', 'Denver Tigers', 
                              'Houston Spacecats', 'Washington Presidents'],
-    'y_label'            => 'position in the table',
-    'x_label'            => 'day of play',
-    'grid_lines'         => 'true',
-    'f_y_tick'           =>  sub { - $_[0] },
-#    'xy_plot'            => 'true',
-    'integer_ticks_only' => 'true',
+    y_label            => 'position in the table',
+    x_label            => 'day of play',
+    grid_lines         => 'true',
+    f_y_tick           =>  sub { - $_[0] },
+#    xy_plot            => 'true',
+    integer_ticks_only => 'true',
+    colors => { grid_lines => 'gray70', },
 );
 
 $g->png("linespoints.png", [

@@ -1,0 +1,9 @@
+
+
+Chart object
+
+    attr:
+        property
+        data
+        DrawPrimitives
+        PixelMap

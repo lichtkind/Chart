@@ -315,7 +315,7 @@ In our example we named both axis via L<x_label|Chart::Manual::Properties/x_labe
 and L<y_label|Chart::Manual::Properties/y_label> and set L<xy_plot|Chart::Manual::Properties/xy_plot>
 off, which is not really needed, since it is on C<'false'> per default.
 This allows you to give the x-axis none numerical, custom tick labels,
-which are by accident the numbers 1 .. 18, as the first data row shows.
+which are by accident the numbers 1 .. 17, as the first data row shows.
 The purpose of this maneuver is to not have zero as the first column label.
 
 Because the origin of coordinate system is usually in the left lower
@@ -334,15 +334,18 @@ to the drawing method.
 
     my $g = Chart::LinesPoints->new( 600, 300 );
     $g->set(
-        'title'              => 'Soccer Season 2002',
-        'legend_labels'      => ['NY Soccer Club', 'Denver Tigers', 
-                                 'Houston Spacecats', 'Washington Presidents'],
-        'y_label'            => 'position in the table',
-        'x_label'            => 'day of play',
-        'grid_lines'         => 'true',
-        'f_y_tick'           =>  sub { - $_[0] },
-        # 'xy_plot'          => 'false',
-        'integer_ticks_only' => 'true',
+        title              => 'Soccer Season 2002',
+        legend_labels      => ['NY Soccer Club', 'Denver Tigers', 
+                               'Houston Spacecats', 'Washington Presidents'],
+        y_label            => 'position in the table',
+        x_label            => 'day of play',
+        grid_lines         => 'true',
+        f_y_tick           =>  sub { - $_[0] },
+        # xy_plot            => 'true',
+        integer_ticks_only => 'true',
+        colors             => { 
+            grid_lines     => 'gray70', 
+        },
     );
     $g->png("linespoints.png", [
         [qw(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17)],
@@ -414,14 +417,15 @@ chart. The bars display absolute values of the data set (Pareto accepts
 only one), while the line represent the accumulation (sum of all values
 from the start on the left up to this value). For a better orientation
 the absolute values should be sorted. In case your data set is not already,
-change the property <sort|Chart::Manual::Properties/sort> to C<'true'>.
+change the property L<sort|Chart::Manual::Properties/sort> to C<'true'>.
 (Note that the days of the week are not in chronological order,
 but in the order of decreasing sale amounts.) The first given  data set
 is like in most cases the domain (x-axis labels). So the color of the first
 data set containing numbers has the color of 
 L<dataset0|Chart::Manual::Properties/colors-datasetx> and the accumulation
 gets the color of dataset1 (which are per default also red and green, 
-but in reverse order).
+but in reverse order). We choose a Pantone Report designer red, which 
+sticks out but is not too shrill.
 
 For better optics we set L<spaced_bars|Chart::Manual::Properties/spaced_bars>
 off, so that the bars touch each other and give a nice counterweight to
@@ -451,8 +455,8 @@ and activating L<integer_ticks_only|Chart::Manual::Properties/integer_ticks_only
         colors  => {
             title        => 'darkblue',
             dataset0     => 'green',
-            dataset1     => 'red',
-            x_label      => 'red',
+            dataset1     => 'aurorared',
+            x_label      => 'aurorared',
             y_grid_lines => 'white',
         },
     );
@@ -467,10 +471,10 @@ and activating L<integer_ticks_only|Chart::Manual::Properties/integer_ticks_only
 
 The class Chart::Pie creates a pie or ring chart. The first added data
 set must contain the labels and the second set the values. Our example
-displays a ring chart with a thickness of 35% (of the radius).
-If the L<ring|Chart::Manual::Properties/ring> property is omitted,
-the chart falls back to regular pie. Every ring slice is labeled with the
-stated label, plus the percentage of its value, as defined with the property
+displays a ring chart with a thickness of 35% (of the radius). If the
+L<ring|Chart::Manual::Properties/ring> property is omitted, the chart form
+falls back to regular pie. Every ring slice is labeled with the stated label,
+plus the percentage of its value, as defined with the property 
 L<label_values|Chart::Manual::Properties/label_values>. Connecting lines
 between label and slice are drawn because L<legend_lines|Chart::Manual::Properties/legend_lines>
 is set to C<'true'>. The actual legend is placed on the bottom, in order
@@ -481,7 +485,7 @@ is set to C<'values'>. Unlike other chart types, where one data set is
 correlated with a color, here every slice has to have its own color.
 Thats why the first data point has the color of L<dataset0|Chart::Manual::Properties/colors-datasetx> 
 the second of dataset1 and so forth. In most cases the default colors
-are good enough unless you have special meanings in mind. Please also
+are good enough, unless you have special meanings in mind. Please also
 note the multi line (row) title text.
 
 
@@ -497,7 +501,6 @@ note the multi line (row) title text.
              'legend_lines'        => 'true',
              'ring'                => 0.35, 
     );
-
     $g->png("pie.png");
 
 
@@ -603,7 +606,12 @@ of the intervals.
 The class Chart::StackedBars is a variant of L</Bars> that stacks
 bars belonging to one x-value on top of each other, instead of putting 
 them beside each other. Data sets 0..n are ordered from the bottom up.
-They are in most cases more intuitive than L</Pie> charts.
+They are in most cases more intuitive than L</Pie> charts, because its
+easier to intuit linear than quadratic ratios. As in the Bars example we
+activated horizontal grid lines, which were subtle colored. To surpress
+decimals on the y-axis L<precision|Chart::Manual::Properties/precision> was turned down.
+And as in most cases - the first data set is the domain, which will be
+drawn as x-axis labels.
 
     use Chart::StackedBars;
     
@@ -616,9 +624,10 @@ They are in most cases more intuitive than L</Pie> charts.
         title             => 'Stacked Bars',
         legend            => 'left',
         precision         =>  0,
+        y_grid_lines      => 'true',
         grey_background   => 'false',
-            colors => {
-             x_grid_lines => 'gray70',
+        colors => {
+             grid_lines   => 'gray80',
              misc         => 'gray55',
              text         => 'gray55',
              x_label      => 'gray40',
