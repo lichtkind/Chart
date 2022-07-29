@@ -261,7 +261,7 @@ Deactivating the grey background of the plot just adds a little friendliness.
     $g->png("hbars.png");
 
 
-=head1 Lines
+=head2 Lines
 
 =for HTML <p>
 <img src="https://raw.githubusercontent.com/lichtkind/Chart/main/dev/example/manual/lines.png" alt="xy chart with lines">

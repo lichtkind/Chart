@@ -4,7 +4,7 @@
 
 ### VERSION
  
-    2.403.6
+    2.403.7
 
 [Chart on CPAN](https://metacpan.org/pod/Chart)
 
