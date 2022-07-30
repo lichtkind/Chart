@@ -2,10 +2,10 @@ use v5.12;
 
 # named colors from X11, HTML (SVG) standard and Pantone report
 
-package Chart::Color::Constant;
+package Chart::Property::DataType::Color::Constant;
 our $VERSION = '2.402.0';
 use Carp;
-use Chart::Color::Value;
+use Chart::Property::DataType::Color::Value ':all';
 
 our %rgbhsl_from_name = (                                       # 2.6 MB
 # http://en.wikipedia.org/wiki/Web_colors#X11_color_names
@@ -752,7 +752,7 @@ sub hsl_from_name {
 sub name_from_rgb { 
     my (@rgb) = @_;
     @rgb  = @{$rgb[0]} if (ref $rgb[0] eq 'ARRAY');
-    Chart::Color::Value::check_rgb( @rgb ) and return; # return if sub did carp
+    check_rgb( @rgb ) and return; # return if sub did carp
     my @names = _names_from_rgb( @rgb );
     wantarray ? @names : $names[0];
 }
@@ -760,7 +760,7 @@ sub name_from_rgb {
 sub name_from_hsl { 
     my (@hsl) = @_;
     @hsl  = @{$hsl[0]} if (ref $hsl[0] eq 'ARRAY');
-    Chart::Color::Value::check_hsl( @hsl ) and return;
+    check_hsl( @hsl ) and return;
     my @names = _names_from_hsl( @hsl );
     wantarray ? @names : $names[0];
 }
@@ -774,7 +774,7 @@ sub names_in_hsl_range { # @center, (@d | $d) --> @names
         if ref $hsl_center ne 'ARRAY' or @$hsl_center != 3;
     return carp 'second argument has to be a integer < 180 or array ref with 3 integer'
         unless (ref $radius eq 'ARRAY' and @$radius == 3) or (defined $radius and not ref $radius);
-    Chart::Color::Value::check_hsl( @$hsl_center ) and return;
+    check_hsl( @$hsl_center ) and return;
 
     my @hsl_delta = ref $radius ? @$radius : ($radius, $radius, $radius);
     $hsl_delta[$_] = int abs $hsl_delta[$_] for 0 ..2;
@@ -801,7 +801,7 @@ sub names_in_hsl_range { # @center, (@d | $d) --> @names
              }
         }
     }
-    @names = grep {Chart::Color::Value::distance_hsl( $hsl_center ,[hsl_from_name($_)] ) <= $radius} @names if not ref $radius;
+    @names = grep {distance_hsl( $hsl_center ,[hsl_from_name($_)] ) <= $radius} @names if not ref $radius;
     @names;
 }
 
@@ -809,16 +809,16 @@ sub add_rgb {
     my ($name, @rgb) = @_;
     @rgb  = @{$rgb[0]} if (ref $rgb[0] eq 'ARRAY');
     return carp "missing first argument: color name" unless defined $name and $name;
-    Chart::Color::Value::check_rgb( @rgb ) and return;
-    _add_color( $name, @rgb, Chart::Color::Value::hsl_from_rgb( @rgb ) );
+    check_rgb( @rgb ) and return;
+    _add_color( $name, @rgb, hsl_from_rgb( @rgb ) );
 }
 
 sub add_hsl {
     my ($name, @hsl) = @_;
     @hsl  = @{$hsl[0]} if (ref $hsl[0] eq 'ARRAY');
     return carp "missing first argument: color name" unless defined $name and $name;
-    Chart::Color::Value::check_hsl( @hsl ) and return;
-    _add_color( $name, Chart::Color::Value::rgb_from_hsl( @hsl ), @hsl );
+    check_hsl( @hsl ) and return;
+    _add_color( $name, rgb_from_hsl( @hsl ), @hsl );
 }
 
 sub _add_color {
@@ -885,15 +885,15 @@ __END__
 
 =head1 NAME
 
-Chart::Color::Constant - access values of color constants
+Chart::Property::DataType::Color::Constant - access values of color constants
 
 =head1 SYNOPSIS 
 
-    my @names = Chart::Color::Constant::all_names();
-    my @rgb  = Chart::Color::Constant::rgb_from_name('darkblue');
-    my @hsl  = Chart::Color::Constant::hsl_from_name('darkblue');
+    my @names = Chart:..:Constant::all_names();
+    my @rgb  = Chart:..:Constant::rgb_from_name('darkblue');
+    my @hsl  = Chart:..:hsl_from_name('darkblue');
     
-    Chart::Color::Value::add_rgb('lucky', [0, 100, 50]);
+    Chart::Property::DataType::Color::Value::add_rgb('lucky', [0, 100, 50]);
 
 =head1 DESCRIPTION
 
@@ -901,13 +901,13 @@ RGB and HSL values of named colors from the X11 and HTML standard
 and Pantone report. Allows also reverse search, storage and conversion
 of color values.
 
-This module is supposed to be used by Chart::Color and not directly
-by the user (for the most part). It converts a stored color name into
-its values (rgb, hsl or both) and back. One color can have multiple names.
-Also nearby (similar) colors can be searched. Own colors can be 
-(none permanently) stored for later reference by name. For this a name
-has to be chosen, that is not already taken. Independently of that
-can any color be converted from rgb to hsl and back.
+This module is supposed to be used by Chart::Property::DataType::Color 
+and not directly by the user (for the most part). It converts a stored
+color name into its values (rgb, hsl or both) and back. One color can
+have multiple names. Also nearby (similar) colors can be searched. 
+Own colors can be (none permanently) stored for later reference by name.
+For this a name has to be chosen, that is not already taken. 
+Independently of that can any color be converted from rgb to hsl and back.
 
 =head1 ROUTINES
 
@@ -916,9 +916,9 @@ can any color be converted from rgb to hsl and back.
 Red, Green and Blue value of the named color. 
 These values are integer in 0 .. 255.
 
-    my @rgb = Chart::Color::Constant::rgb_from_name('darkblue');
-    @rgb = Chart::Color::Constant::rgb_from_name('dark_blue'); # same result
-    @rgb = Chart::Color::Constant::rgb_from_name('DarkBlue');  # still same
+    my @rgb = Chart::Property::DataType::Color::Constant::rgb_from_name('darkblue');
+    @rgb = Chart::Property::DataType::Color::Constant::rgb_from_name('dark_blue'); # same result
+    @rgb = Chart::Property::DataType::Color::Constant::rgb_from_name('DarkBlue');  # still same
 
 =head2 hsl_from_name
 
@@ -927,7 +927,7 @@ These are integer between 0 .. 359 (hue) or 100 (sat. & light.).
 A hue of 360 and 0 (degree in a cylindrical coordinate system) is
 considered to be the same, this modul deals only with the ladder.
 
-    my @hsl = Chart::Color::Constant::hsl_from_name('darkblue');
+    my @hsl = Chart::Property::DataType::Color::Constant::hsl_from_name('darkblue');
 
 =head2 name_from_rgb
 
@@ -936,8 +936,8 @@ Returns empty string if color is not stored. When several names define
 given color, the shortest name will be selected in scalar context.
 In array context all names are given.
 
-    say Chart::Color::Constant::name_from_rgb( 15, 10, 121 );  # 'darkblue'
-    say Chart::Color::Constant::name_from_rgb([15, 10, 121]);  # works too
+    say Chart::Property::DataType::Color::Constant::name_from_rgb( 15, 10, 121 );  # 'darkblue'
+    say Chart::Property::DataType::Color::Constant::name_from_rgb([15, 10, 121]);  # works too
 
 =head2 name_from_hsl
 
@@ -946,9 +946,9 @@ Returns empty string if color is not stored. When several names define
 given color, the shortest name will be selected in scalar context.
 In array context all names are given.
 
-    say scalar Chart::Color::Constant::name_from_hsl( 0, 100, 50 );  # 'red'
-    scalar Chart::Color::Constant::name_from_hsl([0, 100, 50]);  # works too
-    say for Chart::Color::Constant::name_from_hsl( 0, 100, 50 ); # 'red', 'red1'
+    say scalar Chart::Property::DataType::Color::Constant::name_from_hsl( 0, 100, 50 );  # 'red'
+    scalar Chart::Property::DataType::Color::Constant::name_from_hsl([0, 100, 50]);  # works too
+    say for Chart::Property::DataType::Color::Constant::name_from_hsl( 0, 100, 50 ); # 'red', 'red1'
 
 =head2  names_in_hsl_range
 
@@ -972,9 +972,9 @@ in a search of in the range 75 .. 100.
 The results contains only one name per color (the shortest).
 
     # all bright red'ish clors
-    my @names = Chart::Color::Constant::names_in_hsl_range([0, 90, 50], 5);
+    my @names = Chart::Property::DataType::Color::Constant::names_in_hsl_range([0, 90, 50], 5);
     # approximates to : 
-    my @names = Chart::Color::Constant::names_in_hsl_range([0, 90, 50],[ 3, 3, 3]);
+    my @names = Chart::Property::DataType::Color::Constant::names_in_hsl_range([0, 90, 50],[ 3, 3, 3]);
 
 
 =head2 all_names
@@ -990,16 +990,16 @@ A perlish pseudo boolean tells if the color name is already in use.
 Adding a color to the store under an not taken (not already used) name.
 Arguments are name, red, green and blue value (integer < 256, see rgb).
 
-    Chart::Color::Constant::add_rgb('nightblue',  15, 10, 121 );
-    Chart::Color::Constant::add_rgb('nightblue', [15, 10, 121]);
+    Chart::Property::DataType::Color::Constant::add_rgb('nightblue',  15, 10, 121 );
+    Chart::Property::DataType::Color::Constant::add_rgb('nightblue', [15, 10, 121]);
 
 =head2 add_hsl
 
 Adding a color to the store under an not taken (not already used) name.
 Arguments are name, hue, saturation and lightness value (see hsl).
 
-    Chart::Color::Constant::add_rgb('lucky',  0, 100, 50 );
-    Chart::Color::Constant::add_rgb('lucky', [0, 100, 50]);
+    Chart::Property::DataType::Color::Constant::add_rgb('lucky',  0, 100, 50 );
+    Chart::Property::DataType::Color::Constant::add_rgb('lucky', [0, 100, 50]);
 
 =head2 NAMES
 

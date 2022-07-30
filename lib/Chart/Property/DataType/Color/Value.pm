@@ -2,9 +2,15 @@ use v5.12;
 
 # check, convert and measure color values
 
-package Chart::Color::Value;
+package Chart::Property::DataType::Color::Value;
 our $VERSION = '2.402.0';
 use Carp;
+use Exporter 'import';
+our @EXPORT_OK = qw/check_rgb check_hsl trim_rgb trim_hsl 
+    difference_rgb difference_hsl distance_rgb distance_hsl 
+    hsl_from_rgb rgb_from_hsl hex_from_rgb rgb_from_hex/;
+our %EXPORT_TAGS = (all => [@EXPORT_OK]);
+
 
 sub check_rgb { # carp returns 1
     my (@rgb) = @_;
@@ -164,44 +170,34 @@ __END__
 
 =head1 NAME
 
-Chart::Color::Value - check, convert and measure color values
+Chart::Property::DataType::Color::Value - check, convert and measure color values
 
 =head1 SYNOPSIS 
 
-    my @names = Chart::Color::Value::all_names();
-    my @rgb  = Chart::Color::Value::rgb_from_name('darkblue');
-    my @hsl  = Chart::Color::Value::hsl_from_name('darkblue');
-    my @hsl2 = Chart::Color::Value::hsl_from_rgb( 5 ,10, 100);
-    my $d = Chart::Color::Value::distance_hsl( \@hsl, \@hsl2);
+    use Chart::Property::DataType::Color::Value;         # import nothing
+    use Chart::Property::DataType::Color::Value ':all';  # import all routines
     
-    Chart::Color::Value::add_rgb('lucky', [0, 100, 50]);
+    check_rgb( 256, 10, 12 ); # throws error 255 is the limit
+    my @hsl = hsl_from_rgb( 20, 50, 70 ); # convert from RGB to HSL space
 
 
 =head1 DESCRIPTION
 
-RGB and HSL values of named colors from the X11 and HTML standard 
-and Pantone report. Allows also reverse search, storage and conversion
-of color values.
-
-This module is supposed to be used by Chart::Color and not directly
-by the user (for the most part). It converts a stored color name into
-its values (rgb, hsl or both) and back. One color can have multiple names.
-Also nearby (similar) colors can be searched. Own colors can be 
-(none permanently) stored for later reference by name. For this a name
-has to be chosen, that is not already taken. Independently of that
-can any color be converted from rgb to hsl and back.
+A set of helper routines to handle RGB and HSL values: bound checks, 
+conversion, measurement. Most subs expect three numerical values, 
+or sometimes two triplet. This module is supposed to be used by
+Chart::Property::DataType::Color and not directly.
 
 
 =head1 ROUTINES
 
 =head2 check_rgb
 
-Return error message if RGB value triplet is not valid (in range).
+Carp error message if RGB value triplet is not valid (or out of value range).
 
 =head2 check_hsl
 
-Return error message if HSL value triplet is not valid (in range).
-
+Carp error message if HSL value triplet is not valid (or out of value range).
 
 =head2 trim_rgb
 
@@ -210,7 +206,6 @@ Change RGB triplet to the nearest valid values.
 =head2 trim_hsl
 
 Change HSL triplet to the nearest valid values.
-
 
 =head2 hsl_from_rgb
 
@@ -228,24 +223,32 @@ Converting an hsl value triplet into the corresponding rgb
 (see rgb_from_name and hsl_from_name). Please not that back and forth
 conversion can lead to drifting results due to rounding.
 
-    my @rgb = Chart::Color::Value::rgb_from_hsl(0, 90, 50);
-    my @rgb = Chart::Color::Value::rgb_from_hsl([0, 90, 50]); # works too
+    my @rgb = rgb_from_hsl( 0, 90, 50 );
+    my @rgb = rgb_from_hsl( [0, 90, 50] ); # works too
     # for real (none integer results), any none zero value works as second arg 
-    my @rgb = Chart::Color::Value::rgb_from_hsl([0, 90, 50], 'real');
+    my @rgb = rgb_from_hsl( [0, 90, 50], 'real');
+
+=head2 hex_from_rgb
+
+Converts red green blue triplet into format: '#RRGGBB'.
+
+=head2 rgb_from_hex
+
+Converts '#RRGGBB' or '#RGB' hex values into regular RGB triple of 0..255.
 
 =head2 distance_rgb
 
 Distance in (linear) rgb color space between two coordinates.
 
 
-    my $d = Chart::Color::Value::distance_rgb([1,1,1], [2,2,2]);  # approx 1.7
+    my $d = distance_rgb([1,1,1], [2,2,2]);  # approx 1.7
 
 
 =head2 distance_hsl
 
 Distance in (cylindrical) hsl color space between two coordinates.
 
-    my $d = Chart::Color::Value::distance_rgb([1,1,1], [356, 3, 2]); # approx 6
+    my $d = distance_rgb([1,1,1], [356, 3, 2]); # approx 6
 
 
 =head1 COPYRIGHT & LICENSE

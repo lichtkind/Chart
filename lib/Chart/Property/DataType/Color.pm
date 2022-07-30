@@ -4,11 +4,12 @@
 
 use v5.12;
 
-package Chart::Color;
+package Chart::Property::DataType::Color;
 our $VERSION = '2.402.0';
 
 use Carp;
-use Chart::Color::Constant;
+use Chart::Property::DataType::Color::Constant;
+use Chart::Property::DataType::Color::Value ':all';
 
 my $new_help = 'constructor of Chart::Color object needs either:'.
         ' 1. RGB or HSL hash or ref: ->new(r => 255, g => 0, b => 0), ->new({ h => 0, s => 100, l => 50 })'.
@@ -41,20 +42,20 @@ sub _new_from_scalar {
 
     my (@rgb, @hsl);
     if      (exists $named_arg{'r'} and exists $named_arg{'g'} and exists $named_arg{'b'}) {
-        @rgb = Chart::Color::Value::trim_rgb(@named_arg{qw/r g b/});
-        @hsl = Chart::Color::Value::hsl_from_rgb( @rgb );
+        @rgb = Chart::Property::DataType::Color::Value::trim_rgb(@named_arg{qw/r g b/});
+        @hsl = Chart::Property::DataType::Color::Value::hsl_from_rgb( @rgb );
     } elsif (exists $named_arg{'h'} and exists $named_arg{'s'} and exists $named_arg{'l'}) {
-        @hsl = Chart::Color::Value::trim_hsl( @named_arg{qw/h s l/});
-        @rgb = Chart::Color::Value::rgb_from_hsl( @hsl );
+        @hsl = Chart::Property::DataType::Color::Value::trim_hsl( @named_arg{qw/h s l/});
+        @rgb = Chart::Property::DataType::Color::Value::rgb_from_hsl( @hsl );
     } else { return carp "argument keys need to be r, g and b or h, s and l (long names and upper case work too!)" }
-    $name = Chart::Color::Constant::name_from_rgb( @rgb ) unless defined $name;
+    $name = Chart::Property::DataType::Color::Constant::name_from_rgb( @rgb ) unless defined $name;
     bless [$name, @rgb, @hsl];
 }
 sub _rgb_from_name_or_hex {
     my $arg = shift;
     my $i = index( $arg, ':');
     if (substr($arg, 0, 1) eq '#'){                  # resolve #RRGGBB -> ($r, $g, $b)
-        return Chart::Color::Value::rgb_from_hex( $arg );
+        return Chart::Property::DataType::Color::Value::rgb_from_hex( $arg );
     } elsif ($i > -1 ){                              # resolve pallet:name -> ($r, $g, $b)
         my $pallet_name = substr $arg,   0, $i-1;
         my $color_name = substr $arg, $i+1;
@@ -72,8 +73,8 @@ sub _rgb_from_name_or_hex {
         return carp "color '$color_name' was not found, propably not part of $module" unless @rgb == 3;
         @rgb;
     } else {                                         # resolve name -> ($r, $g, $b)
-        my @rgb = Chart::Color::Constant::rgb_from_name( $arg );
-        carp "'$arg' is an unknown color name, please check Chart::Color::Constant::all_names()." unless @rgb == 3;
+        my @rgb = Chart::Property::DataType::Color::Constant::rgb_from_name( $arg );
+        carp "'$arg' is an unknown color name, please check Chart::Property::DataType::Color::Constant::all_names()." unless @rgb == 3;
         @rgb;
     }
 }
@@ -91,22 +92,22 @@ sub string      { $_[0][0] ? $_[0][0] : "[ $_[0][1], $_[0][2], $_[0][3] ]" }
 
 sub hsl         { @{$_[0]}[4 .. 6] }
 sub rgb         { @{$_[0]}[1 .. 3] }
-sub rgb_hex     { Chart::Color::Value::hex_from_rgb( $_[0]->rgb() ) }
+sub rgb_hex     { hex_from_rgb( $_[0]->rgb() ) }
 
 ## methods ##############################################################
 
 sub distance_to {
     my ($self, $c2, $metric) = @_;
     return croak "missing argument: color object or scalar color definition" unless defined $c2;
-    $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : Chart::Color->new( $c2 );
+    $c2 = (ref $c2 eq __PACKAGE__) ? $c2 : new( __PACKAGE__, $c2 );
     return unless ref $c2 eq __PACKAGE__;
     
-    return Chart::Color::Value::distance_hsl( [$self->hsl], [$c2->hsl] ) unless defined $metric;
+    return distance_hsl( [$self->hsl], [$c2->hsl] ) unless defined $metric;
     $metric = lc $metric;
-    return Chart::Color::Value::distance_hsl( [$self->hsl], [$c2->hsl] ) if $metric eq 'hsl';
-    return Chart::Color::Value::distance_rgb( [$self->rgb], [$c2->rgb] ) if $metric eq 'rgb';
-    my @delta_rgb = Chart::Color::Value::difference_rgb( [$self->rgb], [$c2->rgb] );
-    my @delta_hsl = Chart::Color::Value::difference_hsl( [$self->hsl], [$c2->hsl] );
+    return distance_hsl( [$self->hsl], [$c2->hsl] ) if $metric eq 'hsl';
+    return distance_rgb( [$self->rgb], [$c2->rgb] ) if $metric eq 'rgb';
+    my @delta_rgb = difference_rgb( [$self->rgb], [$c2->rgb] );
+    my @delta_hsl = difference_hsl( [$self->hsl], [$c2->hsl] );
     my $help = "unknown distance metric: $metric. try r, g, b, rg, rb, gb, rgb, h, s, l, hs, hl, sl, hsl (default).";
     if (length $metric == 2){
         if    ($metric eq 'hs' or $metric eq 'sh') {return sqrt( $delta_hsl[0] ** 2 + $delta_hsl[1] ** 2 )}
@@ -147,8 +148,8 @@ sub add {
     }
     my @rgb = $self->rgb;
     if (@args == 3) {
-        @rgb = Chart::Color::Value::trim_rgb( $rgb[0] + $args[0], $rgb[1] + $args[1], $rgb[2] + $args[2]);
-        return Chart::Color->new( @rgb );
+        @rgb = trim_rgb( $rgb[0] + $args[0], $rgb[1] + $args[1], $rgb[2] + $args[2]);
+        return new( __PACKAGE__, @rgb );
     }
     return carp $add_help unless @args and ((@args % 2 == 0) or (ref $args[0] eq 'HASH'));
     my %arg = ref $args[0] eq 'HASH' ? %{$args[0]} : @args;
@@ -156,8 +157,8 @@ sub add {
     $rgb[0] += delete $named_arg{'r'} // 0;
     $rgb[1] += delete $named_arg{'g'} // 0;
     $rgb[2] += delete $named_arg{'b'} // 0;
-    return Chart::Color->new( Chart::Color::Value::trim_rgb( @rgb ) ) unless %named_arg;
-    my @hsl = Chart::Color::Value::_hsl_from_rgb( @rgb );
+    return new( __PACKAGE__, trim_rgb( @rgb ) ) unless %named_arg;
+    my @hsl = Chart::Property::DataType::Color::Value::_hsl_from_rgb( @rgb ); # withound rounding
     $hsl[0] += delete $named_arg{'h'} // 0;
     $hsl[1] += delete $named_arg{'s'} // 0;
     $hsl[2] += delete $named_arg{'l'} // 0;
@@ -166,8 +167,8 @@ sub add {
         return carp "wrong number of numerical arguments (only 3 needed)" if @nrkey;
         carp "got unknown hash key starting with", map {' '.$_} keys %named_arg;
     }    
-    @hsl = Chart::Color::Value::trim_hsl( @hsl );
-    Chart::Color->new({ H => $hsl[0], S => $hsl[1], L => $hsl[2] });
+    @hsl = trim_hsl( @hsl );
+    new( __PACKAGE__, { H => $hsl[0], S => $hsl[1], L => $hsl[2] });
 }
 
 sub blend_with {
@@ -183,8 +184,8 @@ sub blend_with {
                 $self->saturation + ($pos * ($c2->saturation - $self->saturation)),
                 $self->lightness  + ($pos * ($c2->lightness  - $self->lightness))
     );
-    @hsl = Chart::Color::Value::trim_hsl( @hsl );
-    Chart::Color->new({ H => $hsl[0], S => $hsl[1], L => $hsl[2] });
+    @hsl = trim_hsl( @hsl );
+    new( __PACKAGE__, { H => $hsl[0], S => $hsl[1], L => $hsl[2] });
 }
 
     
@@ -207,8 +208,8 @@ sub gradient_to {
         my @hsl = ( $self->hue        + ($pos * $delta_hsl[0]),
                     $self->saturation + ($pos * $delta_hsl[1]),
                     $self->lightness  + ($pos * $delta_hsl[2]));
-        @hsl = Chart::Color::Value::trim_hsl( @hsl );
-        push @colors, Chart::Color->new({ H => $hsl[0], S => $hsl[1], L => $hsl[2] });
+        @hsl = trim_hsl( @hsl );
+        push @colors, new( __PACKAGE__, { H => $hsl[0], S => $hsl[1], L => $hsl[2] });
     }
     $self, @colors, $c2;
 }
@@ -222,8 +223,8 @@ sub complementary {
     $hsl2[0] += 180;
     $hsl2[1] += $saturation_change;
     $hsl2[2] += $lightness_change;
-    @hsl2 = Chart::Color::Value::trim_hsl( @hsl2 ); # HSL of C2
-    my $c2 = Chart::Color->new({ h => $hsl2[0], s => $hsl2[1], l => $hsl2[2] });
+    @hsl2 = trim_hsl( @hsl2 ); # HSL of C2
+    my $c2 = new( __PACKAGE__, { h => $hsl2[0], s => $hsl2[1], l => $hsl2[2] });
     return $c2 if $count < 2;
     my (@colors_r, @colors_l);
     my @delta = (360 / $count, (($hsl2[1] - $hsl_r[1]) * 2 / $count), (($hsl2[2] - $hsl_r[2]) * 2 / $count) );
@@ -233,8 +234,8 @@ sub complementary {
         $hsl_l[$_] = $hsl_r[$_] for 1,2;
         $hsl_l[0] += 360 if $hsl_l[0] <    0;
         $hsl_r[0] -= 360 if $hsl_l[0] >= 360;
-        push @colors_r, Chart::Color->new({ H => $hsl_r[0], S => $hsl_r[1], L => $hsl_r[2] });
-        unshift @colors_l, Chart::Color->new({ H => $hsl_l[0], S => $hsl_l[1], L => $hsl_l[2] });
+        push @colors_r, new( __PACKAGE__, { H => $hsl_r[0], S => $hsl_r[1], L => $hsl_r[2] });
+        unshift @colors_l, new( __PACKAGE__, { H => $hsl_l[0], S => $hsl_l[1], L => $hsl_l[2] });
     }
     push @colors_r, $c2 unless $count % 2;
     $self, @colors_r, @colors_l;
@@ -250,11 +251,11 @@ __END__
 
 =head1 NAME
 
-Chart::Color - read only single color holding objects
+Chart::Property::DataType::Color - read only single color holding objects
 
 =head1 SYNOPSIS 
 
-    my $red = Chart::Color->new('red');
+    my $red = Chart::Property::DataType::Color->new('red');
     say $red->add('blue')->name;              # magenta, mixed in RGB space
     Chart::Color->new( 0, 0, 255)->hsl        # 240, 100, 50 = blue
     $blue->blend_with({H=> 0, S=> 0, L=> 80}, 0.1);# mix blue with a little grey
@@ -281,8 +282,8 @@ a Pantone report. Upper/Camel case will be treated as lower case and
 inserted underscore letters ('_') will be ignored as perl does in
 numbers (1_000 == 1000) (see more under L<Chart::Color::Constant>).
 
-    my $color = Chart::Color->new('Emerald');
-    my @names = Chart::Color::Constant::all_names(); # select from these
+    my $color = Chart::Property::DataType::Color->new('Emerald');
+    my @names = Chart::Property::DataType::Color::Constant::all_names(); # select from these
 
 =head2 new( 'standard:color' )
 
@@ -292,7 +293,7 @@ module L<Graphics::ColorNames>::* , which has to be installed separately.
 EmergyC, GrayScale, HTML, IE, SVG, Werner, WWW or X. In ladder case
 Graphics::ColorNames::X has to be installed.
 
-    my $color = Chart::Color->new('SVG:green');
+    my $color = Chart::Property::DataType::Color->new('SVG:green');
     my @s = Graphics::ColorNames::all_schemes();    # installed pallets
 
 =head2 new( '#rgb' )
@@ -300,8 +301,8 @@ Graphics::ColorNames::X has to be installed.
 Color definitions in hexadecimal format as widely used in the web, are
 also acceptable.
 
-    my $color = Chart::Color->new('#FF0000');
-    my $color = Chart::Color->new('#f00');   # works too
+    my $color = Chart::Property::DataType::Color->new('#FF0000');
+    my $color = Chart::Property::DataType::Color->new('#f00');   # works too
 
 
 =head2 new( [$r, $g, $b] )
@@ -310,8 +311,8 @@ Triplet of integer RGB values (L</red>, L</green> and L</blue> : 0 .. 255).
 Out of range values will be corrected to the closest value in range.
 
 
-    my $red = Chart::Color->new( 255, 0, 0 );
-    my $red = Chart::Color->new([255, 0, 0]); # does the same
+    my $red = Chart::Property::DataType::Color->new( 255, 0, 0 );
+    my $red = Chart::Property::DataType::Color->new([255, 0, 0]); # does the same
 
 
 =head2 new( {r => $r, g => $g, b => $b} )
@@ -320,8 +321,8 @@ Hash with the keys 'r', 'g' and 'b' does the same as previous paragraph,
 only more declarative. Casing of the keys will be normalised and only
 the first letter of each key is significant.
 
-    my $red = Chart::Color->new( r => 255, g => 0, b => 0 );
-    my $red = Chart::Color->new({r => 255, g => 0, b => 0}); # works too
+    my $red = Chart::Property::DataType::Color->new( r => 255, g => 0, b => 0 );
+    my $red = Chart::Property::DataType::Color->new({r => 255, g => 0, b => 0}); # works too
     ... Color->new( Red => 255, Green => 0, Blue => 0);      # also fine
 
 =head2 new( {h => $h, s => $s, l => $l} )
@@ -332,8 +333,8 @@ in previous paragraph. Out of range values will be corrected to the
 closest value in range. Since L</hue> is a polar coordinate,
 it will be rotated into range, e.g. 361 = 1.
 
-    my $red = Chart::Color->new( h =>   0, s => 100, b => 50 );
-    my $red = Chart::Color->new({h =>   0, s => 100, b => 50}); # good too
+    my $red = Chart::Property::DataType::Color->new( h =>   0, s => 100, b => 50 );
+    my $red = Chart::Property::DataType::Color->new({h =>   0, s => 100, b => 50}); # good too
     ... ->new( Hue => 0, Saturation => 100, Lightness => 50 ); # also fine
 
 

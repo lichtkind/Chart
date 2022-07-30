@@ -6,20 +6,20 @@ use Test::More tests => 57;
 use Test::Warn;
 
 BEGIN { unshift @INC, 'lib', '../lib'}
-my $module = 'Chart::Color::Constant';
+my $module = 'Chart::Property::DataType::Color::Constant';
 
 eval "use $module";
 is( not($@), 1, 'could load the module');
 
-my @names = Chart::Color::Constant::all_names();
+my @names = Chart::Property::DataType::Color::Constant::all_names();
 is( @names > 700, 1, 'get a large list of names, all_names seems to working');
 
-my $add_rgb        = \&Chart::Color::Constant::add_rgb;
-my $add_hsl        = \&Chart::Color::Constant::add_hsl;
-my $taken          = \&Chart::Color::Constant::name_taken;
-my $get_name_rgb   = \&Chart::Color::Constant::name_from_rgb;
-my $get_name_hsl   = \&Chart::Color::Constant::name_from_hsl;
-my $get_name_range = \&Chart::Color::Constant::names_in_hsl_range;
+my $add_rgb        = \&Chart::Property::DataType::Color::Constant::add_rgb;
+my $add_hsl        = \&Chart::Property::DataType::Color::Constant::add_hsl;
+my $taken          = \&Chart::Property::DataType::Color::Constant::name_taken;
+my $get_name_rgb   = \&Chart::Property::DataType::Color::Constant::name_from_rgb;
+my $get_name_hsl   = \&Chart::Property::DataType::Color::Constant::name_from_hsl;
+my $get_name_range = \&Chart::Property::DataType::Color::Constant::names_in_hsl_range;
 
 warning_like {$add_rgb->()} {carped => qr/missing first arg/},          "can't get color without name";
 warning_like {$add_rgb->( 'one',1,1)}    {carped => qr/need exactly 3/},'not enough args to add color';
@@ -42,8 +42,8 @@ is( scalar $get_name_rgb->( 255,   0,   0 ), 'red',  'selects shorter name red i
 is( $get_name_hsl->(  0, 100,  50 ), 'red',          'found red by hsl');
 is( $get_name_hsl->( 14,  10,  50 ), 'blob',         'found inserted color by hsl');
 
-my @rgb = Chart::Color::Constant::rgb_from_name('white');
-my @hsl = Chart::Color::Constant::hsl_from_name('white');
+my @rgb = Chart::Property::DataType::Color::Constant::rgb_from_name('white');
+my @hsl = Chart::Property::DataType::Color::Constant::hsl_from_name('white');
 is( int @rgb,  3,     'white has 3 rgb values');
 is( $rgb[0], 255,     'white has full red value');
 is( $rgb[1], 255,     'white has full green value');
@@ -53,8 +53,8 @@ is( $hsl[0],   0,     'white has zero hue value');
 is( $hsl[1],   0,     'white has zero sat value');
 is( $hsl[2], 100,     'white has full light value');
 
-@rgb = Chart::Color::Constant::rgb_from_name('one');
-@hsl = Chart::Color::Constant::hsl_from_name('one');
+@rgb = Chart::Property::DataType::Color::Constant::rgb_from_name('one');
+@hsl = Chart::Property::DataType::Color::Constant::hsl_from_name('one');
 is( int @rgb,  3,     'self defined color has rgb values');
 is( $rgb[0],   1,     'self defined color has defined red value');
 is( $rgb[1],   2,     'self defined color has defined full green value');
@@ -64,9 +64,9 @@ is( $hsl[0], 210,     'self defined color has computed hue value');
 is( $hsl[1],  50,     'self defined color has computed saturation');
 is( $hsl[2],   1,     'self defined color has computed lightness');
 
-@rgb = Chart::Color::Constant::rgb_from_name('One');
+@rgb = Chart::Property::DataType::Color::Constant::rgb_from_name('One');
 is( int @rgb, 3,     'upper case gets cleaned from color name');
-@rgb = Chart::Color::Constant::rgb_from_name('O_ne');
+@rgb = Chart::Property::DataType::Color::Constant::rgb_from_name('O_ne');
 is( int @rgb, 3,     'under score gets cleaned from color name');
 
 warning_like{ $get_name_range->( []) }                     {carped => qr/two arguments/},"can't get names in range without hsl values";

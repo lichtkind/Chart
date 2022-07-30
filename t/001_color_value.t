@@ -6,18 +6,18 @@ use Test::More tests => 108;
 use Test::Warn;
 
 BEGIN { unshift @INC, 'lib', '../lib'}
-my $module = 'Chart::Color::Value';
+my $module = 'Chart::Property::DataType::Color::Value';
 
 eval "use $module";
 is( not($@), 1, 'could load the module');
 
-my $chk_rgb        = \&Chart::Color::Value::check_rgb;
-my $chk_hsl        = \&Chart::Color::Value::check_hsl;
-my $tr_rgb         = \&Chart::Color::Value::trim_rgb;
-my $tr_hsl         = \&Chart::Color::Value::trim_hsl;
-my $d_rgb          = \&Chart::Color::Value::distance_rgb;
-my $d_hsl          = \&Chart::Color::Value::distance_hsl;
-my $rgb2h          = \&Chart::Color::Value::hex_from_rgb;
+my $chk_rgb        = \&Chart::Property::DataType::Color::Value::check_rgb;
+my $chk_hsl        = \&Chart::Property::DataType::Color::Value::check_hsl;
+my $tr_rgb         = \&Chart::Property::DataType::Color::Value::trim_rgb;
+my $tr_hsl         = \&Chart::Property::DataType::Color::Value::trim_hsl;
+my $d_rgb          = \&Chart::Property::DataType::Color::Value::distance_rgb;
+my $d_hsl          = \&Chart::Property::DataType::Color::Value::distance_hsl;
+my $rgb2h          = \&Chart::Property::DataType::Color::Value::hex_from_rgb;
 
 
 ok( !$chk_rgb->(0,0,0),       'check rgb values works on lower bound values');
@@ -99,24 +99,24 @@ is( $hsl[1], 100,     'too high saturation value is trimmed down');
 is( $hsl[2], 100,     'too high lightness value is trimmed down');
 
 
-warning_like {Chart::Color::Value::hsl_from_rgb(1,1,1,1)} {carped => qr/3 positive integer/},
+warning_like {Chart::Property::DataType::Color::Value::hsl_from_rgb(1,1,1,1)} {carped => qr/3 positive integer/},
                                                       "need 3 values rgb to convert color from rgb to hsl";
-warning_like {Chart::Color::Value::hsl_from_rgb(1,1)} {carped => qr/3 positive integer/},
+warning_like {Chart::Property::DataType::Color::Value::hsl_from_rgb(1,1)} {carped => qr/3 positive integer/},
                                                       "need 3 values rgb to convert color from rgb to hsl";
-warning_like {Chart::Color::Value::hsl_from_rgb(1,1,-1)} {carped => qr/blue value/},
+warning_like {Chart::Property::DataType::Color::Value::hsl_from_rgb(1,1,-1)} {carped => qr/blue value/},
                                                       "blue value is too small for conversion";
-warning_like {Chart::Color::Value::hsl_from_rgb(256,1,0)} {carped => qr/red value/},
+warning_like {Chart::Property::DataType::Color::Value::hsl_from_rgb(256,1,0)} {carped => qr/red value/},
                                                       "red value is too large for conversion";
-warning_like {Chart::Color::Value::rgb_from_hsl(1,1)} {carped => qr/3 positive integer/},
+warning_like {Chart::Property::DataType::Color::Value::rgb_from_hsl(1,1)} {carped => qr/3 positive integer/},
                                                       "need 3 values rgb to convert color from rgb to hsl";
 
-@hsl = Chart::Color::Value::hsl_from_rgb(127, 127, 127);
+@hsl = Chart::Property::DataType::Color::Value::hsl_from_rgb(127, 127, 127);
 is( int @hsl,  3,     'converted color grey has hsl values');
 is( $hsl[0],   0,     'converted color grey has computed right hue value');
 is( $hsl[1],   0,     'converted color grey has computed right saturation');
 is( $hsl[2],  50,     'converted color grey has computed right lightness');
 
-@rgb = Chart::Color::Value::rgb_from_hsl(0, 0, 50);
+@rgb = Chart::Property::DataType::Color::Value::rgb_from_hsl(0, 0, 50);
 is( int @rgb,  3,     'converted back color grey has rgb values');
 is( $rgb[0], 128,     'converted back color grey has right red value');
 is( $rgb[1], 128,     'converted back color grey has right green value');
@@ -140,26 +140,26 @@ warning_like {$d_hsl->( [1,2,3],[2,101,3])}       {carped => qr/saturation value
 warning_like {$d_hsl->( [1,1,-1],[2,10,3])}       {carped => qr/lightness value/}, 'first lightness value is too small';
 warning_like {$d_hsl->( [1,2,3],[2,1,101])}       {carped => qr/lightness value/}, 'second lightness value is too large';
 
-is( Chart::Color::Value::distance_rgb([1, 2, 3], [  2, 6, 11]), 9,     'compute rgb distance');
-is( Chart::Color::Value::distance_hsl([1, 2, 3], [  2, 6, 11]), 9,     'compute hsl distance');
-is( Chart::Color::Value::distance_hsl([0, 2, 3], [359, 6, 11]), 9,     'compute hsl distance (test circular property of hsl)');
+is( Chart::Property::DataType::Color::Value::distance_rgb([1, 2, 3], [  2, 6, 11]), 9,     'compute rgb distance');
+is( Chart::Property::DataType::Color::Value::distance_hsl([1, 2, 3], [  2, 6, 11]), 9,     'compute hsl distance');
+is( Chart::Property::DataType::Color::Value::distance_hsl([0, 2, 3], [359, 6, 11]), 9,     'compute hsl distance (test circular property of hsl)');
 
 
 is( $rgb2h->(0,0,0),          '#000000',     'converted black from rgb to hex');
 is( uc $rgb2h->(255,255,255), '#FFFFFF',     'converted white from rgb to hex');
 is( uc $rgb2h->( 10, 20, 30), '#0A141E',     'converted random color from rgb to hex');
 
-@rgb = Chart::Color::Value::rgb_from_hex('#000000');
+@rgb = Chart::Property::DataType::Color::Value::rgb_from_hex('#000000');
 is( $rgb[0],   0,     'converted black from hex to RGB red is correct');
 is( $rgb[1],   0,     'converted black from hex to RGB green is correct');
 is( $rgb[2],   0,     'converted black from hex to RGB blue is correct');
 
-@rgb = Chart::Color::Value::rgb_from_hex('#FFF');
+@rgb = Chart::Property::DataType::Color::Value::rgb_from_hex('#FFF');
 is( $rgb[0], 255,     'converted white (short form) from hex to RGB red is correct');
 is( $rgb[1], 255,     'converted white (short form) from hex to RGB green is correct');
 is( $rgb[2], 255,     'converted white (short form) from hex to RGB blue is correct');
 
-@rgb = Chart::Color::Value::rgb_from_hex('#0a141e');
+@rgb = Chart::Property::DataType::Color::Value::rgb_from_hex('#0a141e');
 is( $rgb[0],  10,     'converted random color (lower case) from hex to RGB red is correct');
 is( $rgb[1],  20,     'converted random color (lower case) from hex to RGB green is correct');
 is( $rgb[2],  30,     'converted random color (lower case) from hex to RGB blue is correct');

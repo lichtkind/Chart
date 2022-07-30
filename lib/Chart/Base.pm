@@ -11,8 +11,8 @@ use FileHandle;
 use Carp;
 use GD;
 use GD::Image;
-use Chart::Color;
-#use Property::DataType::Font;
+use Chart::Property::DataType::Color;
+#use Chart::Property::DataType::Font;
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #  public methods          #
@@ -1162,7 +1162,7 @@ sub _color_role_to_index {
 
 sub _color_spec_to_rgb {
     my ($self, $role, $spec) = @_; # color role name (from set) for error msg
-    my $color = Chart::Color->new( $spec );
+    my $color = Chart::Property::DataType::Color->new( $spec );
     return croak "Unrecognized color for $role\n" unless ref $color;
     $color->rgb;
 }
