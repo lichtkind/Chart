@@ -42,20 +42,20 @@ sub _new_from_scalar {
 
     my (@rgb, @hsl);
     if      (exists $named_arg{'r'} and exists $named_arg{'g'} and exists $named_arg{'b'}) {
-        @rgb = Chart::Property::DataType::Color::Value::trim_rgb(@named_arg{qw/r g b/});
-        @hsl = Chart::Property::DataType::Color::Value::hsl_from_rgb( @rgb );
+        @rgb = trim_rgb(@named_arg{qw/r g b/});
+        @hsl = hsl_from_rgb( @rgb );
     } elsif (exists $named_arg{'h'} and exists $named_arg{'s'} and exists $named_arg{'l'}) {
-        @hsl = Chart::Property::DataType::Color::Value::trim_hsl( @named_arg{qw/h s l/});
-        @rgb = Chart::Property::DataType::Color::Value::rgb_from_hsl( @hsl );
+        @hsl = trim_hsl( @named_arg{qw/h s l/});
+        @rgb = rgb_from_hsl( @hsl );
     } else { return carp "argument keys need to be r, g and b or h, s and l (long names and upper case work too!)" }
-    $name = Chart::Property::DataType::Color::Constant::name_from_rgb( @rgb ) unless defined $name;
+    $name = name_from_rgb( @rgb ) unless defined $name;
     bless [$name, @rgb, @hsl];
 }
 sub _rgb_from_name_or_hex {
     my $arg = shift;
     my $i = index( $arg, ':');
     if (substr($arg, 0, 1) eq '#'){                  # resolve #RRGGBB -> ($r, $g, $b)
-        return Chart::Property::DataType::Color::Value::rgb_from_hex( $arg );
+        return rgb_from_hex( $arg );
     } elsif ($i > -1 ){                              # resolve pallet:name -> ($r, $g, $b)
         my $pallet_name = substr $arg,   0, $i-1;
         my $color_name = substr $arg, $i+1;
@@ -73,7 +73,7 @@ sub _rgb_from_name_or_hex {
         return carp "color '$color_name' was not found, propably not part of $module" unless @rgb == 3;
         @rgb;
     } else {                                         # resolve name -> ($r, $g, $b)
-        my @rgb = Chart::Property::DataType::Color::Constant::rgb_from_name( $arg );
+        my @rgb = rgb_from_name( $arg );
         carp "'$arg' is an unknown color name, please check Chart::Property::DataType::Color::Constant::all_names()." unless @rgb == 3;
         @rgb;
     }

@@ -1246,10 +1246,9 @@ sub _draw_title {
 
     # now loop through the rest of them
     # (the font is decreased in width and height by 1
-    if ( $w > 1 ) { $w--; }
-    if ( $h > 1 ) { $h--; }
-    for ( 1 .. $#lines )
-    {
+    if ( $w > 1 ) { $w-- }
+    if ( $h > 1 ) { $h-- }
+    for ( 1 .. $#lines ) {
         $self->{'curr_y_min'} += $self->{'text_space'} + $h;
         $x = ( $self->{'curr_x_max'} - $self->{'curr_x_min'} ) / 2 + $self->{'curr_x_min'} - ( length( $lines[$_] ) * $w ) / 2;
         $y = $self->{'curr_y_min'} + $self->{'text_space'};

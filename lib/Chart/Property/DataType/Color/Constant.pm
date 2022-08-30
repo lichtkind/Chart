@@ -7,6 +7,10 @@ our $VERSION = '2.402.0';
 use Carp;
 use Chart::Property::DataType::Color::Value ':all';
 
+use Exporter 'import';
+our @EXPORT_OK = qw/rgb_from_name hsl_from_name name_from_rgb name_from_hsl/;
+our %EXPORT_TAGS = (all => [@EXPORT_OK]);
+
 our %rgbhsl_from_name = (                                       # 2.6 MB
 # http://en.wikipedia.org/wiki/Web_colors#X11_color_names
     'white'               => [ 255, 255, 255,   0,   0, 100 ],
