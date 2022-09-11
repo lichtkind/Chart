@@ -8,7 +8,7 @@ use Test::Warn;
 BEGIN { unshift @INC, 'lib', '../lib'}
 my $module = 'Chart::Property::DataType::Color::Constant';
 
-eval "use $module";
+eval "use $module qw/:all/";
 is( not($@), 1, 'could load the module');
 
 my @names = Chart::Property::DataType::Color::Constant::all_names();
