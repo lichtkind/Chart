@@ -32,6 +32,8 @@ sub hex2rgb {
     hex substr( $hex, 4, 2);
 }
 
+sub _mk_rgb { ($_[0] << 16) + ($_[1] << 8) + ($_[2]) }
+
 __DATA__
 Marsala           955251
 RadiandOrchid     B565A7
