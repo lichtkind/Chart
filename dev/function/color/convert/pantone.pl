@@ -9,21 +9,27 @@ use Chart::Color::Value;
 open my $FHI, '<', 'pantone.txt';
 open my $FHO, '>', 'pantonen.txt';
 
+
 while (<$FHI>){
     chomp;
-    say $FHO $_ if /^Pan/;
+    /^Pantone (\d+) (\dX)?\s*RGB: \d+, \d+, \d+ HEX: #([\dA-F]{6})$/; 
+    my $name = $1;
+    $name .= $2 if $2;
+    my $space = ' ' x (10 - length $name);
+    say "    '$name' $space  =>   0x$3,"; 
 }    
 
 
 while (<DATA>){
     chomp;
     /^(\w+\s?\w*)\s+([\dA-F]+)$/; 
-    my ($r, $g, $b) = hex2rgb( $2 );
+    #my ($r, $g, $b) = hex2rgb( $2 );
     my $name = lc $1;
     $name = substr $name, 0, -1 if substr $name, -1 eq ' '; 
-    say "    '$name'  ".(' 'x(20 - length($name))).sprintf( "  => [ %3s, %3s, %3s ],", $r, $g, $b); 
+    my $space = ' ' x (17 - length $name);
+    # say "    '$name' $space  =>   0x$2,"; 
+    #say "    '$name'  ".(' 'x(20 - length($name))).sprintf( "  => [ %3s, %3s, %3s ],", $r, $g, $b); 
 }
-
 
 sub hex2rgb {
     my $hex = shift;
