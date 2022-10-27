@@ -10,3 +10,10 @@ our $VERSION = '2.402.0';
 use base qw(Graphics::Toolkit::Color);
 
 1;
+__END__
+
+=pod
+
+moved to L<Graphics::Toolkit::Color>
+
+=cut

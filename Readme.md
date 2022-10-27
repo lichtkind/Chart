@@ -60,6 +60,7 @@
     Perl 5.12 including some core Modules.
     Lincoln Stein's GD module version 2.0.36 or higher.
     Carp 1.35 or higher
+    Graphics::Toolkit::Color
     
     Optionally modules of the Graphics::ColorNames::* namespace are
     required if your color definitions calls for them.

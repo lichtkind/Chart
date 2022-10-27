@@ -9,14 +9,17 @@ use Chart::Color::Value;
 open my $FHI, '<', 'pantone.txt';
 open my $FHO, '>', 'pantonen.txt';
 
+my %c;
+
 
 while (<$FHI>){
     chomp;
     /^Pantone (\d+) (\dX)?\s*RGB: \d+, \d+, \d+ HEX: #([\dA-F]{6})$/; 
     my $name = $1;
     $name .= $2 if $2;
-    my $space = ' ' x (10 - length $name);
-    say "    '$name' $space  =>   0x$3,"; 
+    $c{$name}++;
+    my $space = ' ' x (8 - length $name);
+#    say "    '$name' $space  =>   0x$3,"; 
 }    
 
 
@@ -25,10 +28,13 @@ while (<DATA>){
     /^(\w+\s?\w*)\s+([\dA-F]+)$/; 
     #my ($r, $g, $b) = hex2rgb( $2 );
     my $name = lc $1;
-    $name = substr $name, 0, -1 if substr $name, -1 eq ' '; 
+    $name = substr $name, 0, -1 if substr $name, -1 eq ' ';
     my $space = ' ' x (17 - length $name);
-    # say "    '$name' $space  =>   0x$2,"; 
+    #say "    '$name' $space  =>   0x$2,"; 
     #say "    '$name'  ".(' 'x(20 - length($name))).sprintf( "  => [ %3s, %3s, %3s ],", $r, $g, $b); 
+}
+for (sort keys %c){
+    say $_ if $c{$_} > 1;
 }
 
 sub hex2rgb {
@@ -75,7 +81,7 @@ WarmTaupe         AF9483
 DustyCedar        AD5D5D
 LushMeadow        006E51
 SpicyMustard      D8AE47
-Potter'sClay      9E4624
+PottersClay      9E4624
 Bodacious         B76BA3
 Niagara           578CA9
 PrimroseYellow    F6D155
@@ -126,7 +132,6 @@ Tofu              EAE6DA
 AlmondBuff        D1B894
 QuietGray         BCBCBE
 Meerkat           A9754F
-Fiesta            DD4132
 JesterRed         9E1030
 Turmeric          FE840E
 LivingCoral       FF6F61
@@ -142,9 +147,8 @@ Soybean           D2C29D
 Eclipse           343148
 SweetCorn         F0EAD6
 BrownGranite      615550
-ChiliPepper       9B1B30
 BikingRed         77212E
-CrèmedePeche      F5D6C6
+CremedePeche      F5D6C6
 PeachPink         FA9A85
 RockyRoad         5A3E36
 FruitDove         CE5B78

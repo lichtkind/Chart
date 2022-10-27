@@ -2,6 +2,7 @@ Chart                     main module - distro API
 
 
     Property
+        Coordinates         translation between virtual (mathematical, data) and canvas coordinates
         Default             ?? or jus a template
         Template            template manager
         Legacy              manage legacy settings and its defaults
@@ -23,7 +24,6 @@ Chart                     main module - distro API
 
     Part                    classes producing draw primitives from definition
         Legend              drawing box showing color - meaning corelation
-        Coordinates         translation between virtual (mathematical, data) and canvas coordinates
         Axis                labels ticks labels grid
         Head
         Plot
@@ -34,14 +34,14 @@ Chart                     main module - distro API
             Violine
 
   
-    PipeLine                converts API calls into images
+    Pipe                    converts API calls into images
 
         Arrange             organise postions, sizes and render order of parts
         Definition          hash contains all properties and relevant data
         Draw                converts definition into primitives               
-        DrawPrimitives      list of drawing op codes
-        Render              convert primitives into pixels 
-        PixelMap            AoA of Lists holing layers of Pixel
+        Drawing             list of drawing op codes
+        Raster              convert primitives into pixels 
+        RasterMap           AoA of Lists holing layers of Pixel
         
         Backend
             GD
@@ -54,4 +54,4 @@ Chart                     main module - distro API
             WebP
         
   
-  
+    Type  
