@@ -6,33 +6,39 @@ use v5.12;
 
 use Chart::Color::Value;
 
-open my $FHI, '<', 'pantone.txt';
+#open my $FHI, '<', 'pantone.txt';
+open my $FHI, '<', 'correct.txt';
 open my $FHO, '>', 'pantonen.txt';
 
 my %c;
 
-
 while (<$FHI>){
     chomp;
-    /^Pantone (\d+) (\dX)?\s*RGB: \d+, \d+, \d+ HEX: #([\dA-F]{6})$/; 
-    my $name = $1;
-    $name .= $2 if $2;
-    $c{$name}++;
-    my $space = ' ' x (8 - length $name);
-#    say "    '$name' $space  =>   0x$3,"; 
-}    
-
-
-while (<DATA>){
-    chomp;
-    /^(\w+\s?\w*)\s+([\dA-F]+)$/; 
-    #my ($r, $g, $b) = hex2rgb( $2 );
-    my $name = lc $1;
-    $name = substr $name, 0, -1 if substr $name, -1 eq ' ';
-    my $space = ' ' x (17 - length $name);
-    #say "    '$name' $space  =>   0x$2,"; 
-    #say "    '$name'  ".(' 'x(20 - length($name))).sprintf( "  => [ %3s, %3s, %3s ],", $r, $g, $b); 
+    /^\s+'(\w+)'/; 
+    $c{$1}++;
 }
+
+#~ while (<$FHI>){
+    #~ chomp;
+    #~ /^Pantone (\d+) (\dX)?\s*RGB: \d+, \d+, \d+ HEX: #([\dA-F]{6})$/; 
+    #~ my $name = $1;
+    #~ $name .= $2 if $2;
+    #~ $c{$name}++;
+    #~ my $space = ' ' x (8 - length $name);
+#~ #    say "    '$name' $space  =>   0x$3,"; 
+#~ }    
+
+
+#~ while (<DATA>){
+    #~ chomp;
+    #~ /^(\w+\s?\w*)\s+([\dA-F]+)$/; 
+    #~ #my ($r, $g, $b) = hex2rgb( $2 );
+    #~ my $name = lc $1;
+    #~ $name = substr $name, 0, -1 if substr $name, -1 eq ' ';
+    #~ my $space = ' ' x (17 - length $name);
+    #~ #say "    '$name' $space  =>   0x$2,"; 
+    #~ #say "    '$name'  ".(' 'x(20 - length($name))).sprintf( "  => [ %3s, %3s, %3s ],", $r, $g, $b); 
+#~ }
 for (sort keys %c){
     say $_ if $c{$_} > 1;
 }
