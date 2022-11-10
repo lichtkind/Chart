@@ -4,8 +4,11 @@ BEGIN { unshift @INC, 'lib', '../../../lib'}
 
 use Chart::Bars;
 use Graphics::Toolkit::Color 'color';
-    
-my $g = Chart::Bars->new( 400, 400 );
+
+my @gradient = color('PantoneReport:Glacier_Lake')->gradient_to('PantoneReport:Harbor_Blue', 3);
+
+
+my $g = Chart::Bars->new( 600, 600 );
 $g->add_dataset( qw/ Peter Paul Mary/ );
 $g->add_dataset( 30, 40, 80, );
 $g->add_dataset( 80, 60, 30, );
@@ -18,7 +21,6 @@ $g->set(
     y_grid_lines  => 'true',
     min_val       =>  0,
     precision     =>  0,
-#        spaced_bars   =>  'false',
     colors => {
         y_grid_lines => 'gray70',
         misc         => 'gray55',
@@ -26,10 +28,10 @@ $g->set(
         x_label      => 'gray40',
         y_label      => 'gray40',
         title        => 'gray20',
-        dataset0     => 'royalblue4',
-        dataset1     => 'royalblue3',
-        dataset2     => 'royalblue2',
+        dataset0     => $gradient[0],
+        dataset1     => $gradient[1],
+        dataset2     => $gradient[2],
 
     },
 );
-$g->png("bars1.png");
+$g->png("bars4.png");

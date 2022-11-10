@@ -7,9 +7,7 @@ use Graphics::Toolkit::Color 'color';
     
 my $g = Chart::Bars->new( 400, 400 );
 $g->add_dataset( qw/ Peter Paul Mary/ );
-$g->add_dataset( 30, 40, 80, );
-$g->add_dataset( 80, 60, 30, );
-$g->add_dataset( 50, 30, 60, );
+$g->add_datafile( 'input.tsv' );
 $g->set(
     title         => 'Expenses 2020 - 2022',
     x_label       => 'Recipient',
@@ -32,4 +30,8 @@ $g->set(
 
     },
 );
-$g->png("bars1.png");
+
+
+binmode STDOUT;
+print STDOUT $g->scalar_png;
+
