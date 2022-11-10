@@ -4,7 +4,7 @@ BEGIN { unshift @INC, 'lib', '../../../lib'}
 
 use Chart::Composite;
 
-my $g = Chart::Composite->new( );
+my $g = Chart::Composite->new( 600, 600);
 $g->add_dataset( 1,   2,   3 );
 $g->add_dataset( 50,  50,  50 );
 $g->add_dataset( 500,  500,   9.9 );
@@ -12,7 +12,7 @@ $g->add_dataset( 15,  25,  12 );
 $g->add_dataset( 7,   24,  23 );
 
 $g->set(
-    title          => 'Composite Chart',
+    title          => 'Latest Numbers !',
     composite_info => [ 
                         [ 'Lines' ,      [ 1    ] ],
                         [ 'Points',      [ 2,   ] ],
