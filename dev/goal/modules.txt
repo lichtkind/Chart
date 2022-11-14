@@ -6,7 +6,7 @@ Chart                     main module - distro API
         Default             ?? or jus a template
         Template            template manager
         Legacy              manage legacy settings and its defaults
-        Expand              expand shortcuts
+       ; Expand              expand shortcuts
         Validate            mapping legacy properties to new ones
     
         DataType
@@ -33,15 +33,17 @@ Chart                     main module - distro API
             Pie
             Violine
 
+    Definition          hash contains all properties and relevant data
+    Drawing             list of drawing op codes
+    RasterMap           AoA of Lists holing layers of Pixel
+
   
     Pipe                    converts API calls into images
 
+        Validate            check if properties are consistent
         Arrange             organise postions, sizes and render order of parts
-        Definition          hash contains all properties and relevant data
         Draw                converts definition into primitives               
-        Drawing             list of drawing op codes
         Raster              convert primitives into pixels 
-        RasterMap           AoA of Lists holing layers of Pixel
         
         Backend
             GD
@@ -55,3 +57,5 @@ Chart                     main module - distro API
         
   
     Type  
+        Lines
+        Points

@@ -193,7 +193,7 @@ sub add_datafile {
     }
 
     while (<$File>) {
-        @array = split;
+        @array = split /\s*,\s*|\s+/;
         next unless @array and substr($array[0], 0, 1) ne '#';
         if ($format eq 'set'){ $self->add_dataset( @array ) }
         else                 { $self->add_pt( @array ) }

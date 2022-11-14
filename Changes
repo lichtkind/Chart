@@ -1,3 +1,8 @@
+2.403.9 2022-11-11 lichtkind
+--------
+    * = 
+    * + add_datafile now reads CSV
+    
 2.403.8 2022-10-22 lichtkind
 --------
     * = POD rewrite release
