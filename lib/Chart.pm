@@ -419,10 +419,7 @@ Ricardo Signes (rjbs@cpan.org)
 
 Petr Pisar (ppisar@redhat.com)
 
-
-
 =back
-
 
 =head1 COPYRIGHT
 
