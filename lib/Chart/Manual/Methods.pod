@@ -29,9 +29,9 @@ like via L</add_pt>. In other words: C<'pt'> transposes the data table.
     $graph->add_dataset( 'file.tsv', 'pt'  );
 
 The arbitrary named text files have to contain one or several rows of numbers.
-The numbers need to be separated by spaces or tabs (\t) (mixing allowed). 
+The numbers need to be separated by spaces, tabs (\t) or comma (mixing allowed). 
 Perl style comments or empty lines will be ignored, but rows containing
-different amount of numbers will cause problems.
+different amount of numbers perl row will cause problems.
 
 =head2 add_dataset
 
