@@ -18,7 +18,7 @@ $g->set(
     min_val       =>  0,
     precision     =>  0,
     colors => {
-        y_grid_lines => 'gray0',
+        y_grid_lines => 'gray70',
         misc         => 'gray55',
         text         => 'gray55',
         x_label      => 'gray40',

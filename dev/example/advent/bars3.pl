@@ -26,7 +26,7 @@ $g->set(
         y_label      => 'gray40',
         title        => 'gray20',
         dataset0     => 'royalblue4',
-        dataset1     => color('royalblue3')->add( { Lightness => -4 } ),
+        dataset1     => color('royalblue3')->add( { Hue => -220 } ),
         dataset2     => 'royalblue2',
 
     },

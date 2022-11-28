@@ -26,7 +26,6 @@ $g->set(
         dataset0     => 'royalblue4',
         dataset1     => 'royalblue3',
         dataset2     => 'royalblue2',
-
     },
 );
 $g->png("bars2.png");
